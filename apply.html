@@ -68,7 +68,7 @@
       <section class="section card apply-form-card">
         <div class="apply-form-head">
           <h2 class="section-title">Submit Application</h2>
-          <p class="page-intro">Your package is uploaded directly to the lab Dropbox intake folder through a secure endpoint.</p>
+          <p class="page-intro">No backend required: we generate your metadata file locally, then open Dropbox File Request for direct upload.</p>
         </div>
         <div class="apply-form-layout">
           <aside class="apply-form-side">
@@ -78,7 +78,7 @@
               <li>CV must be PDF and under 10MB.</li>
               <li>Cover letter can be PDF, DOC, or DOCX.</li>
               <li>Explain your proposed direction clearly.</li>
-              <li>Submission usually takes under 20 seconds.</li>
+              <li>Upload 3 files in Dropbox: CV, cover letter, and downloaded metadata JSON.</li>
             </ul>
           </aside>
 
@@ -87,10 +87,9 @@
             class="application-form"
             action="#"
             method="POST"
-            data-api-endpoint="https://REPLACE-WITH-YOUR-WORKER-URL.workers.dev/api/apply"
+            data-dropbox-request-url="https://www.dropbox.com/request/REPLACE-WITH-YOUR-FILE-REQUEST-ID"
             enctype="multipart/form-data"
           >
-            <input type="hidden" name="source_page" id="applicationSourcePage" value="">
             <input type="hidden" name="started_at" id="applicationStartedAt" value="">
             <input type="text" class="hp-field" name="_honey" autocomplete="off" tabindex="-1" aria-hidden="true">
 

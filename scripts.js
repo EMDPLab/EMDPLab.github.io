@@ -230,19 +230,22 @@
     var status = byId('applicationStatus');
     var submitBtn = byId('applicationSubmit');
     var startedField = byId('applicationStartedAt');
-    var sourcePageField = byId('applicationSourcePage');
+    var applicantName = byId('applicantName');
     var applicantEmail = byId('applicantEmail');
+    var programTrack = byId('programTrack');
+    var affiliation = byId('affiliation');
+    var proposalNote = byId('proposalNote');
+    var specialNote = byId('specialNote');
     var humanQuestion = byId('humanQuestion');
     var humanCheck = byId('humanCheck');
     var consentCheck = byId('consentCheck');
     var cvFile = byId('cvFile');
     var coverFile = byId('coverFile');
-    var apiEndpoint = (form.getAttribute('data-api-endpoint') || '').trim();
+    var dropboxRequestUrl = (form.getAttribute('data-dropbox-request-url') || '').trim();
     var hp = form.querySelector('input[name="_honey"]');
     var startedAt = Date.now();
 
     if (startedField) startedField.value = String(startedAt);
-    if (sourcePageField) sourcePageField.value = window.location.href;
 
     var answer = 0;
 
@@ -264,11 +267,38 @@
       });
     }
 
+    function safeSlug(value) {
+      return String(value || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9-_]+/g, '-')
+        .replace(/-{2,}/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 60);
+    }
+
+    function downloadTextFile(fileName, content) {
+      var blob = new Blob([content], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var link = document.createElement('a');
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(function () {
+        URL.revokeObjectURL(url);
+      }, 1000);
+    }
+
     form.addEventListener('submit', function (event) {
       event.preventDefault();
 
-      if (!apiEndpoint || apiEndpoint.indexOf('REPLACE-WITH-YOUR-WORKER-URL') !== -1) {
-        setFormMessage(status, 'Server endpoint is not configured yet. Please contact lab admin.', 'error');
+      if (
+        !dropboxRequestUrl ||
+        dropboxRequestUrl.indexOf('REPLACE-WITH-YOUR-FILE-REQUEST-ID') !== -1 ||
+        !/^https?:\/\//i.test(dropboxRequestUrl)
+      ) {
+        setFormMessage(status, 'Dropbox File Request URL is not configured yet. Please contact lab admin.', 'error');
         return;
       }
 
@@ -319,59 +349,49 @@
       if (submitBtn && submitBtn.disabled) return;
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Submitting...';
+        submitBtn.textContent = 'Preparing...';
       }
-      setFormMessage(status, 'Uploading files to lab intake folder...', null);
 
-      if (sourcePageField) sourcePageField.value = window.location.href;
+      var metadata = {
+        submitted_at: new Date().toISOString(),
+        source_page: window.location.href,
+        applicant_name: applicantName ? applicantName.value.trim() : '',
+        applicant_email: applicantEmail ? applicantEmail.value.trim() : '',
+        program_track: programTrack ? programTrack.value : '',
+        affiliation: affiliation ? affiliation.value.trim() : '',
+        research_proposal_note: proposalNote ? proposalNote.value.trim() : '',
+        special_note: specialNote ? specialNote.value.trim() : ''
+      };
 
-      var formData = new FormData(form);
-      var emailValue = applicantEmail ? applicantEmail.value.trim() : '';
-      if (emailValue) formData.set('applicant_email', emailValue);
-      formData.set('source_page', window.location.href);
-      formData.set('submitted_at', new Date().toISOString());
+      var slugBase = safeSlug(metadata.applicant_name || metadata.applicant_email || 'applicant');
+      var day = metadata.submitted_at.slice(0, 10);
+      var metadataFileName = 'emdp-application-' + slugBase + '-' + day + '.json';
 
-      fetch(apiEndpoint, {
-        method: 'POST',
-        body: formData
-      })
-        .then(function (response) {
-          return response
-            .json()
-            .catch(function () {
-              return {};
-            })
-            .then(function (payload) {
-              if (!response.ok || payload.success === false) {
-                throw new Error(payload.error || 'Submission failed');
-              }
-              return payload;
-            });
-        })
-        .then(function (payload) {
-          recordEvent('emdp_apply_submit');
-          form.reset();
-          refreshSecurityQuestion();
-          startedAt = Date.now();
-          if (startedField) startedField.value = String(startedAt);
-          if (sourcePageField) sourcePageField.value = window.location.href;
+      downloadTextFile(metadataFileName, JSON.stringify(metadata, null, 2));
+      var popup = window.open(dropboxRequestUrl, '_blank', 'noopener,noreferrer');
 
-          var submissionId = payload && payload.submission_id ? payload.submission_id : '';
-          var okMessage = submissionId
-            ? 'Application sent successfully. Submission ID: ' + submissionId
-            : 'Application sent successfully. Thank you for applying.';
-          setFormMessage(status, okMessage, 'success');
-        })
-        .catch(function (error) {
-          setFormMessage(status, error && error.message ? error.message : 'Submission failed. Please try again.', 'error');
-          refreshSecurityQuestion();
-        })
-        .finally(function () {
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Submit Application Package';
-          }
-        });
+      recordEvent('emdp_apply_submit');
+      if (!popup) {
+        setFormMessage(
+          status,
+          'Metadata file downloaded. Please open Dropbox File Request manually and upload CV + cover letter + that JSON file.',
+          'success'
+        );
+      } else {
+        setFormMessage(
+          status,
+          'Metadata file downloaded. In the opened Dropbox page, upload CV + cover letter + that JSON file, then submit.',
+          'success'
+        );
+      }
+
+      refreshSecurityQuestion();
+      startedAt = Date.now();
+      if (startedField) startedField.value = String(startedAt);
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Application Package';
+      }
     });
   }
 
