@@ -68,7 +68,7 @@
       <section class="section card apply-form-card">
         <div class="apply-form-head">
           <h2 class="section-title">Submit Application</h2>
-          <p class="page-intro">Your package is delivered through FormSubmit and copied to the lab contact inboxes.</p>
+          <p class="page-intro">Your package is uploaded directly to the lab Dropbox intake folder through a secure endpoint.</p>
         </div>
         <div class="apply-form-layout">
           <aside class="apply-form-side">
@@ -85,17 +85,12 @@
           <form
             id="applicationForm"
             class="application-form"
-            action="https://formsubmit.co/hodh123@gmail.com"
+            action="#"
             method="POST"
-            target="_blank"
+            data-api-endpoint="https://REPLACE-WITH-YOUR-WORKER-URL.workers.dev/api/apply"
             enctype="multipart/form-data"
           >
-            <input type="hidden" name="_subject" value="EMDP Lab Application Submission">
-            <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_cc" value="hodh123@dgist.ac.kr">
-            <input type="hidden" name="_next" id="applicationNext" value="https://emdplab.github.io/apply.html?submitted=1">
-            <input type="hidden" name="source_page" value="EMDP Lab Apply Page">
+            <input type="hidden" name="source_page" id="applicationSourcePage" value="">
             <input type="hidden" name="started_at" id="applicationStartedAt" value="">
             <input type="text" class="hp-field" name="_honey" autocomplete="off" tabindex="-1" aria-hidden="true">
 

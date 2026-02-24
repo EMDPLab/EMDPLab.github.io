@@ -230,23 +230,19 @@
     var status = byId('applicationStatus');
     var submitBtn = byId('applicationSubmit');
     var startedField = byId('applicationStartedAt');
-    var nextField = byId('applicationNext');
+    var sourcePageField = byId('applicationSourcePage');
     var applicantEmail = byId('applicantEmail');
     var humanQuestion = byId('humanQuestion');
     var humanCheck = byId('humanCheck');
     var consentCheck = byId('consentCheck');
     var cvFile = byId('cvFile');
     var coverFile = byId('coverFile');
+    var apiEndpoint = (form.getAttribute('data-api-endpoint') || '').trim();
     var hp = form.querySelector('input[name="_honey"]');
     var startedAt = Date.now();
 
     if (startedField) startedField.value = String(startedAt);
-    if (nextField) nextField.value = window.location.origin + window.location.pathname + '?submitted=1';
-
-    var query = new URLSearchParams(window.location.search);
-    if (query.get('submitted') === '1') {
-      setFormMessage(status, 'Application sent successfully. Thank you for applying.', 'success');
-    }
+    if (sourcePageField) sourcePageField.value = window.location.href;
 
     var answer = 0;
 
@@ -269,32 +265,34 @@
     }
 
     form.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      if (!apiEndpoint || apiEndpoint.indexOf('REPLACE-WITH-YOUR-WORKER-URL') !== -1) {
+        setFormMessage(status, 'Server endpoint is not configured yet. Please contact lab admin.', 'error');
+        return;
+      }
+
       if (hp && hp.value.trim()) {
-        event.preventDefault();
         setFormMessage(status, 'Submission blocked.', 'error');
         return;
       }
 
       if (Date.now() - startedAt < 8000) {
-        event.preventDefault();
         setFormMessage(status, 'Please take a little more time before submitting.', 'error');
         return;
       }
 
       if (isRateLimited('emdp_apply_submit', 2, 24 * 60 * 60 * 1000)) {
-        event.preventDefault();
         setFormMessage(status, 'Submission limit reached. Please try again later.', 'error');
         return;
       }
 
       if (!consentCheck || !consentCheck.checked) {
-        event.preventDefault();
         setFormMessage(status, 'Please confirm the consent checkbox.', 'error');
         return;
       }
 
       if (!humanCheck || parseInt(humanCheck.value, 10) !== answer) {
-        event.preventDefault();
         setFormMessage(status, 'Security check answer is incorrect.', 'error');
         return;
       }
@@ -303,20 +301,17 @@
       var cover = coverFile && coverFile.files ? coverFile.files[0] : null;
 
       if (!cv || !hasExt(cv, ['pdf'])) {
-        event.preventDefault();
         setFormMessage(status, 'CV must be a PDF file.', 'error');
         return;
       }
 
       if (!cover || !hasExt(cover, ['pdf', 'doc', 'docx'])) {
-        event.preventDefault();
         setFormMessage(status, 'Cover letter must be PDF, DOC, or DOCX.', 'error');
         return;
       }
 
       var maxSize = 10 * 1024 * 1024;
       if (cv.size > maxSize || cover.size > maxSize) {
-        event.preventDefault();
         setFormMessage(status, 'Each file must be 10MB or smaller.', 'error');
         return;
       }
@@ -326,36 +321,57 @@
         submitBtn.disabled = true;
         submitBtn.textContent = 'Submitting...';
       }
+      setFormMessage(status, 'Uploading files to lab intake folder...', null);
+
+      if (sourcePageField) sourcePageField.value = window.location.href;
+
+      var formData = new FormData(form);
       var emailValue = applicantEmail ? applicantEmail.value.trim() : '';
-      if (emailValue) {
-        var replyTo = form.querySelector('input[name="_replyto"]');
-        if (!replyTo) {
-          replyTo = document.createElement('input');
-          replyTo.type = 'hidden';
-          replyTo.name = '_replyto';
-          form.appendChild(replyTo);
-        }
-        replyTo.value = emailValue;
-      }
+      if (emailValue) formData.set('applicant_email', emailValue);
+      formData.set('source_page', window.location.href);
+      formData.set('submitted_at', new Date().toISOString());
 
-      var submittedAt = form.querySelector('input[name="submitted_at"]');
-      if (!submittedAt) {
-        submittedAt = document.createElement('input');
-        submittedAt.type = 'hidden';
-        submittedAt.name = 'submitted_at';
-        form.appendChild(submittedAt);
-      }
-      submittedAt.value = new Date().toISOString();
+      fetch(apiEndpoint, {
+        method: 'POST',
+        body: formData
+      })
+        .then(function (response) {
+          return response
+            .json()
+            .catch(function () {
+              return {};
+            })
+            .then(function (payload) {
+              if (!response.ok || payload.success === false) {
+                throw new Error(payload.error || 'Submission failed');
+              }
+              return payload;
+            });
+        })
+        .then(function (payload) {
+          recordEvent('emdp_apply_submit');
+          form.reset();
+          refreshSecurityQuestion();
+          startedAt = Date.now();
+          if (startedField) startedField.value = String(startedAt);
+          if (sourcePageField) sourcePageField.value = window.location.href;
 
-      setFormMessage(status, 'Opening FormSubmit confirmation in a new tab...', null);
-      recordEvent('emdp_apply_submit');
-
-      window.setTimeout(function () {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Submit Application Package';
-        }
-      }, 4000);
+          var submissionId = payload && payload.submission_id ? payload.submission_id : '';
+          var okMessage = submissionId
+            ? 'Application sent successfully. Submission ID: ' + submissionId
+            : 'Application sent successfully. Thank you for applying.';
+          setFormMessage(status, okMessage, 'success');
+        })
+        .catch(function (error) {
+          setFormMessage(status, error && error.message ? error.message : 'Submission failed. Please try again.', 'error');
+          refreshSecurityQuestion();
+        })
+        .finally(function () {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Application Package';
+          }
+        });
     });
   }
 

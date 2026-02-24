@@ -1,0 +1,18 @@
+name = "emdp-apply-dropbox"
+main = "dropbox-apply-worker.js"
+compatibility_date = "2026-02-24"
+
+[vars]
+# Comma-separated allowlist for browser origins
+# Example: "https://emdplab.github.io,https://www.emdplab.github.io"
+ALLOWED_ORIGINS = "https://emdplab.github.io"
+
+# Root folder where submissions are stored
+DROPBOX_BASE_PATH = "/EMDP-Lab-Applications"
+
+# Max size per uploaded file in MB
+MAX_UPLOAD_FILE_MB = "10"
+
+# Optional notification (Resend)
+# NOTIFY_TO = "hodh123@gmail.com"
+# NOTIFY_FROM = "EMDP Lab <onboarding@resend.dev>"
