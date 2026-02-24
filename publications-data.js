@@ -1,0 +1,354 @@
+window.PUBLICATIONS_DATA = [
+  {
+    "number": 39,
+    "title": "Liquid Metal‐Vitrimer Conductive Composite for Recyclable and Resilient Electronics",
+    "year": "2025",
+    "authors": "Dong Hae Ho, Meng Jiang, Ravi Tutika, Joshua C Worch, Michael D Bartlett",
+    "venue": "Advanced Materials",
+    "pages": "2501341",
+    "link": "https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.202501341"
+  },
+  {
+    "number": 38,
+    "title": "Getting in line: Filler alignment strategies for anisotropic composite fabrication",
+    "year": "2025",
+    "authors": "Dong Hae Ho, Yoon Young Choi, Seung Yeon Ki, Dong-Hwan Kim, Jeong Ho Cho",
+    "venue": "Composites Part B: Engineering",
+    "pages": "112626",
+    "link": "https://www.sciencedirect.com/science/article/pii/S135983682500527X"
+  },
+  {
+    "number": 37,
+    "title": "Enabling Additively Manufactured Electronics Through Laser Induced Graphene and Copper Deposition on Fully‐Aromatic Polyimides",
+    "year": "2025",
+    "authors": "Heather D Wotton, Ravi Tutika, John W Will, Dong Hae Ho, Michael D Bartlett, Timothy E Long, Christopher B Williams",
+    "venue": "Advanced Materials Technologies",
+    "pages": "70035",
+    "link": "https://advanced.onlinelibrary.wiley.com/doi/abs/10.1002/admt.202401801"
+  },
+  {
+    "number": 36,
+    "title": "Vanishing Soft Electronics: Degradation Mechanisms of Transient Materials",
+    "year": "2024",
+    "authors": "Dong Hae Ho, Jeong Ho Cho",
+    "venue": "Korean Journal of Chemical Engineering",
+    "pages": "1-13",
+    "link": "https://link.springer.com/article/10.1007/s11814-024-00320-0"
+  },
+  {
+    "number": 35,
+    "title": "Soft electronic vias and interconnects through rapid three-dimensional assembly of liquid metal microdroplets",
+    "year": "2024",
+    "authors": "Ho, Dong Hae; Hu, Chenhao; Li, Ling; Bartlett, Michael D.",
+    "venue": "Nature Electronics",
+    "pages": "",
+    "link": "https://www.nature.com/articles/s41928-024-01268-z"
+  },
+  {
+    "number": 34,
+    "title": "Fabric-based lamina emergent MXene-based electrode for electrophysiological monitoring",
+    "year": "2024",
+    "authors": "Lee, Sanghyun; Ho, Dong Hae; Jekal, Janghwan; Cho, Soo Young; Choi, Young Jin; Oh, Saehyuck; Choi, Yoon Young; Lee, Taeyoon; Jang, Kyung-In; Cho, Jeong Ho;",
+    "venue": "Nature Communications",
+    "pages": "5974",
+    "link": "https://www.nature.com/articles/s41467-024-49939-x"
+  },
+  {
+    "number": 33,
+    "title": "Direct 4D printing of functionally graded hydrogel networks for biodegradable, untethered, and multimorphic soft robots",
+    "year": "2024",
+    "authors": "Cho, Soo Young; Ho, Dong Hae; Jo, Sae Byeok; Cho, Jeong Ho;",
+    "venue": "International Journal of Extreme Manufacturing",
+    "pages": "025002",
+    "link": "https://iopscience.iop.org/article/10.1088/2631-7990/ad1574/meta"
+  },
+  {
+    "number": 32,
+    "title": "Powdery filament composition for 3D printing, 3D printer and method for manufacturing objects additively by using the same 3D printer",
+    "year": "2024",
+    "authors": "Cho, Jeong Ho; Cho, Soo Young; Ho, Dong Hae;",
+    "venue": "US Patent 12,064,811",
+    "pages": "",
+    "link": "http://Patent"
+  },
+  {
+    "number": 31,
+    "title": "Liquid metal‐elastomer composites for water‐resilient soft electronics",
+    "year": "2023",
+    "authors": "Barron III, Edward J; Williams, Ella T; Wilcox, Brittan T; Ho, Dong Hae; Bartlett, Michael D;",
+    "venue": "Journal of Polymer Science",
+    "pages": "",
+    "link": "https://onlinelibrary.wiley.com/doi/abs/10.1002/pol.20230616"
+  },
+  {
+    "number": 30,
+    "title": "Zwitterionic Polymer Gel‐Based Fully Self‐Healable Ionic Thermoelectric Generators with Pressure‐Activated Electrodes",
+    "year": "2023",
+    "authors": "Ho, Dong Hae; Kim, Yong Min; Kim, Ui Jin; Yu, Kyeong Su; Kwon, Jin Han; Moon, Hong Chul; Cho, Jeong Ho;",
+    "venue": "Advanced Energy Materials",
+    "pages": "2301133",
+    "link": "https://onlinelibrary.wiley.com/doi/abs/10.1002/aenm.202301133"
+  },
+  {
+    "number": 29,
+    "title": "Humanlike spontaneous motion coordination of robotic fingers through spatial multi-input spike signal multiplexing",
+    "year": "2023",
+    "authors": "Roe, Dong Gue; Ho, Dong Hae; Choi, Yoon Young; Choi, Young Jin; Kim, Seongchan; Jo, Sae Byeok; Kang, Moon Sung; Ahn, Jong-Hyun; Cho, Jeong Ho;",
+    "venue": "Nature communications",
+    "pages": "5",
+    "link": "https://www.nature.com/articles/s41467-022-34324-3"
+  },
+  {
+    "number": 28,
+    "title": "Electrically conductive liquid metal composite adhesives for reversible bonding of soft electronics",
+    "year": "2023",
+    "authors": "Haque, ABM Tahidul; Ho, Dong Hae; Hwang, Dohgyu; Tutika, Ravi; Lee, Chanhong; Bartlett, Michael D;",
+    "venue": "Advanced Functional Materials",
+    "pages": "2304101",
+    "link": "https://onlinelibrary.wiley.com/doi/abs/10.1002/adfm.202304101"
+  },
+  {
+    "number": 27,
+    "title": "Physically defined long-term and short-term synapses for the development of reconfigurable analog-type operators capable of performing health care tasks",
+    "year": "2023",
+    "authors": "Choi, Yongsuk; Ho, Dong Hae; Kim, Seongchan; Choi, Young Jin; Roe, Dong Gue; Kwak, In Cheol; Min, Jihong; Han, Hong; Gao, Wei; Cho, Jeong Ho;",
+    "venue": "Science advances",
+    "pages": "eadg5946",
+    "link": "https://www.science.org/doi/abs/10.1126/sciadv.adg5946"
+  },
+  {
+    "number": 26,
+    "title": "Non–von Neumann multi-input spike signal processing enabled by an artificial synaptic multiplexer",
+    "year": "2022",
+    "authors": "Ho, Dong Hae; Roe, Dong Gue; Choi, Yoon Young; Kim, Seongchan; Choi, Young Jin; Kim, Do Hwan; Jo, Sae Byeok; Cho, Jeong Ho;",
+    "venue": "Science Advances",
+    "pages": "eabn1838",
+    "link": "https://www.science.org/doi/abs/10.1126/sciadv.abn1838"
+  },
+  {
+    "number": 25,
+    "title": "Neurorobotic approaches to emulate human motor control with the integration of artificial synapse",
+    "year": "2022",
+    "authors": "Kim, Seonkwon; Kim, Seongchan; Ho, Dong Hae; Roe, Dong Gue; Choi, Young Jin; Kim, Min Je; Kim, Ui Jin; Le, Manh Linh; Kim, Juyoung; Kim, Se Hyun;",
+    "venue": "Science Advances",
+    "pages": "eabo3326",
+    "link": "https://www.science.org/doi/abs/10.1126/sciadv.abo3326"
+  },
+  {
+    "number": 24,
+    "title": "Comb-type polymer-hybridized MXene nanosheets dispersible in arbitrary polar, nonpolar, and ionic solvents",
+    "year": "2022",
+    "authors": "Park, Gyeong Seok; Ho, Dong Hae; Lyu, Benzheng; Jeon, Seungbae; Ryu, Du Yeol; Kim, Dae Woo; Lee, Namkon; Kim, Sungwook; Song, Young Jae; Jo, Sae Byeok;",
+    "venue": "Science Advances",
+    "pages": "eabl5299",
+    "link": "https://www.science.org/doi/abs/10.1126/sciadv.abl5299"
+  },
+  {
+    "number": 23,
+    "title": "Composition-dependent optoelectronic properties of mixed 2D/3D metal halide perovskite films for light-emitting diodes",
+    "year": "2022",
+    "authors": "Heo, Ye Jin; Shin, Yunseop; Jang, Ho Jin; Jo, Sae Byeok; Ho, Dong Hae; Lee, Joo-Hong; Kim, Seungsoo; Kim, Ga-Yeong; Song, Young Jae; Myoung, Jae-Min;",
+    "venue": "ACS Applied Energy Materials",
+    "pages": "2630-2641",
+    "link": "https://pubs.acs.org/doi/abs/10.1021/acsaem.2c00259"
+  },
+  {
+    "number": 22,
+    "title": "Low-Voltage Organic Transistors with Carrier Mobilities over 10 cm2V–2s–1 Using Six-Branched Organic Azide",
+    "year": "2022",
+    "authors": "Lee, Myeongjae; Choi, Byung-il; Ahn, Pyeongkang; Choi, Yoon Young; Heo, Yuchan; Kim, Jaeseung; Min, Ju Hong; Shin, Tae Joo; Kim, Kwangmin; Choi, Huijeong;",
+    "venue": "Chemistry of Materials",
+    "pages": "10409-10423",
+    "link": "https://pubs.acs.org/doi/abs/10.1021/acs.chemmater.2c02235"
+  },
+  {
+    "number": 21,
+    "title": "Allrounder Strategy for Photopatterning Silver Nanowire Network Electrodes",
+    "year": "2022",
+    "authors": "Kwak, In Cheol; Cho, Wan Ho; Kwon, Tae Hyun; Kim, Min Je; Lee, Jong Ik; Roe, Dong Gue; Ho, Dong Hae; Jo, Sae Byeok; Kang, Moon Sung; Kim, BongSoo;",
+    "venue": "Chemistry of Materials",
+    "pages": "71-80",
+    "link": "https://pubs.acs.org/doi/abs/10.1021/acs.chemmater.2c02513"
+  },
+  {
+    "number": 20,
+    "title": "A biomimetic ocular prosthesis system: emulating autonomic pupil and corneal reflections",
+    "year": "2022",
+    "authors": "Kim, Seongchan; Choi, Yoon Young; Kim, Taewan; Kim, Yong Min; Ho, Dong Hae; Choi, Young Jin; Roe, Dong Gue; Lee, Ju-Hee; Park, Joongpill; Choi, Ji-Woong;",
+    "venue": "Nature communications",
+    "pages": "6760",
+    "link": "https://www.nature.com/articles/s41467-022-34448-6"
+  },
+  {
+    "number": 19,
+    "title": "A general fruit acid chelation route for eco-friendly and ambient 3D printing of metals",
+    "year": "2022",
+    "authors": "Cho, Soo Young; Ho, Dong Hae; Choi, Yoon Young; Lim, Soomook; Lee, Sungjoo; Suk, Ji Won; Jo, Sae Byeok; Cho, Jeong Ho;",
+    "venue": "Nature communications",
+    "pages": "104",
+    "link": "https://www.nature.com/articles/s41467-021-27730-6"
+  },
+  {
+    "number": 18,
+    "title": "Completely foldable electronics based on homojunction polymer transistors and logics",
+    "year": "2021",
+    "authors": "Kim, Min Je; Ryu, Hwa Sook; Choi, Yoon Young; Ho, Dong Hae; Lee, Yoonjoo; Tripathi, Ayushi; Son, Jae Hoon; Lee, Yeran; Kim, Seunghan; Kang, Moon Sung;",
+    "venue": "Science Advances",
+    "pages": "eabg8169",
+    "link": "https://www.science.org/doi/abs/10.1126/sciadv.abg8169"
+  },
+  {
+    "number": 17,
+    "title": "Enhancing performance and stability of tin halide perovskite light emitting diodes via coordination engineering of lewis acid–base adducts",
+    "year": "2021",
+    "authors": "Heo, Ye Jin; Jang, Ho Jin; Lee, Joo‐Hong; Jo, Sae Byeok; Kim, Seonkwon; Ho, Dong Hae; Kwon, Seok Joon; Kim, Kyusun; Jeon, Il; Myoung, Jae‐Min;",
+    "venue": "Advanced Functional Materials",
+    "pages": "2106974",
+    "link": "https://onlinelibrary.wiley.com/doi/abs/10.1002/adfm.202106974"
+  },
+  {
+    "number": 16,
+    "title": "Sensing with MXenes: progress and prospects",
+    "year": "2021",
+    "authors": "Ho, Dong Hae; Choi, Yoon Young; Jo, Sae Byeok; Myoung, Jae‐Min; Cho, Jeong Ho;",
+    "venue": "Advanced Materials",
+    "pages": "2005846",
+    "link": "https://onlinelibrary.wiley.com/doi/abs/10.1002/adma.202005846"
+  },
+  {
+    "number": 15,
+    "title": "Deterministic Multimodal Perturbation Enables Neuromorphic-Compatible Signal Multiplexing",
+    "year": "2021",
+    "authors": "Kim, Ui Jin; Ho, Dong Hae; Choi, Yoon Young; Choi, Yongsuk; Roe, Dong Gue; Kwon, Yonghyun Albert; Kim, Seongchan; Choi, Young Jin; Heo, Yejin; Jo, Sae Byeok;",
+    "venue": "ACS Materials Letters",
+    "pages": "102-110",
+    "link": "https://pubs.acs.org/doi/abs/10.1021/acsmaterialslett.1c00586"
+  },
+  {
+    "number": 14,
+    "title": "Self-healable hydrogel–liquid metal composite platform enabled by a 3D printed stamp for a multimodular sensor system",
+    "year": "2020",
+    "authors": "Choi, Yoon Young; Ho, Dong Hae; Cho, Jeong Ho;",
+    "venue": "ACS applied materials & interfaces",
+    "pages": "9824-9832",
+    "link": "https://pubs.acs.org/doi/abs/10.1021/acsami.9b22676"
+  },
+  {
+    "number": 13,
+    "title": "Trends of Nafion-based IPMC application and development",
+    "year": "2020",
+    "authors": "Ho, Donghae; Cho, Sooyoung; Choi, Yoon Young; Choi, Young Jin; Cho, Jeong Ho;",
+    "venue": "Ceramist",
+    "pages": "16-26",
+    "link": "https://koreascience.kr/article/JAKO202021647075213.page"
+  },
+  {
+    "number": 12,
+    "title": "Actively operable thermoresponsive smart windows for reducing energy consumption",
+    "year": "2020",
+    "authors": "Kang, Sung Kyung; Ho, Dong Hae; Lee, Chang Hwan; Lim, Ho Sun; Cho, Jeong Ho;",
+    "venue": "ACS applied materials & interfaces",
+    "pages": "33838-33845",
+    "link": "https://pubs.acs.org/doi/abs/10.1021/acsami.0c09811"
+  },
+  {
+    "number": 11,
+    "title": "3D‐printed sugar scaffold for high‐precision and highly sensitive active and passive wearable sensors",
+    "year": "2020",
+    "authors": "Ho, Dong Hae; Hong, Panuk; Han, Joong Tark; Kim, Sang‐Youn; Kwon, S Joon; Cho, Jeong Ho;",
+    "venue": "Advanced Science",
+    "pages": "1902521",
+    "link": "https://onlinelibrary.wiley.com/doi/abs/10.1002/advs.201902521"
+  },
+  {
+    "number": 10,
+    "title": "β-Phase-Preferential blow-spun fabrics for wearable triboelectric nanogenerators and textile interactive interface",
+    "year": "2020",
+    "authors": "Ho, Dong Hae; Han, Jing; Huang, Jinrong; Choi, Yoon Young; Cheon, Siuk; Sun, Jia; Lei, Yanqiang; Park, Gyeong Seok; Wang, Zhong Lin; Sun, Qijun;",
+    "venue": "Nano Energy",
+    "pages": "105262",
+    "link": "https://www.sciencedirect.com/science/article/pii/S2211285520308399"
+  },
+  {
+    "number": 9,
+    "title": "Fingerprint‐inspired conducting hierarchical wrinkles for energy‐harvesting E‐skin",
+    "year": "2019",
+    "authors": "Kang, Hyungseok; Zhao, Chunlin; Huang, Jinrong; Ho, Dong Hae; Megra, Yonas Tsegaye; Suk, Ji Won; Sun, Jia; Wang, Zhong Lin; Sun, Qijun; Cho, Jeong Ho;",
+    "venue": "Advanced Functional Materials",
+    "pages": "1903580",
+    "link": "https://onlinelibrary.wiley.com/doi/abs/10.1002/adfm.201903580"
+  },
+  {
+    "number": 8,
+    "title": "Multifunctional smart textronics with blow‐spun nonwoven fabrics",
+    "year": "2019",
+    "authors": "Ho, Dong Hae; Cheon, Siuk; Hong, Panuk; Park, Jong Hwan; Suk, Ji Won; Kim, Do Hwan; Han, Joong Tark; Cho, Jeong Ho;",
+    "venue": "Advanced Functional Materials",
+    "pages": "1900025",
+    "link": "https://onlinelibrary.wiley.com/doi/abs/10.1002/adfm.201900025"
+  },
+  {
+    "number": 7,
+    "title": "Ultralightweight strain-responsive 3D graphene network",
+    "year": "2019",
+    "authors": "Ho, Dong Hae; Jun, Hyun Min; Yeo, Seon Ju; Hong, Panuk; Oh, Min Jun; Weon, Byung Mook; Lee, Won Bo; Kwon, S Joon; Yoo, Pil J; Cho, Jeong Ho;",
+    "venue": "The Journal of Physical Chemistry C",
+    "pages": "9884-9893",
+    "link": "https://pubs.acs.org/doi/abs/10.1021/acs.jpcc.9b00630"
+  },
+  {
+    "number": 6,
+    "title": "Transparent and self-powered multistage sensation matrix for mechanosensation application",
+    "year": "2018",
+    "authors": "Zhang, Qian; Jiang, Tao; Ho, Donghae; Qin, Shanshan; Yang, Xixi; Cho, Jeong Ho; Sun, Qijun; Wang, Zhong Lin;",
+    "venue": "ACS nano",
+    "pages": "254-262",
+    "link": "https://pubs.acs.org/doi/abs/10.1021/acsnano.7b06126"
+  },
+  {
+    "number": 5,
+    "title": "웨어러블 디바이스를 위한 유연/신축 전극소재 연구동향",
+    "year": "2018",
+    "authors": "호동해; 조정호;",
+    "venue": "공업화학전망",
+    "pages": "45-62",
+    "link": "https://kiss.kstudy.com/Detail/Ar?key=3577452"
+  },
+  {
+    "number": 4,
+    "title": "Petal-inspired diffractive grating on a wavy surface: deterministic fabrications and applications to colorizations and LED devices",
+    "year": "2017",
+    "authors": "Park, Kyung Jin; Park, Jae Hoon; Huh, Ji-Hyeok; Kim, Chan Ho; Ho, Dong Hae; Choi, Gwan H; Yoo, Pil J; Cho, Sung Min; Cho, Jeong Ho; Lee, Seungwoo;",
+    "venue": "ACS Applied Materials & Interfaces",
+    "pages": "9935-9944",
+    "link": "https://pubs.acs.org/doi/abs/10.1021/acsami.6b15536"
+  },
+  {
+    "number": 3,
+    "title": "Crack-enhanced microfluidic stretchable E-skin sensor",
+    "year": "2017",
+    "authors": "Ho, Dong Hae; Song, Ryungeun; Sun, Qijun; Park, Won-Hyeong; Kim, So Young; Pang, Changhyun; Kim, Do Hwan; Kim, Sang-Youn; Lee, Jinkee; Cho, Jeong Ho;",
+    "venue": "ACS applied materials & interfaces",
+    "pages": "44678-44686",
+    "link": "https://pubs.acs.org/doi/abs/10.1021/acsami.7b15999"
+  },
+  {
+    "number": 2,
+    "title": "Piezopotential-programmed multilevel nonvolatile memory as triggered by mechanical stimuli",
+    "year": "2016",
+    "authors": "Sun, Qijun; Ho, Dong Hae; Choi, Yongsuk; Pan, Caofeng; Kim, Do Hwan; Wang, Zhong Lin; Cho, Jeong Ho;",
+    "venue": "ACS nano",
+    "pages": "11037-11043",
+    "link": "https://pubs.acs.org/doi/abs/10.1021/acsnano.6b05895"
+  },
+  {
+    "number": 1,
+    "title": "Stretchable and multimodal all graphene electronic skin",
+    "year": "2016",
+    "authors": "Ho, Dong Hae; Sun, Qijun; Kim, So Young; Han, Joong Tark; Kim, Do Hwan; Cho, Jeong Ho;",
+    "venue": "Advanced Materials",
+    "pages": "2601-2608",
+    "link": "https://www.researchgate.net/profile/Qijun-Sun/publication/292947985_Stretchable_and_Multimodal_All_Graphene_Electronic_Skin/links/5b3db7390f7e9b0df5f3c82f/Stretchable-and-Multimodal-All-Graphene-Electronic-Skin.pdf"
+  }
+]
+;

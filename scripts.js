@@ -42,34 +42,42 @@
     return String(value).trim();
   }
 
+  function publicationItemHtml(item) {
+    var linkHtml = item.link
+      ? '<a class="pub-link" href="' + item.link + '" target="_blank" rel="noopener noreferrer">View publication</a>'
+      : '';
+    var pagesHtml = item.pages ? '<p class="pub-pages">Pages/Article: ' + item.pages + '</p>' : '';
+    return (
+      '<li class="publication-item">' +
+      '<div class="pub-head"><span class="pub-no">#' + item.number + '</span><span class="pub-year">' + safeText(item.year) + '</span></div>' +
+      '<p class="pub-title">' + safeText(item.title) + '</p>' +
+      '<p class="pub-authors">' + safeText(item.authors) + '</p>' +
+      '<p class="pub-venue">' + safeText(item.venue) + '</p>' +
+      pagesHtml +
+      linkHtml +
+      '</li>'
+    );
+  }
+
+  function renderPublicationItems(target, items) {
+    target.innerHTML = items.map(publicationItemHtml).join('');
+  }
+
   function renderPublications() {
     var target = byId('publicationsList');
     if (!target) return;
+
+    if (Array.isArray(window.PUBLICATIONS_DATA) && window.PUBLICATIONS_DATA.length > 0) {
+      renderPublicationItems(target, window.PUBLICATIONS_DATA);
+      return;
+    }
 
     fetch('publications-data.json')
       .then(function (response) {
         return response.json();
       })
       .then(function (items) {
-        var html = items
-          .map(function (item) {
-            var linkHtml = item.link
-              ? '<a class="pub-link" href="' + item.link + '" target="_blank" rel="noopener noreferrer">View publication</a>'
-              : '';
-            var pagesHtml = item.pages ? '<p class="pub-pages">Pages/Article: ' + item.pages + '</p>' : '';
-            return (
-              '<li class="publication-item">' +
-              '<div class="pub-head"><span class="pub-no">#' + item.number + '</span><span class="pub-year">' + safeText(item.year) + '</span></div>' +
-              '<p class="pub-title">' + safeText(item.title) + '</p>' +
-              '<p class="pub-authors">' + safeText(item.authors) + '</p>' +
-              '<p class="pub-venue">' + safeText(item.venue) + '</p>' +
-              pagesHtml +
-              linkHtml +
-              '</li>'
-            );
-          })
-          .join('');
-        target.innerHTML = html;
+        renderPublicationItems(target, items);
       })
       .catch(function () {
         target.innerHTML = '<li class="publication-item">Publication data could not be loaded.</li>';
