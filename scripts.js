@@ -108,17 +108,217 @@
     });
   }
 
+  function setFormMessage(target, text, kind) {
+    if (!target) return;
+    target.textContent = text || '';
+    target.classList.remove('success', 'error');
+    if (kind) target.classList.add(kind);
+  }
+
+  function getEvents(key) {
+    try {
+      var raw = window.localStorage.getItem(key);
+      var list = raw ? JSON.parse(raw) : [];
+      return Array.isArray(list) ? list : [];
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function isRateLimited(key, limit, windowMs) {
+    var now = Date.now();
+    var events = getEvents(key).filter(function (time) {
+      return typeof time === 'number' && now - time < windowMs;
+    });
+
+    try {
+      window.localStorage.setItem(key, JSON.stringify(events));
+    } catch (error) {}
+
+    return events.length >= limit;
+  }
+
+  function recordEvent(key) {
+    var events = getEvents(key);
+    events.push(Date.now());
+    try {
+      window.localStorage.setItem(key, JSON.stringify(events));
+    } catch (error) {}
+  }
+
   function setupInterestForm() {
     document.querySelectorAll('.interest-form').forEach(function (form) {
+      var submitBtn = form.querySelector('button[type="submit"]');
+      var status = form.querySelector('.form-message');
+      var input = form.querySelector('input[type="email"]');
+
+      if (!status) {
+        status = document.createElement('p');
+        status.className = 'form-message';
+        status.setAttribute('role', 'status');
+        status.setAttribute('aria-live', 'polite');
+        form.appendChild(status);
+      }
+
+      var hp = form.querySelector('input[name="company_name"]');
+      if (!hp) {
+        hp = document.createElement('input');
+        hp.type = 'text';
+        hp.name = 'company_name';
+        hp.className = 'hp-field';
+        hp.setAttribute('autocomplete', 'off');
+        hp.setAttribute('tabindex', '-1');
+        hp.setAttribute('aria-hidden', 'true');
+        form.appendChild(hp);
+      }
+
       form.addEventListener('submit', function (event) {
         event.preventDefault();
-        var input = form.querySelector('input[type="email"]');
+
+        if (hp.value.trim()) {
+          setFormMessage(status, 'Submission blocked.', 'error');
+          return;
+        }
+
         if (!input || !input.value.trim()) return;
-        var email = encodeURIComponent(input.value.trim());
-        var subject = encodeURIComponent('Interest in EMDP Lab research');
-        var body = encodeURIComponent('Hello Prof. Dong Hae Ho,%0D%0A%0D%0AI am interested in joining EMDP Lab.%0D%0AMy email: ' + decodeURIComponent(email));
-        window.location.href = 'mailto:hodh123@dgist.ac.kr?subject=' + subject + '&body=' + body;
+        if (isRateLimited('emdp_interest_submit', 3, 24 * 60 * 60 * 1000)) {
+          setFormMessage(status, 'Too many submissions. Please try again tomorrow.', 'error');
+          return;
+        }
+
+        if (submitBtn) submitBtn.disabled = true;
+        setFormMessage(status, 'Submitting...', null);
+
+        var formData = new FormData();
+        formData.append('_subject', 'EMDP Lab Interest Form');
+        formData.append('email', input.value.trim());
+        formData.append('source_page', document.body.getAttribute('data-page') || window.location.pathname);
+        formData.append('submitted_at', new Date().toISOString());
+
+        fetch('https://formsubmit.co/ajax/hodh123@dgist.ac.kr', {
+          method: 'POST',
+          body: formData,
+          headers: { Accept: 'application/json' }
+        })
+          .then(function (response) {
+            if (!response.ok) throw new Error('Request failed');
+            return response.json();
+          })
+          .then(function () {
+            recordEvent('emdp_interest_submit');
+            form.reset();
+            setFormMessage(status, 'Thanks. Your interest has been delivered.', 'success');
+          })
+          .catch(function () {
+            var subject = encodeURIComponent('Interest in EMDP Lab research');
+            var body = encodeURIComponent(
+              'Hello Prof. Dong Hae Ho,%0D%0A%0D%0AI am interested in joining EMDP Lab.%0D%0AMy email: ' + input.value.trim()
+            );
+            window.location.href = 'mailto:hodh123@dgist.ac.kr?subject=' + subject + '&body=' + body;
+          })
+          .finally(function () {
+            if (submitBtn) submitBtn.disabled = false;
+          });
       });
+    });
+  }
+
+  function setupApplicationForm() {
+    var form = byId('applicationForm');
+    if (!form) return;
+
+    var status = byId('applicationStatus');
+    var submitBtn = byId('applicationSubmit');
+    var startedField = byId('applicationStartedAt');
+    var nextField = byId('applicationNext');
+    var humanQuestion = byId('humanQuestion');
+    var humanCheck = byId('humanCheck');
+    var consentCheck = byId('consentCheck');
+    var cvFile = byId('cvFile');
+    var coverFile = byId('coverFile');
+    var hp = form.querySelector('input[name="_honey"]');
+    var startedAt = Date.now();
+
+    if (startedField) startedField.value = String(startedAt);
+    if (nextField) nextField.value = window.location.origin + window.location.pathname + '?submitted=1';
+
+    var query = new URLSearchParams(window.location.search);
+    if (query.get('submitted') === '1') {
+      setFormMessage(status, 'Application sent successfully. Thank you for applying.', 'success');
+    }
+
+    var a = Math.floor(Math.random() * 8) + 3;
+    var b = Math.floor(Math.random() * 8) + 4;
+    var answer = a + b;
+    if (humanQuestion) humanQuestion.textContent = 'Security check: ' + a + ' + ' + b + ' = ?';
+
+    function hasExt(file, list) {
+      if (!file || !file.name) return false;
+      var name = file.name.toLowerCase();
+      return list.some(function (ext) {
+        return name.endsWith('.' + ext);
+      });
+    }
+
+    form.addEventListener('submit', function (event) {
+      if (hp && hp.value.trim()) {
+        event.preventDefault();
+        setFormMessage(status, 'Submission blocked.', 'error');
+        return;
+      }
+
+      if (Date.now() - startedAt < 8000) {
+        event.preventDefault();
+        setFormMessage(status, 'Please take a little more time before submitting.', 'error');
+        return;
+      }
+
+      if (isRateLimited('emdp_apply_submit', 2, 24 * 60 * 60 * 1000)) {
+        event.preventDefault();
+        setFormMessage(status, 'Submission limit reached. Please try again later.', 'error');
+        return;
+      }
+
+      if (!consentCheck || !consentCheck.checked) {
+        event.preventDefault();
+        setFormMessage(status, 'Please confirm the consent checkbox.', 'error');
+        return;
+      }
+
+      if (!humanCheck || parseInt(humanCheck.value, 10) !== answer) {
+        event.preventDefault();
+        setFormMessage(status, 'Security check answer is incorrect.', 'error');
+        return;
+      }
+
+      var cv = cvFile && cvFile.files ? cvFile.files[0] : null;
+      var cover = coverFile && coverFile.files ? coverFile.files[0] : null;
+
+      if (!cv || !hasExt(cv, ['pdf'])) {
+        event.preventDefault();
+        setFormMessage(status, 'CV must be a PDF file.', 'error');
+        return;
+      }
+
+      if (!cover || !hasExt(cover, ['pdf', 'doc', 'docx'])) {
+        event.preventDefault();
+        setFormMessage(status, 'Cover letter must be PDF, DOC, or DOCX.', 'error');
+        return;
+      }
+
+      var maxSize = 10 * 1024 * 1024;
+      if (cv.size > maxSize || cover.size > maxSize) {
+        event.preventDefault();
+        setFormMessage(status, 'Each file must be 10MB or smaller.', 'error');
+        return;
+      }
+
+      recordEvent('emdp_apply_submit');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+      }
+      setFormMessage(status, 'Passing security checks and submitting files...', null);
     });
   }
 
@@ -229,6 +429,7 @@
   setupMenuToggle();
   setupNavGlass();
   setupInterestForm();
+  setupApplicationForm();
   renderPublications();
   renderInstruments();
   renderAlumni();
