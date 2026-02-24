@@ -23,6 +23,78 @@
     });
   }
 
+  function setupNavGlass() {
+    document.querySelectorAll('.site-nav').forEach(function (nav) {
+      var links = Array.from(nav.querySelectorAll('.nav-link'));
+      if (!links.length) return;
+
+      var indicator = document.createElement('span');
+      indicator.className = 'nav-glass-indicator';
+      nav.appendChild(indicator);
+
+      function isMobileViewport() {
+        return window.matchMedia('(max-width: 760px)').matches;
+      }
+
+      function hideIndicator() {
+        indicator.classList.remove('active');
+      }
+
+      function moveIndicator(target, driftX, driftY) {
+        if (!target || isMobileViewport()) {
+          hideIndicator();
+          return;
+        }
+
+        var navRect = nav.getBoundingClientRect();
+        var targetRect = target.getBoundingClientRect();
+        var offsetX = typeof driftX === 'number' ? driftX : 0;
+        var offsetY = typeof driftY === 'number' ? driftY : 0;
+        var left = targetRect.left - navRect.left + offsetX;
+        var top = targetRect.top - navRect.top + offsetY;
+
+        indicator.style.width = targetRect.width + 'px';
+        indicator.style.height = targetRect.height + 'px';
+        indicator.style.transform = 'translate3d(' + left + 'px, ' + top + 'px, 0)';
+        indicator.classList.add('active');
+      }
+
+      function resetToActiveLink() {
+        var activeLink = nav.querySelector('.nav-link.active');
+        if (activeLink) {
+          moveIndicator(activeLink);
+          return;
+        }
+        hideIndicator();
+      }
+
+      links.forEach(function (link) {
+        link.addEventListener('mouseenter', function () {
+          moveIndicator(link);
+        });
+
+        link.addEventListener('mousemove', function (event) {
+          var rect = link.getBoundingClientRect();
+          var driftX = (event.clientX - rect.left - rect.width / 2) * 0.18;
+          var driftY = (event.clientY - rect.top - rect.height / 2) * 0.24;
+          moveIndicator(link, driftX, driftY);
+        });
+
+        link.addEventListener('focus', function () {
+          moveIndicator(link);
+        });
+      });
+
+      nav.addEventListener('mouseleave', resetToActiveLink);
+      nav.addEventListener('focusout', function (event) {
+        if (!nav.contains(event.relatedTarget)) resetToActiveLink();
+      });
+      window.addEventListener('resize', resetToActiveLink);
+
+      resetToActiveLink();
+    });
+  }
+
   function setupInterestForm() {
     document.querySelectorAll('.interest-form').forEach(function (form) {
       form.addEventListener('submit', function (event) {
@@ -141,6 +213,7 @@
 
   setActiveNav();
   setupMenuToggle();
+  setupNavGlass();
   setupInterestForm();
   renderPublications();
   renderInstruments();
