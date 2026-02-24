@@ -23,6 +23,19 @@
     });
   }
 
+  function setupDeviceMode() {
+    function applyMode() {
+      var compactWidth = window.matchMedia('(max-width: 860px)').matches;
+      var touchDevice = window.matchMedia('(pointer: coarse)').matches && window.matchMedia('(max-width: 1180px)').matches;
+      var isMobileMode = compactWidth || touchDevice;
+      document.body.setAttribute('data-device', isMobileMode ? 'mobile' : 'desktop');
+    }
+
+    applyMode();
+    window.addEventListener('resize', applyMode);
+    window.addEventListener('orientationchange', applyMode);
+  }
+
   function setupNavGlass() {
     document.querySelectorAll('.site-nav').forEach(function (nav) {
       var links = Array.from(nav.querySelectorAll('.nav-link'));
@@ -211,6 +224,7 @@
       });
   }
 
+  setupDeviceMode();
   setActiveNav();
   setupMenuToggle();
   setupNavGlass();

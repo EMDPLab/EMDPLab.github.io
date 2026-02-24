@@ -484,6 +484,46 @@ main {
   object-fit: cover;
 }
 
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.team-card {
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.team-photo {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.team-content {
+  padding: 14px;
+}
+
+.team-content h3 {
+  margin: 0 0 8px;
+}
+
+.team-content p {
+  margin: 0 0 8px;
+}
+
+.team-content p:last-child {
+  margin-bottom: 0;
+}
+
 .social-list {
   margin: 10px 0 0;
   padding-left: 18px;
@@ -541,6 +581,10 @@ main {
   align-items: stretch;
 }
 
+.split-equal > * {
+  min-width: 0;
+}
+
 .media-panel {
   margin: 0;
 }
@@ -549,17 +593,22 @@ main {
   margin: 0;
   padding: 18px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   display: grid;
   gap: 12px;
   align-content: start;
-  aspect-ratio: var(--media-ratio);
-  overflow: auto;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: auto;
+  overflow: hidden;
 }
 
 .text-panel p {
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .facility-gallery {
@@ -740,9 +789,11 @@ main {
 
 .interest-form input {
   width: 100%;
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--glass);
   color: #282a31;
-  border: 1px solid rgba(201, 208, 220, 0.9);
+  border: 1px solid var(--glass-line);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border-radius: 12px;
   padding: 11px;
   font: inherit;
@@ -796,6 +847,57 @@ main {
   padding: 26px 0 34px;
 }
 
+body[data-device='mobile'] .menu-toggle {
+  display: inline-block;
+}
+
+body[data-device='mobile'] .site-nav {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 82px;
+  display: none;
+  background: rgba(248, 249, 252, 0.86);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 0;
+  padding: 12px 4vw 14px;
+}
+
+body[data-device='mobile'] .site-nav .nav-glass-indicator {
+  display: none;
+}
+
+body[data-device='mobile'] .site-nav.open {
+  display: grid;
+  gap: 4px;
+}
+
+body[data-device='mobile'] .nav-link {
+  width: 100%;
+}
+
+body[data-device='mobile'] .grid-3,
+body[data-device='mobile'] .grid-2,
+body[data-device='mobile'] .contact-grid,
+body[data-device='mobile'] .profile,
+body[data-device='mobile'] .team-member,
+body[data-device='mobile'] .team-grid,
+body[data-device='mobile'] .split-equal,
+body[data-device='mobile'] .photo-grid,
+body[data-device='mobile'] .facility-gallery,
+body[data-device='mobile'] .research-grid {
+  grid-template-columns: 1fr;
+}
+
+body[data-device='mobile'] .hero {
+  min-height: 340px;
+}
+
+body[data-device='mobile'] .text-panel {
+  aspect-ratio: auto;
+}
+
 @media (max-width: 980px) {
   .grid-3 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -805,6 +907,7 @@ main {
   .contact-grid,
   .profile,
   .team-member,
+  .team-grid,
   .split-equal {
     grid-template-columns: 1fr;
   }
