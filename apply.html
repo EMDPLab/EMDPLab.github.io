@@ -30,8 +30,19 @@
 
   <main>
     <div class="container">
-      <h1 class="page-title">Application Writing Page</h1>
-      <p class="page-intro">Submit your application package directly to EMDP Lab. Include CV, cover letter, and your proposed research direction.</p>
+      <section class="hero apply-hero">
+        <div class="hero-content">
+          <p class="kicker">Recruiting Cycle 2026</p>
+          <h1 class="hero-title">Apply to Join EMDP Lab</h1>
+          <p class="hero-subtitle">Submit your package with CV, cover letter, and research proposal note. Submission status appears instantly on this page.</p>
+          <div class="chip-row">
+            <span class="chip">Internship</span>
+            <span class="chip">Undergraduate Research</span>
+            <span class="chip">MSc</span>
+            <span class="chip">PhD</span>
+          </div>
+        </div>
+      </section>
 
       <section class="section card">
         <h2 class="section-title">How Selection Works</h2>
@@ -54,84 +65,103 @@
         </div>
       </section>
 
-      <section class="section card">
-        <h2 class="section-title">Submit Application</h2>
-        <form
-          id="applicationForm"
-          class="application-form"
-          action="https://formsubmit.co/hodh123@gmail.com"
-          method="POST"
-          enctype="multipart/form-data"
-        >
-          <input type="hidden" name="_subject" value="EMDP Lab Application Submission">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_captcha" value="true">
-          <input type="hidden" name="_next" id="applicationNext" value="">
-          <input type="hidden" name="source_page" value="EMDP Lab Apply Page">
-          <input type="hidden" name="started_at" id="applicationStartedAt" value="">
-          <input type="text" class="hp-field" name="_honey" autocomplete="off" tabindex="-1" aria-hidden="true">
+      <section class="section card apply-form-card">
+        <div class="apply-form-head">
+          <h2 class="section-title">Submit Application</h2>
+          <p class="page-intro">Your package is delivered through FormSubmit and copied to the lab contact inboxes.</p>
+        </div>
+        <div class="apply-form-layout">
+          <aside class="apply-form-side">
+            <h3>Before You Submit</h3>
+            <ul class="meta-list apply-checklist">
+              <li>Use your active email address for follow-up.</li>
+              <li>CV must be PDF and under 10MB.</li>
+              <li>Cover letter can be PDF, DOC, or DOCX.</li>
+              <li>Explain your proposed direction clearly.</li>
+              <li>Submission usually takes under 20 seconds.</li>
+            </ul>
+          </aside>
 
-          <div class="form-row">
-            <label for="applicantName">Full Name</label>
-            <input id="applicantName" name="applicant_name" type="text" required maxlength="80" placeholder="Your full name">
-          </div>
+          <form
+            id="applicationForm"
+            class="application-form"
+            action="https://formsubmit.co/hodh123@gmail.com"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <input type="hidden" name="_subject" value="EMDP Lab Application Submission">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_cc" value="hodh123@dgist.ac.kr">
+            <input type="hidden" name="_next" id="applicationNext" value="https://emdplab.github.io/apply.html?submitted=1">
+            <input type="hidden" name="source_page" value="EMDP Lab Apply Page">
+            <input type="hidden" name="started_at" id="applicationStartedAt" value="">
+            <input type="text" class="hp-field" name="_honey" autocomplete="off" tabindex="-1" aria-hidden="true">
 
-          <div class="form-row">
-            <label for="applicantEmail">Email</label>
-            <input id="applicantEmail" name="applicant_email" type="email" required placeholder="you@example.com">
-          </div>
+            <div class="form-grid">
+              <div class="form-row">
+                <label for="applicantName">Full Name</label>
+                <input id="applicantName" name="applicant_name" type="text" required maxlength="80" placeholder="Your full name">
+              </div>
 
-          <div class="form-row">
-            <label for="programTrack">Program Track</label>
-            <select id="programTrack" name="program_track" required>
-              <option value="">Select one</option>
-              <option value="Internship">Internship</option>
-              <option value="Undergraduate Research">Undergraduate Research</option>
-              <option value="MSc">MSc</option>
-              <option value="PhD">PhD</option>
-            </select>
-          </div>
+              <div class="form-row">
+                <label for="applicantEmail">Email</label>
+                <input id="applicantEmail" name="applicant_email" type="email" required placeholder="you@example.com">
+              </div>
 
-          <div class="form-row">
-            <label for="affiliation">Current School / Department</label>
-            <input id="affiliation" name="affiliation" type="text" required maxlength="120" placeholder="University, major, degree">
-          </div>
+              <div class="form-row">
+                <label for="programTrack">Program Track</label>
+                <select id="programTrack" name="program_track" required>
+                  <option value="">Select one</option>
+                  <option value="Internship">Internship</option>
+                  <option value="Undergraduate Research">Undergraduate Research</option>
+                  <option value="MSc">MSc</option>
+                  <option value="PhD">PhD</option>
+                </select>
+              </div>
 
-          <div class="form-row">
-            <label for="cvFile">CV (PDF only, max 10MB)</label>
-            <input id="cvFile" name="cv_pdf" type="file" accept=".pdf,application/pdf" required>
-          </div>
+              <div class="form-row">
+                <label for="affiliation">Current School / Department</label>
+                <input id="affiliation" name="affiliation" type="text" required maxlength="120" placeholder="University, major, degree">
+              </div>
 
-          <div class="form-row">
-            <label for="coverFile">Cover Letter (PDF/DOC/DOCX, max 10MB)</label>
-            <input id="coverFile" name="cover_letter" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
-          </div>
+              <div class="form-row full-span">
+                <label for="cvFile">CV (PDF only, max 10MB)</label>
+                <input id="cvFile" name="cv_pdf" type="file" accept=".pdf,application/pdf" required>
+              </div>
 
-          <div class="form-row">
-            <label for="proposalNote">Special Note: Research Idea / Proposal Draft</label>
-            <textarea id="proposalNote" name="research_proposal_note" rows="6" required maxlength="4000" placeholder="Describe what you want to work on in EMDP Lab, and why."></textarea>
-          </div>
+              <div class="form-row full-span">
+                <label for="coverFile">Cover Letter (PDF/DOC/DOCX, max 10MB)</label>
+                <input id="coverFile" name="cover_letter" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
+              </div>
 
-          <div class="form-row">
-            <label for="specialNote">Additional Note (optional)</label>
-            <textarea id="specialNote" name="special_note" rows="4" maxlength="2000" placeholder="Any schedule constraints, portfolio link, or extra message."></textarea>
-          </div>
+              <div class="form-row full-span">
+                <label for="proposalNote">Special Note: Research Idea / Proposal Draft</label>
+                <textarea id="proposalNote" name="research_proposal_note" rows="6" required maxlength="4000" placeholder="Describe what you want to work on in EMDP Lab, and why."></textarea>
+              </div>
 
-          <div class="protection-box">
-            <p class="protection-title">Anti-Abuse Protection</p>
-            <p class="protection-copy">Complete this security check before submission.</p>
-            <label for="humanCheck"><span id="humanQuestion">Security check</span></label>
-            <input id="humanCheck" name="human_check" type="text" inputmode="numeric" autocomplete="off" required placeholder="Enter the answer">
-          </div>
+              <div class="form-row full-span">
+                <label for="specialNote">Additional Note (optional)</label>
+                <textarea id="specialNote" name="special_note" rows="4" maxlength="2000" placeholder="Any schedule constraints, portfolio link, or extra message."></textarea>
+              </div>
 
-          <label class="consent-row">
-            <input id="consentCheck" type="checkbox" required>
-            <span>I confirm that all information is accurate and I agree to be contacted by EMDP Lab.</span>
-          </label>
+              <div class="form-row full-span protection-box">
+                <p class="protection-title">Anti-Abuse Protection</p>
+                <p class="protection-copy">Complete this security check before submission.</p>
+                <label for="humanCheck"><span id="humanQuestion">Security check</span></label>
+                <input id="humanCheck" name="human_check" type="text" inputmode="numeric" autocomplete="off" required placeholder="Enter the answer">
+              </div>
+            </div>
 
-          <button id="applicationSubmit" type="submit">Submit Application Package</button>
-          <p id="applicationStatus" class="form-message" role="status" aria-live="polite"></p>
-        </form>
+            <label class="consent-row">
+              <input id="consentCheck" type="checkbox" required>
+              <span>I confirm that all information is accurate and I agree to be contacted by EMDP Lab.</span>
+            </label>
+
+            <button id="applicationSubmit" type="submit">Submit Application Package</button>
+            <p id="applicationStatus" class="form-message" role="status" aria-live="polite"></p>
+          </form>
+        </div>
       </section>
 
       <section class="contact">
@@ -139,7 +169,11 @@
           <div>
             <h2>Contact</h2>
             <p>333, Techno jungang-daero, Hyeonpung-eup, Dalseong-gun, Daegu, Republic of Korea, 42988</p>
-            <p><a href="mailto:hodh123@gmail.com">hodh123@gmail.com</a></p>
+            <p>
+              <a href="mailto:hodh123@dgist.ac.kr">hodh123@dgist.ac.kr</a>
+              /
+              <a href="mailto:hodh123@gmail.com">hodh123@gmail.com</a>
+            </p>
           </div>
           <div>
             <p class="page-intro">If upload or submission fails, send your package directly by email with the subject: <strong>EMDP Lab Application</strong>.</p>

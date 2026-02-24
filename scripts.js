@@ -231,6 +231,7 @@
     var submitBtn = byId('applicationSubmit');
     var startedField = byId('applicationStartedAt');
     var nextField = byId('applicationNext');
+    var applicantEmail = byId('applicantEmail');
     var humanQuestion = byId('humanQuestion');
     var humanCheck = byId('humanCheck');
     var consentCheck = byId('consentCheck');
@@ -247,10 +248,17 @@
       setFormMessage(status, 'Application sent successfully. Thank you for applying.', 'success');
     }
 
-    var a = Math.floor(Math.random() * 8) + 3;
-    var b = Math.floor(Math.random() * 8) + 4;
-    var answer = a + b;
-    if (humanQuestion) humanQuestion.textContent = 'Security check: ' + a + ' + ' + b + ' = ?';
+    var answer = 0;
+
+    function refreshSecurityQuestion() {
+      var a = Math.floor(Math.random() * 8) + 3;
+      var b = Math.floor(Math.random() * 8) + 4;
+      answer = a + b;
+      if (humanQuestion) humanQuestion.textContent = 'Security check: ' + a + ' + ' + b + ' = ?';
+      if (humanCheck) humanCheck.value = '';
+    }
+
+    refreshSecurityQuestion();
 
     function hasExt(file, list) {
       if (!file || !file.name) return false;
@@ -261,32 +269,29 @@
     }
 
     form.addEventListener('submit', function (event) {
+      event.preventDefault();
+
       if (hp && hp.value.trim()) {
-        event.preventDefault();
         setFormMessage(status, 'Submission blocked.', 'error');
         return;
       }
 
       if (Date.now() - startedAt < 8000) {
-        event.preventDefault();
         setFormMessage(status, 'Please take a little more time before submitting.', 'error');
         return;
       }
 
       if (isRateLimited('emdp_apply_submit', 2, 24 * 60 * 60 * 1000)) {
-        event.preventDefault();
         setFormMessage(status, 'Submission limit reached. Please try again later.', 'error');
         return;
       }
 
       if (!consentCheck || !consentCheck.checked) {
-        event.preventDefault();
         setFormMessage(status, 'Please confirm the consent checkbox.', 'error');
         return;
       }
 
       if (!humanCheck || parseInt(humanCheck.value, 10) !== answer) {
-        event.preventDefault();
         setFormMessage(status, 'Security check answer is incorrect.', 'error');
         return;
       }
@@ -295,30 +300,74 @@
       var cover = coverFile && coverFile.files ? coverFile.files[0] : null;
 
       if (!cv || !hasExt(cv, ['pdf'])) {
-        event.preventDefault();
         setFormMessage(status, 'CV must be a PDF file.', 'error');
         return;
       }
 
       if (!cover || !hasExt(cover, ['pdf', 'doc', 'docx'])) {
-        event.preventDefault();
         setFormMessage(status, 'Cover letter must be PDF, DOC, or DOCX.', 'error');
         return;
       }
 
       var maxSize = 10 * 1024 * 1024;
       if (cv.size > maxSize || cover.size > maxSize) {
-        event.preventDefault();
         setFormMessage(status, 'Each file must be 10MB or smaller.', 'error');
         return;
       }
 
-      recordEvent('emdp_apply_submit');
+      if (submitBtn && submitBtn.disabled) return;
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.textContent = 'Submitting...';
       }
-      setFormMessage(status, 'Passing security checks and submitting files...', null);
+      setFormMessage(status, 'Uploading files and delivering your application...', null);
+
+      var formData = new FormData(form);
+      var emailValue = applicantEmail ? applicantEmail.value.trim() : '';
+      if (emailValue) formData.set('_replyto', emailValue);
+      formData.set('_subject', 'EMDP Lab Application Submission');
+      formData.set('_template', 'table');
+      formData.set('_captcha', 'false');
+      formData.set('_cc', 'hodh123@dgist.ac.kr');
+      formData.set('submitted_at', new Date().toISOString());
+      formData.set('source_page', window.location.href);
+
+      fetch('https://formsubmit.co/ajax/hodh123@gmail.com', {
+        method: 'POST',
+        body: formData,
+        headers: { Accept: 'application/json' }
+      })
+        .then(function (response) {
+          return response.json().catch(function () {
+            return {};
+          }).then(function (data) {
+            if (!response.ok || data.success === false || data.success === 'false') {
+              throw new Error('Request failed');
+            }
+          });
+        })
+        .then(function () {
+          recordEvent('emdp_apply_submit');
+          form.reset();
+          startedAt = Date.now();
+          if (startedField) startedField.value = String(startedAt);
+          refreshSecurityQuestion();
+          setFormMessage(status, 'Application sent successfully. Thank you for applying.', 'success');
+        })
+        .catch(function () {
+          setFormMessage(
+            status,
+            'Submission failed. Please send your package to hodh123@gmail.com and hodh123@dgist.ac.kr.',
+            'error'
+          );
+          refreshSecurityQuestion();
+        })
+        .finally(function () {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Application Package';
+          }
+        });
     });
   }
 

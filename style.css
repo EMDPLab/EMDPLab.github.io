@@ -324,6 +324,17 @@ main {
   pointer-events: none;
 }
 
+.apply-hero {
+  min-height: 330px;
+}
+
+.apply-hero::before {
+  background:
+    linear-gradient(115deg, rgba(12, 16, 28, 0.7), rgba(30, 24, 37, 0.5) 52%, rgba(15, 16, 20, 0.66)),
+    radial-gradient(circle at 18% 12%, rgba(247, 148, 29, 0.18), transparent 36%),
+    radial-gradient(circle at 88% 12%, rgba(196, 32, 59, 0.24), transparent 42%);
+}
+
 .hero-content {
   position: relative;
   padding: clamp(30px, 4.5vw, 60px);
@@ -995,14 +1006,73 @@ main {
   opacity: 1;
 }
 
+.apply-form-card {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.7)),
+    radial-gradient(circle at 94% 8%, rgba(196, 32, 59, 0.1), transparent 40%);
+}
+
+.apply-form-head {
+  margin-bottom: 14px;
+}
+
+.apply-form-head .page-intro {
+  margin: 0;
+  max-width: none;
+}
+
+.apply-form-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.apply-form-side {
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.65);
+  padding: 14px;
+  box-shadow: var(--shadow-soft);
+}
+
+.apply-form-side h3 {
+  margin: 0 0 8px;
+  font-family: var(--font-accent);
+  color: #1a1b1f;
+}
+
+.apply-checklist {
+  margin: 0;
+}
+
+.apply-checklist li {
+  margin-bottom: 4px;
+}
+
 .application-form {
   display: grid;
   gap: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: var(--shadow-soft);
+  padding: 16px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
 
 .form-row {
   display: grid;
   gap: 6px;
+}
+
+.form-row.full-span {
+  grid-column: 1 / -1;
 }
 
 .form-row label {
@@ -1025,6 +1095,21 @@ main {
   border-radius: 12px;
   padding: 11px;
   font: inherit;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.application-form input[type='file'] {
+  padding: 8px 11px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.application-form input:focus-visible,
+.application-form select:focus-visible,
+.application-form textarea:focus-visible {
+  outline: none;
+  border-color: rgba(196, 32, 59, 0.42);
+  box-shadow: 0 0 0 3px rgba(196, 32, 59, 0.14);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .application-form textarea {
@@ -1063,6 +1148,10 @@ main {
   gap: 10px;
   color: var(--ink-soft);
   font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  border-radius: 12px;
+  padding: 10px 12px;
 }
 
 .consent-row input {
@@ -1071,6 +1160,47 @@ main {
 
 .application-form button {
   width: fit-content;
+  border: 0;
+  border-radius: 12px;
+  padding: 11px 16px;
+  background: linear-gradient(145deg, var(--brand), var(--brand-strong));
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s var(--ease-smooth), box-shadow 0.35s ease;
+}
+
+.application-form button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0.06));
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.application-form button:hover,
+.application-form button:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(159, 24, 48, 0.28);
+}
+
+.application-form button:hover::before,
+.application-form button:focus-visible::before {
+  opacity: 1;
+}
+
+.application-form button:disabled {
+  opacity: 0.72;
+  cursor: wait;
+  transform: none;
+  box-shadow: none;
 }
 
 .form-message {
@@ -1147,6 +1277,8 @@ body[data-device='mobile'] .team-member,
 body[data-device='mobile'] .team-grid,
 body[data-device='mobile'] .fit-grid,
 body[data-device='mobile'] .apply-steps,
+body[data-device='mobile'] .apply-form-layout,
+body[data-device='mobile'] .form-grid,
 body[data-device='mobile'] .split-equal,
 body[data-device='mobile'] .photo-grid,
 body[data-device='mobile'] .facility-gallery,
@@ -1162,6 +1294,10 @@ body[data-device='mobile'] .text-panel {
   aspect-ratio: auto;
 }
 
+body[data-device='mobile'] .application-form {
+  padding: 14px;
+}
+
 @media (max-width: 980px) {
   .grid-3 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1175,6 +1311,8 @@ body[data-device='mobile'] .text-panel {
   .team-grid,
   .fit-grid,
   .apply-steps,
+  .apply-form-layout,
+  .form-grid,
   .split-equal {
     grid-template-columns: 1fr;
   }
@@ -1245,6 +1383,11 @@ body[data-device='mobile'] .text-panel {
 
   .text-panel {
     aspect-ratio: auto;
+  }
+
+  .application-form button {
+    width: 100%;
+    text-align: center;
   }
 
   .data-table {
