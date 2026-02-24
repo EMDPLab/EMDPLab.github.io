@@ -312,11 +312,6 @@
         return;
       }
 
-      if (isRateLimited('emdp_apply_submit', 2, 24 * 60 * 60 * 1000)) {
-        setFormMessage(status, 'Submission limit reached. Please try again later.', 'error');
-        return;
-      }
-
       if (!consentCheck || !consentCheck.checked) {
         setFormMessage(status, 'Please confirm the consent checkbox.', 'error');
         return;
