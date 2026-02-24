@@ -3,36 +3,91 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Lab</title>
+  <meta name="description" content="Energy Materials Design and Processing Lab at DGIST.">
+  <title>EMDP Lab | Home</title>
   <link rel="stylesheet" href="style.css">
   <script src="scripts.js" defer></script>
 </head>
-<body>
-  <header>
-    <div class="container">
-      <h1>Welcome to My Lab</h1>
-      <nav>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="research.html">Research Fields</a></li>
-          <li><a href="team.html">Team Members</a></li>
-          <li><a href="publications.html">Publications</a></li>
-        </ul>
+<body data-page="home">
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html">EMDP LAB</a>
+      <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
+      <nav id="siteNav" class="site-nav" aria-label="Primary">
+        <a class="nav-link" data-nav="home" href="index.html">Home</a>
+        <a class="nav-link" data-nav="team" href="team.html">Team</a>
+        <a class="nav-link" data-nav="research" href="research.html">Research</a>
+        <a class="nav-link" data-nav="facility" href="research-facility.html">Research Facility</a>
+        <a class="nav-link" data-nav="projects" href="projects.html">Projects</a>
+        <a class="nav-link" data-nav="news" href="news.html">News</a>
       </nav>
     </div>
   </header>
 
-  <main class="container">
-    <section>
-      <h2>About Us</h2>
-      <p>This is the homepage for our lab. Explore our research, meet the team and check out our publications.</p>
-    </section>
+  <main>
+    <div class="container">
+      <section class="hero">
+        <div class="hero-content">
+          <h1 class="hero-title">Energy Materials Design and Processing Lab</h1>
+          <p class="hero-subtitle">Control electric energy through material design and processing techniques.</p>
+          <p class="hero-subtitle">현재, 함께 연구할 학생 (인턴, 학부연구생, 석사, 박사)을 적극적으로 모집하니 관심있는 학생들은 호동해 교수에게 이메일(<a href="mailto:hodh123@dgist.ac.kr">hodh123@dgist.ac.kr</a>) 바랍니다.</p>
+        </div>
+      </section>
+
+      <section class="section grid grid-3">
+        <article class="card">
+          <h2>Research Areas</h2>
+          <p>Delve into our diverse research areas, from materials synthesis and characterization to advanced processing techniques and novel electronic devices.</p>
+          <div class="cta-strip">
+            <a class="cta-link" href="research.html">Explore Research</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Lab Members</h2>
+          <p>I am seeking ambitious students who are ready to expand the boundaries of our knowledge. Together, we will achieve great things.</p>
+          <div class="cta-strip">
+            <a class="cta-link" href="team.html">Meet the Team</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Collaboration</h2>
+          <p>Discover collaboration opportunities with EMDP Lab and build a research network to tackle complex challenges in energy materials and processing.</p>
+          <div class="cta-strip">
+            <a class="cta-link" href="projects.html">See Projects</a>
+          </div>
+        </article>
+      </section>
+
+      <section class="section card">
+        <h2 class="section-title">About EMDP Lab</h2>
+        <p>EMDP Lab is a dedicated research group focused on exploring materials engineering and chemistry, as well as developing control strategies to improve the efficiency of electronic devices. We investigate novel functionalities driven by new fabrication strategies and material combinations.</p>
+        <p>We are looking for highly motivated Master/PhD students to join us. If you are interested and have much fun in digging, please email Prof. Dong Hae Ho (<a href="mailto:hodh123@dgist.ac.kr">hodh123@dgist.ac.kr</a>).</p>
+      </section>
+
+      <section class="contact">
+        <div class="contact-grid">
+          <div>
+            <h2>Contact</h2>
+            <p>333, Techno jungang-daero, Hyeonpung-eup, Dalseong-gun, Daegu, Republic of Korea, 42988</p>
+            <p><a href="mailto:hodh123@dgist.ac.kr">hodh123@dgist.ac.kr</a></p>
+            <p>If you are interested to do research with me, please leave your email.</p>
+          </div>
+          <div>
+            <form class="interest-form">
+              <label for="interestEmailHome">Enter Your Email Here</label>
+              <input id="interestEmailHome" type="email" required placeholder="you@example.com">
+              <button type="submit">Subscribe</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
 
-  <footer>
-    <div class="container">
-      <p>&copy; 2023 My Lab</p>
-    </div>
+  <footer class="site-footer">
+    <div class="container">&copy; 2026 Energy Materials Design and Processing Lab, DGIST</div>
   </footer>
 </body>
 </html>

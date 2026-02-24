@@ -3,39 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Team Members - My Lab</title>
+  <meta name="description" content="Team members of Energy Materials Design and Processing Lab.">
+  <title>EMDP Lab | Team</title>
   <link rel="stylesheet" href="style.css">
   <script src="scripts.js" defer></script>
 </head>
-<body>
-  <header>
-    <div class="container">
-      <h1>Team Members</h1>
-      <nav>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="research.html">Research Fields</a></li>
-          <li><a href="team.html">Team Members</a></li>
-          <li><a href="publications.html">Publications</a></li>
-        </ul>
+<body data-page="team">
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html">EMDP LAB</a>
+      <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
+      <nav id="siteNav" class="site-nav" aria-label="Primary">
+        <a class="nav-link" data-nav="home" href="index.html">Home</a>
+        <a class="nav-link" data-nav="team" href="team.html">Team</a>
+        <a class="nav-link" data-nav="research" href="research.html">Research</a>
+        <a class="nav-link" data-nav="facility" href="research-facility.html">Research Facility</a>
+        <a class="nav-link" data-nav="projects" href="projects.html">Projects</a>
+        <a class="nav-link" data-nav="news" href="news.html">News</a>
       </nav>
     </div>
   </header>
 
-  <main class="container">
-    <section>
-      <h2>Our Team</h2>
-      <p>Select a CSV file to load the team list.</p>
-      <input type="file" id="teamFile" accept=".csv">
-      <button onclick="loadTable('teamFile','teamTable')">Load</button>
-      <table id="teamTable"></table>
-    </section>
+  <main>
+    <div class="container">
+      <h1 class="page-title">Team</h1>
+      <p class="page-intro">Have much experience in working with undergraduate students and graduate students and published papers in SCI journals including Nature Communications and Science Advances.</p>
+
+      <section class="section card profile">
+        <div class="profile-photo">
+          <img src="assets/images/team-dong-hae-ho.jpg" alt="Dong Hae Ho">
+        </div>
+        <div>
+          <p class="kicker">Principal Investigator</p>
+          <h2 class="section-title">Dong Hae Ho</h2>
+          <p>
+            <a href="https://scholar.google.com/citations?user=c5oe6BYAAAAJ&hl=ko" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+            &nbsp;|&nbsp;
+            <a href="https://www.dgist.ac.kr/energy/" target="_blank" rel="noopener noreferrer">DGIST Profile</a>
+          </p>
+
+          <h3>Education</h3>
+          <ul class="meta-list">
+            <li>PhD. Nano Engineering, Sungkyunkwan Univ. (2020)</li>
+            <li>B.S. Chemical Engineering, Sungkyunkwan Univ. (2015)</li>
+          </ul>
+
+          <h3>Experience</h3>
+          <ul class="meta-list">
+            <li>2024-Present: Assistant Professor, Dept. of Energy Sci. & Eng., DGIST, Korea, South</li>
+            <li>2022-2024: Postdoc, Virginia Tech, U.S.A. (P.I. Michael D. Bartlett)</li>
+            <li>2020-2022: Postdoc, Yonsei Univ., Korea, South (P.I. Jeong Ho Cho)</li>
+          </ul>
+
+          <p><strong>I LOVE RESEARCH.</strong> Research is driven by a desire to understand the fundamentals of our surrounding environment. In our lab, we investigate overlooked phenomena and interpret them through engineering to develop advanced technologies.</p>
+          <p>Together, we can achieve great things.</p>
+          <p><a href="mailto:hodh123@gmail.com">hodh123@gmail.com</a><br><a href="mailto:hodh123@dgist.ac.kr">hodh123@dgist.ac.kr</a></p>
+        </div>
+      </section>
+
+      <section class="section card">
+        <h2 class="section-title">Meet The Team</h2>
+        <article class="team-member">
+          <img src="assets/images/team-negasi.png" alt="Negasi Teklay Weldesemat">
+          <div>
+            <p class="kicker">PhD Candidate</p>
+            <h3>Negasi Teklay Weldesemat</h3>
+            <p><strong>Myongji Univ. MSC</strong></p>
+            <p>Working on deep learning-based materials exploration and GaOx-based electronics fabrication techniques.</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Alumni / Interns</h2>
+        <div id="alumniList" class="grid grid-2"></div>
+      </section>
+
+      <section class="contact">
+        <div class="contact-grid">
+          <div>
+            <h2>Contact</h2>
+            <p>333, Techno jungang-daero, Hyeonpung-eup, Dalseong-gun, Daegu, Republic of Korea, 42988</p>
+            <p><a href="mailto:hodh123@dgist.ac.kr">hodh123@dgist.ac.kr</a></p>
+            <p>If you are interested to do research with me, please leave your email.</p>
+          </div>
+          <div>
+            <form class="interest-form">
+              <label for="interestEmailTeam">Enter Your Email Here</label>
+              <input id="interestEmailTeam" type="email" required placeholder="you@example.com">
+              <button type="submit">Subscribe</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
 
-  <footer>
-    <div class="container">
-      <p>&copy; 2023 My Lab</p>
-    </div>
+  <footer class="site-footer">
+    <div class="container">&copy; 2026 Energy Materials Design and Processing Lab, DGIST</div>
   </footer>
 </body>
 </html>
