@@ -534,17 +534,20 @@
         target.innerHTML = items
           .map(function (item) {
             return (
-              '<article class="card">' +
+              '<article class="team-card team-card-intern">' +
+              '<div class="team-content">' +
+              '<p class="kicker">Internship</p>' +
               '<h3>' + safeText(item.name) + '</h3>' +
               '<p><strong>' + safeText(item.period) + '</strong></p>' +
               '<p>' + safeText(item.topic) + '</p>' +
+              '</div>' +
               '</article>'
             );
           })
           .join('');
       })
       .catch(function () {
-        target.innerHTML = '<article class="card"><p>Alumni data could not be loaded.</p></article>';
+        target.innerHTML = '<article class="team-card team-card-intern"><div class="team-content"><p>Internship data could not be loaded.</p></div></article>';
       });
   }
 
