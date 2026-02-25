@@ -68,7 +68,7 @@
       <section class="section card apply-form-card">
         <div class="apply-form-head">
           <h2 class="section-title">Submit Application</h2>
-          <p class="page-intro">No backend required: we generate your metadata file locally, then open Dropbox File Request for direct upload.</p>
+          <p class="page-intro">Submit once here. Files are uploaded automatically to Dropbox through the lab upload endpoint.</p>
         </div>
         <div class="apply-form-layout">
           <aside class="apply-form-side">
@@ -78,7 +78,7 @@
               <li>CV must be PDF and under 10MB.</li>
               <li>Cover letter can be PDF, DOC, or DOCX.</li>
               <li>Explain your proposed direction clearly.</li>
-              <li>Upload 3 files in Dropbox: CV, cover letter, and downloaded metadata JSON.</li>
+              <li>No extra Dropbox step is required after submit.</li>
             </ul>
           </aside>
 
@@ -87,8 +87,7 @@
             class="application-form"
             action="#"
             method="POST"
-            data-dropbox-request-url="https://www.dropbox.com/request/CikwiYoA21aU1d7yYqr8"
-            data-notify-webhook-url="https://script.google.com/macros/s/AKfycbzN9X7FH0icXTQFBwMM12bKbLY715Ib5eCCDb_hY-_UWapL1Op_WlvzE4dhUWzQeqG0/exec"
+            data-upload-endpoint="https://REPLACE-WITH-YOUR-WORKER-URL.workers.dev/api/apply"
             enctype="multipart/form-data"
           >
             <input type="hidden" name="started_at" id="applicationStartedAt" value="">

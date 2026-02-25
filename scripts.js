@@ -230,19 +230,12 @@
     var status = byId('applicationStatus');
     var submitBtn = byId('applicationSubmit');
     var startedField = byId('applicationStartedAt');
-    var applicantName = byId('applicantName');
-    var applicantEmail = byId('applicantEmail');
-    var programTrack = byId('programTrack');
-    var affiliation = byId('affiliation');
-    var proposalNote = byId('proposalNote');
-    var specialNote = byId('specialNote');
     var humanQuestion = byId('humanQuestion');
     var humanCheck = byId('humanCheck');
     var consentCheck = byId('consentCheck');
     var cvFile = byId('cvFile');
     var coverFile = byId('coverFile');
-    var dropboxRequestUrl = (form.getAttribute('data-dropbox-request-url') || '').trim();
-    var notifyWebhookUrl = (form.getAttribute('data-notify-webhook-url') || '').trim();
+    var uploadEndpoint = (form.getAttribute('data-upload-endpoint') || '').trim();
     var hp = form.querySelector('input[name="_honey"]');
     var startedAt = Date.now();
 
@@ -268,66 +261,15 @@
       });
     }
 
-    function isConfiguredUrl(url, placeholder) {
-      return !!url && /^https?:\/\//i.test(url) && url.indexOf(placeholder) === -1;
-    }
-
-    function safeSlug(value) {
-      return String(value || '')
-        .toLowerCase()
-        .replace(/[^a-z0-9-_]+/g, '-')
-        .replace(/-{2,}/g, '-')
-        .replace(/^-+|-+$/g, '')
-        .slice(0, 60);
-    }
-
-    function downloadTextFile(fileName, content) {
-      var blob = new Blob([content], { type: 'application/json' });
-      var url = URL.createObjectURL(blob);
-      var link = document.createElement('a');
-      link.href = url;
-      link.download = fileName;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      setTimeout(function () {
-        URL.revokeObjectURL(url);
-      }, 1000);
-    }
-
-    function sendNotification(payload) {
-      if (!isConfiguredUrl(notifyWebhookUrl, 'REPLACE-WITH-YOUR-WEBHOOK-ID')) {
-        return Promise.resolve(false);
-      }
-
-      var body = JSON.stringify(payload);
-      if (navigator.sendBeacon) {
-        try {
-          var blob = new Blob([body], { type: 'text/plain;charset=UTF-8' });
-          var queued = navigator.sendBeacon(notifyWebhookUrl, blob);
-          return Promise.resolve(queued);
-        } catch (error) {}
-      }
-
-      return fetch(notifyWebhookUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-        body: body
-      })
-        .then(function () {
-          return true;
-        })
-        .catch(function () {
-          return false;
-        });
+    function isConfiguredEndpoint(url) {
+      return !!url && /^https?:\/\//i.test(url) && url.indexOf('REPLACE-WITH-YOUR-WORKER-URL') === -1;
     }
 
     form.addEventListener('submit', function (event) {
       event.preventDefault();
 
-      if (!isConfiguredUrl(dropboxRequestUrl, 'REPLACE-WITH-YOUR-FILE-REQUEST-ID')) {
-        setFormMessage(status, 'Dropbox File Request URL is not configured yet. Please contact lab admin.', 'error');
+      if (!isConfiguredEndpoint(uploadEndpoint)) {
+        setFormMessage(status, 'Upload endpoint is not configured yet. Please contact lab admin.', 'error');
         return;
       }
 
@@ -373,70 +315,57 @@
       if (submitBtn && submitBtn.disabled) return;
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Preparing...';
+        submitBtn.textContent = 'Uploading...';
       }
 
-      var metadata = {
-        submitted_at: new Date().toISOString(),
-        source_page: window.location.href,
-        applicant_name: applicantName ? applicantName.value.trim() : '',
-        applicant_email: applicantEmail ? applicantEmail.value.trim() : '',
-        program_track: programTrack ? programTrack.value : '',
-        affiliation: affiliation ? affiliation.value.trim() : '',
-        research_proposal_note: proposalNote ? proposalNote.value.trim() : '',
-        special_note: specialNote ? specialNote.value.trim() : '',
-        files: {
-          cv_file_name: cv && cv.name ? cv.name : '',
-          cover_letter_file_name: cover && cover.name ? cover.name : ''
-        }
-      };
+      setFormMessage(status, 'Uploading files and application data...', null);
 
-      var slugBase = safeSlug(metadata.applicant_name || metadata.applicant_email || 'applicant');
-      var day = metadata.submitted_at.slice(0, 10);
-      var metadataFileName = 'emdp-application-' + slugBase + '-' + day + '.json';
+      var formData = new FormData(form);
+      formData.set('source_page', window.location.href);
+      formData.set('submitted_at', new Date().toISOString());
 
-      downloadTextFile(metadataFileName, JSON.stringify(metadata, null, 2));
-      var popup = window.open(dropboxRequestUrl, '_blank', 'noopener,noreferrer');
+      fetch(uploadEndpoint, {
+        method: 'POST',
+        body: formData
+      })
+        .then(function (response) {
+          return response
+            .json()
+            .catch(function () {
+              return {};
+            })
+            .then(function (payload) {
+              if (!response.ok || payload.success === false) {
+                throw new Error(payload.error || 'Upload failed');
+              }
+              return payload;
+            });
+        })
+        .then(function (payload) {
+          recordEvent('emdp_apply_submit');
+          form.reset();
+          refreshSecurityQuestion();
+          startedAt = Date.now();
+          if (startedField) startedField.value = String(startedAt);
 
-      recordEvent('emdp_apply_submit');
-      if (!popup) {
-        setFormMessage(
-          status,
-          'Metadata file downloaded. Please open Dropbox File Request manually and upload CV + cover letter + that JSON file.',
-          'success'
-        );
-      } else {
-        setFormMessage(
-          status,
-          'Metadata file downloaded. In the opened Dropbox page, upload CV + cover letter + that JSON file, then submit.',
-          'success'
-        );
-      }
+          var submissionId = payload && payload.submission_id ? payload.submission_id : '';
+          if (submissionId) {
+            setFormMessage(status, 'Application uploaded successfully. Submission ID: ' + submissionId, 'success');
+            return;
+          }
 
-      sendNotification(metadata).then(function (sent) {
-        if (!isConfiguredUrl(notifyWebhookUrl, 'REPLACE-WITH-YOUR-WEBHOOK-ID')) return;
-        if (!sent) {
-          setFormMessage(
-            status,
-            'Dropbox upload started. Notification delivery is not confirmed; please continue with Dropbox upload.',
-            'success'
-          );
-          return;
-        }
-        setFormMessage(
-          status,
-          'Dropbox upload started and notification was sent. Upload CV + cover letter + metadata JSON in Dropbox and submit.',
-          'success'
-        );
-      });
-
-      refreshSecurityQuestion();
-      startedAt = Date.now();
-      if (startedField) startedField.value = String(startedAt);
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Application Package';
-      }
+          setFormMessage(status, 'Application uploaded successfully. Thank you for applying.', 'success');
+        })
+        .catch(function (error) {
+          var message = error && error.message ? error.message : 'Upload failed. Please try again.';
+          setFormMessage(status, message, 'error');
+        })
+        .finally(function () {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Application Package';
+          }
+        });
     });
   }
 
