@@ -242,6 +242,7 @@
     var cvFile = byId('cvFile');
     var coverFile = byId('coverFile');
     var dropboxRequestUrl = (form.getAttribute('data-dropbox-request-url') || '').trim();
+    var notifyWebhookUrl = (form.getAttribute('data-notify-webhook-url') || '').trim();
     var hp = form.querySelector('input[name="_honey"]');
     var startedAt = Date.now();
 
@@ -267,6 +268,10 @@
       });
     }
 
+    function isConfiguredUrl(url, placeholder) {
+      return !!url && /^https?:\/\//i.test(url) && url.indexOf(placeholder) === -1;
+    }
+
     function safeSlug(value) {
       return String(value || '')
         .toLowerCase()
@@ -290,14 +295,38 @@
       }, 1000);
     }
 
+    function sendNotification(payload) {
+      if (!isConfiguredUrl(notifyWebhookUrl, 'REPLACE-WITH-YOUR-WEBHOOK-ID')) {
+        return Promise.resolve(false);
+      }
+
+      var body = JSON.stringify(payload);
+      if (navigator.sendBeacon) {
+        try {
+          var blob = new Blob([body], { type: 'text/plain;charset=UTF-8' });
+          var queued = navigator.sendBeacon(notifyWebhookUrl, blob);
+          return Promise.resolve(queued);
+        } catch (error) {}
+      }
+
+      return fetch(notifyWebhookUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+        body: body
+      })
+        .then(function () {
+          return true;
+        })
+        .catch(function () {
+          return false;
+        });
+    }
+
     form.addEventListener('submit', function (event) {
       event.preventDefault();
 
-      if (
-        !dropboxRequestUrl ||
-        dropboxRequestUrl.indexOf('REPLACE-WITH-YOUR-FILE-REQUEST-ID') !== -1 ||
-        !/^https?:\/\//i.test(dropboxRequestUrl)
-      ) {
+      if (!isConfiguredUrl(dropboxRequestUrl, 'REPLACE-WITH-YOUR-FILE-REQUEST-ID')) {
         setFormMessage(status, 'Dropbox File Request URL is not configured yet. Please contact lab admin.', 'error');
         return;
       }
@@ -355,7 +384,11 @@
         program_track: programTrack ? programTrack.value : '',
         affiliation: affiliation ? affiliation.value.trim() : '',
         research_proposal_note: proposalNote ? proposalNote.value.trim() : '',
-        special_note: specialNote ? specialNote.value.trim() : ''
+        special_note: specialNote ? specialNote.value.trim() : '',
+        files: {
+          cv_file_name: cv && cv.name ? cv.name : '',
+          cover_letter_file_name: cover && cover.name ? cover.name : ''
+        }
       };
 
       var slugBase = safeSlug(metadata.applicant_name || metadata.applicant_email || 'applicant');
@@ -379,6 +412,23 @@
           'success'
         );
       }
+
+      sendNotification(metadata).then(function (sent) {
+        if (!isConfiguredUrl(notifyWebhookUrl, 'REPLACE-WITH-YOUR-WEBHOOK-ID')) return;
+        if (!sent) {
+          setFormMessage(
+            status,
+            'Dropbox upload started. Notification delivery is not confirmed; please continue with Dropbox upload.',
+            'success'
+          );
+          return;
+        }
+        setFormMessage(
+          status,
+          'Dropbox upload started and notification was sent. Upload CV + cover letter + metadata JSON in Dropbox and submit.',
+          'success'
+        );
+      });
 
       refreshSecurityQuestion();
       startedAt = Date.now();
