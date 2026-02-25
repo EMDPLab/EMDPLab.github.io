@@ -738,8 +738,8 @@ main {
 
 .research-topic-card {
   display: grid;
-  grid-template-columns: minmax(320px, 1.05fr) minmax(0, 1fr);
-  gap: 18px;
+  grid-template-columns: minmax(240px, 0.78fr) minmax(0, 1.22fr);
+  gap: 20px;
   align-items: center;
 }
 
@@ -759,6 +759,8 @@ main {
   display: grid;
   gap: 12px;
   align-content: start;
+  width: min(100%, 360px);
+  justify-self: center;
 }
 
 .topic-media .photo-item {
@@ -769,6 +771,10 @@ main {
   transition: transform 0.32s var(--ease-smooth), box-shadow 0.32s ease;
 }
 
+.topic-lead img {
+  aspect-ratio: 16 / 10;
+}
+
 .topic-lead:hover,
 .topic-lead:focus-within {
   transform: translateY(-2px);
@@ -776,7 +782,7 @@ main {
 }
 
 .topic-thumb {
-  max-width: 72%;
+  max-width: 60%;
   justify-self: end;
   border-color: rgba(255, 255, 255, 0.86);
   box-shadow: 0 8px 18px rgba(15, 20, 40, 0.08);
@@ -808,6 +814,16 @@ main {
 }
 
 .research-topic .topic-summary {
+  margin-top: 0;
+}
+
+.topic-detail {
+  margin: 0;
+  max-width: 62ch;
+  color: var(--ink-soft);
+}
+
+.research-topic .topic-detail {
   margin-top: 0;
 }
 
@@ -1431,7 +1447,7 @@ body[data-device='mobile'] .application-form {
   }
 
   .topic-thumb {
-    max-width: 82%;
+    max-width: 70%;
   }
 
   .profile-photo {
