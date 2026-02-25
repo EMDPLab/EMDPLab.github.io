@@ -720,6 +720,13 @@ main {
   object-fit: cover;
 }
 
+.photo-item video {
+  width: 100%;
+  aspect-ratio: var(--media-ratio);
+  object-fit: cover;
+  display: block;
+}
+
 .photo-item figcaption {
   margin: 0;
   font-size: 0.82rem;
@@ -797,6 +804,10 @@ main {
 }
 
 .topic-thumb img {
+  aspect-ratio: 16 / 10;
+}
+
+.topic-thumb video {
   aspect-ratio: 16 / 10;
 }
 
