@@ -36,7 +36,7 @@ function doPost(e) {
       'Research proposal note:\n' + safeString_(payload.research_proposal_note) + '\n\n' +
       'Special note:\n' + safeString_(payload.special_note);
 
-    GmailApp.sendEmail(notifyTo, subject, body, {
+    safeSendEmail_(notifyTo, subject, body, {
       cc: notifyCc,
       replyTo: safeString_(payload.applicant_email),
       attachments: [cv.blob, cover.blob],
@@ -46,7 +46,7 @@ function doPost(e) {
     if (String(getProp_('SEND_APPLICANT_CONFIRMATION') || 'true').toLowerCase() === 'true') {
       var applicantEmail = safeString_(payload.applicant_email);
       if (applicantEmail) {
-        GmailApp.sendEmail(
+        safeSendEmail_(
           applicantEmail,
           '[EMDP Apply] Submission Received',
           'Your application has been received.\nSubmission ID: ' + submissionId + '\n\nEMDP Lab',
@@ -71,12 +71,28 @@ function doGet(_e) {
 
 function runSetupTest_() {
   var notifyTo = getProp_('NOTIFY_TO') || 'hodh123@gmail.com';
-  GmailApp.sendEmail(
+  var ownerEmail = '';
+  try {
+    ownerEmail = Session.getEffectiveUser().getEmail();
+  } catch (_error) {
+    ownerEmail = '';
+  }
+
+  safeSendEmail_(
     notifyTo,
     '[EMDP Apply] Setup Test',
-    'Apps Script setup test passed at ' + new Date().toISOString()
+    'Apps Script setup test passed at ' + new Date().toISOString() + '\nRecipient: ' + notifyTo
   );
-  Logger.log('Setup test email sent to ' + notifyTo);
+
+  if (ownerEmail && ownerEmail !== notifyTo) {
+    safeSendEmail_(
+      ownerEmail,
+      '[EMDP Apply] Setup Test (Owner Copy)',
+      'Apps Script setup test passed at ' + new Date().toISOString() + '\nPrimary recipient: ' + notifyTo
+    );
+  }
+
+  Logger.log('Setup test email sent. notifyTo=' + notifyTo + ', owner=' + ownerEmail);
 }
 
 function validatePayload_(p) {
@@ -138,4 +154,30 @@ function buildSubmissionId_() {
   var ts = new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
   var nonce = Math.random().toString(36).slice(2, 8);
   return ts + '-' + nonce;
+}
+
+function safeSendEmail_(to, subject, body, options) {
+  var lastError = '';
+  try {
+    GmailApp.sendEmail(to, subject, body, options || {});
+    return;
+  } catch (error) {
+    lastError = 'GmailApp failed: ' + String(error);
+  }
+
+  try {
+    MailApp.sendEmail(
+      Object.assign(
+        {
+          to: to,
+          subject: subject,
+          body: body
+        },
+        options || {}
+      )
+    );
+    return;
+  } catch (error2) {
+    throw new Error(lastError + ' | MailApp failed: ' + String(error2));
+  }
 }
