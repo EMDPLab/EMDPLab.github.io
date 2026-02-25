@@ -178,19 +178,23 @@
 
   function setupScrollReveal() {
     if (!prefersReducedMotion() && 'IntersectionObserver' in window) {
-      revealObserver = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            entry.target.classList.add('revealed');
-            revealObserver.unobserve(entry.target);
-          });
-        },
-        {
-          threshold: 0.16,
-          rootMargin: '0px 0px -8% 0px'
-        }
-      );
+      try {
+        revealObserver = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add('revealed');
+              revealObserver.unobserve(entry.target);
+            });
+          },
+          {
+            threshold: 0.16,
+            rootMargin: '0px 0px -8% 0px'
+          }
+        );
+      } catch (error) {
+        revealObserver = null;
+      }
     }
 
     refreshRevealTargets();
@@ -242,8 +246,18 @@
   }
 
   function refreshDynamicEffects() {
-    refreshRevealTargets();
-    setupCardTilt();
+    try {
+      refreshRevealTargets();
+    } catch (error) {}
+    try {
+      setupCardTilt();
+    } catch (error) {}
+  }
+
+  function runSafely(task) {
+    try {
+      task();
+    } catch (error) {}
   }
 
   function setFormMessage(target, text, kind) {
@@ -752,18 +766,22 @@
       });
   }
 
-  setupDeviceMode();
-  setActiveNav();
-  setupMenuToggle();
-  setupNavGlass();
-  setupScrollProgress();
-  setupScrollReveal();
-  setupCardTilt();
-  window.addEventListener('resize', setupCardTilt);
-  window.addEventListener('orientationchange', setupCardTilt);
-  setupInterestForm();
-  setupApplicationForm();
-  renderPublications();
-  renderInstruments();
-  renderTeamSections();
+  runSafely(setupDeviceMode);
+  runSafely(setActiveNav);
+  runSafely(setupMenuToggle);
+  runSafely(setupNavGlass);
+  runSafely(setupInterestForm);
+  runSafely(setupApplicationForm);
+  runSafely(renderPublications);
+  runSafely(renderInstruments);
+  runSafely(renderTeamSections);
+  runSafely(setupScrollProgress);
+  runSafely(setupScrollReveal);
+  runSafely(setupCardTilt);
+  window.addEventListener('resize', function () {
+    runSafely(setupCardTilt);
+  });
+  window.addEventListener('orientationchange', function () {
+    runSafely(setupCardTilt);
+  });
 })();
