@@ -262,7 +262,31 @@
     }
 
     function isConfiguredEndpoint(url) {
-      return !!url && /^https?:\/\//i.test(url) && url.indexOf('REPLACE-WITH-YOUR-WORKER-URL') === -1;
+      return (
+        !!url &&
+        /^https?:\/\//i.test(url) &&
+        url.indexOf('REPLACE-WITH-YOUR-UPLOAD-BACKEND') === -1 &&
+        url.indexOf('REPLACE-WITH-YOUR-WEB-APP-ID') === -1
+      );
+    }
+
+    function isAppsScriptEndpoint(url) {
+      return /script\.google\.com\/macros\/s\/.+\/exec/i.test(url);
+    }
+
+    function fileToBase64(file) {
+      return new Promise(function (resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function () {
+          var result = String(reader.result || '');
+          var commaIndex = result.indexOf(',');
+          resolve(commaIndex >= 0 ? result.slice(commaIndex + 1) : result);
+        };
+        reader.onerror = function () {
+          reject(new Error('File read failed'));
+        };
+        reader.readAsDataURL(file);
+      });
     }
 
     form.addEventListener('submit', function (event) {
@@ -324,11 +348,50 @@
       formData.set('source_page', window.location.href);
       formData.set('submitted_at', new Date().toISOString());
 
-      fetch(uploadEndpoint, {
-        method: 'POST',
-        body: formData
-      })
-        .then(function (response) {
+      var submitPromise;
+
+      if (isAppsScriptEndpoint(uploadEndpoint)) {
+        var submissionId =
+          new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14) + '-' + Math.random().toString(36).slice(2, 8);
+        submitPromise = Promise.all([fileToBase64(cv), fileToBase64(cover)]).then(function (encodedFiles) {
+          var payload = {
+            submission_id: submissionId,
+            submitted_at: new Date().toISOString(),
+            source_page: window.location.href,
+            applicant_name: String(formData.get('applicant_name') || ''),
+            applicant_email: String(formData.get('applicant_email') || ''),
+            program_track: String(formData.get('program_track') || ''),
+            affiliation: String(formData.get('affiliation') || ''),
+            research_proposal_note: String(formData.get('research_proposal_note') || ''),
+            special_note: String(formData.get('special_note') || ''),
+            files: {
+              cv: {
+                name: cv.name,
+                type: cv.type || 'application/pdf',
+                base64: encodedFiles[0]
+              },
+              cover_letter: {
+                name: cover.name,
+                type: cover.type || 'application/octet-stream',
+                base64: encodedFiles[1]
+              }
+            }
+          };
+
+          return fetch(uploadEndpoint, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+            body: JSON.stringify(payload)
+          }).then(function () {
+            return { success: true, submission_id: submissionId };
+          });
+        });
+      } else {
+        submitPromise = fetch(uploadEndpoint, {
+          method: 'POST',
+          body: formData
+        }).then(function (response) {
           return response
             .json()
             .catch(function () {
@@ -340,7 +403,10 @@
               }
               return payload;
             });
-        })
+        });
+      }
+
+      submitPromise
         .then(function (payload) {
           recordEvent('emdp_apply_submit');
           form.reset();
