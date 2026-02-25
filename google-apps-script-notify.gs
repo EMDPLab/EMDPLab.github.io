@@ -1,17 +1,12 @@
 /**
- * Google Apps Script endpoint:
- * - Receives JSON payload with base64 file contents from apply page
- * - Uploads files + metadata to Dropbox
- * - Sends Gmail notification
+ * EMDP Apply endpoint (Google Apps Script, free).
+ * Receives JSON payload with base64 files and sends them as Gmail attachments.
  *
- * Setup (Script Properties):
- * - DROPBOX_BASE_PATH (optional, default /EMDP-Lab-Applications)
- * - DROPBOX_ACCESS_TOKEN OR:
- *   - DROPBOX_REFRESH_TOKEN
- *   - DROPBOX_APP_KEY
- *   - DROPBOX_APP_SECRET
- * - NOTIFY_TO (optional, default hodh123@gmail.com)
- * - NOTIFY_CC (optional, default hodh123@dgist.ac.kr)
+ * Script Properties:
+ * - NOTIFY_TO (default: hodh123@gmail.com)
+ * - NOTIFY_CC (default: hodh123@dgist.ac.kr)
+ * - MAX_FILE_MB (default: 7)
+ * - SEND_APPLICANT_CONFIRMATION (true/false, default: true)
  */
 
 function doPost(e) {
@@ -20,49 +15,45 @@ function doPost(e) {
     var payload = JSON.parse(raw);
     validatePayload_(payload);
 
-    var submissionId = safeString_(payload.submission_id) || buildSubmissionId_(payload.applicant_name);
-    var date = new Date().toISOString().slice(0, 10);
-    var basePath = cleanPath_(getProp_('DROPBOX_BASE_PATH') || '/EMDP-Lab-Applications');
-    var folderPath = basePath + '/' + date + '/' + submissionId;
-    var token = getDropboxAccessToken_();
+    var maxFileBytes = Number(getProp_('MAX_FILE_MB') || 7) * 1024 * 1024;
+    var cv = buildAttachment_(payload.files.cv, ['pdf'], maxFileBytes, 'CV');
+    var cover = buildAttachment_(payload.files.cover_letter, ['pdf', 'doc', 'docx'], maxFileBytes, 'Cover letter');
 
-    ensureFolder_(token, folderPath);
+    var submissionId = safeString_(payload.submission_id) || buildSubmissionId_();
+    var notifyTo = getProp_('NOTIFY_TO') || 'hodh123@gmail.com';
+    var notifyCc = getProp_('NOTIFY_CC') || 'hodh123@dgist.ac.kr';
 
-    var cvName = uploadBase64File_(
-      token,
-      folderPath,
-      'cv',
-      payload.files.cv.name,
-      payload.files.cv.type,
-      payload.files.cv.base64
-    );
-    var coverName = uploadBase64File_(
-      token,
-      folderPath,
-      'cover-letter',
-      payload.files.cover_letter.name,
-      payload.files.cover_letter.type,
-      payload.files.cover_letter.base64
-    );
+    var subject = '[EMDP Apply] ' + safeString_(payload.applicant_name) + ' (' + safeString_(payload.program_track) + ')';
+    var body =
+      'A new application was submitted from the website.\n\n' +
+      'Submission ID: ' + submissionId + '\n' +
+      'Submitted at: ' + safeString_(payload.submitted_at) + '\n' +
+      'Name: ' + safeString_(payload.applicant_name) + '\n' +
+      'Email: ' + safeString_(payload.applicant_email) + '\n' +
+      'Track: ' + safeString_(payload.program_track) + '\n' +
+      'Affiliation: ' + safeString_(payload.affiliation) + '\n' +
+      'Source page: ' + safeString_(payload.source_page) + '\n\n' +
+      'Research proposal note:\n' + safeString_(payload.research_proposal_note) + '\n\n' +
+      'Special note:\n' + safeString_(payload.special_note);
 
-    var metadata = {
-      submission_id: submissionId,
-      submitted_at: safeString_(payload.submitted_at),
-      source_page: safeString_(payload.source_page),
-      applicant_name: safeString_(payload.applicant_name),
-      applicant_email: safeString_(payload.applicant_email),
-      program_track: safeString_(payload.program_track),
-      affiliation: safeString_(payload.affiliation),
-      research_proposal_note: safeString_(payload.research_proposal_note),
-      special_note: safeString_(payload.special_note),
-      files: {
-        cv: cvName,
-        cover_letter: coverName
+    GmailApp.sendEmail(notifyTo, subject, body, {
+      cc: notifyCc,
+      replyTo: safeString_(payload.applicant_email),
+      attachments: [cv.blob, cover.blob],
+      name: 'EMDP Lab Apply Bot'
+    });
+
+    if (String(getProp_('SEND_APPLICANT_CONFIRMATION') || 'true').toLowerCase() === 'true') {
+      var applicantEmail = safeString_(payload.applicant_email);
+      if (applicantEmail) {
+        GmailApp.sendEmail(
+          applicantEmail,
+          '[EMDP Apply] Submission Received',
+          'Your application has been received.\nSubmission ID: ' + submissionId + '\n\nEMDP Lab',
+          { name: 'EMDP Lab Apply Bot' }
+        );
       }
-    };
-
-    uploadTextFile_(token, folderPath + '/submission.json', JSON.stringify(metadata, null, 2));
-    sendNotification_(metadata, folderPath);
+    }
 
     return json_({ success: true, submission_id: submissionId });
   } catch (error) {
@@ -73,41 +64,19 @@ function doPost(e) {
 function doGet(_e) {
   return json_({
     ok: true,
-    service: 'emdp-apply-upload',
+    service: 'emdp-apply-mail-uploader',
     time: new Date().toISOString()
   });
 }
 
 function runSetupTest_() {
-  var token = getDropboxAccessToken_();
-  var accountResp = UrlFetchApp.fetch('https://api.dropboxapi.com/2/users/get_current_account', {
-    method: 'post',
-    muteHttpExceptions: true,
-    contentType: 'application/json',
-    headers: {
-      Authorization: 'Bearer ' + token
-    },
-    payload: '{}'
-  });
-  if (accountResp.getResponseCode() < 200 || accountResp.getResponseCode() >= 300) {
-    throw new Error('Dropbox auth test failed: ' + accountResp.getContentText());
-  }
-
-  sendNotification_(
-    {
-      submission_id: 'setup-test',
-      submitted_at: new Date().toISOString(),
-      applicant_name: 'Setup Test',
-      applicant_email: getProp_('NOTIFY_TO') || 'hodh123@gmail.com',
-      program_track: 'Setup',
-      affiliation: 'Setup',
-      research_proposal_note: 'This is a setup test email from Apps Script.',
-      special_note: ''
-    },
-    '(setup-test-folder)'
+  var notifyTo = getProp_('NOTIFY_TO') || 'hodh123@gmail.com';
+  GmailApp.sendEmail(
+    notifyTo,
+    '[EMDP Apply] Setup Test',
+    'Apps Script setup test passed at ' + new Date().toISOString()
   );
-
-  Logger.log('Setup test completed. Dropbox and Gmail notification are both working.');
+  Logger.log('Setup test email sent to ' + notifyTo);
 }
 
 function validatePayload_(p) {
@@ -118,131 +87,31 @@ function validatePayload_(p) {
   if (!safeString_(p.affiliation)) throw new Error('Missing affiliation');
   if (!safeString_(p.research_proposal_note)) throw new Error('Missing research proposal note');
   if (!p.files || !p.files.cv || !p.files.cover_letter) throw new Error('Missing files');
-  if (!safeString_(p.files.cv.base64) || !safeString_(p.files.cover_letter.base64)) throw new Error('Missing file bytes');
-}
-
-function sendNotification_(meta, folderPath) {
-  var to = getProp_('NOTIFY_TO') || 'hodh123@gmail.com';
-  var cc = getProp_('NOTIFY_CC') || 'hodh123@dgist.ac.kr';
-  var subject = '[EMDP Apply] ' + meta.applicant_name + ' (' + meta.program_track + ')';
-  var body =
-    'A new application was uploaded automatically.\n\n' +
-    'Submission ID: ' + meta.submission_id + '\n' +
-    'Submitted at: ' + meta.submitted_at + '\n' +
-    'Name: ' + meta.applicant_name + '\n' +
-    'Email: ' + meta.applicant_email + '\n' +
-    'Track: ' + meta.program_track + '\n' +
-    'Affiliation: ' + meta.affiliation + '\n' +
-    'Dropbox folder: ' + folderPath + '\n\n' +
-    'Research proposal note:\n' + meta.research_proposal_note + '\n\n' +
-    'Special note:\n' + meta.special_note;
-
-  GmailApp.sendEmail(to, subject, body, { cc: cc });
-}
-
-function uploadBase64File_(token, folderPath, prefix, originalName, mime, base64Data) {
-  var ext = getExtension_(originalName);
-  var safeBase = sanitize_(stripExtension_(originalName)) || 'file';
-  var path = folderPath + '/' + prefix + '-' + safeBase + (ext ? '.' + ext : '');
-  var bytes = Utilities.base64Decode(base64Data);
-
-  var response = UrlFetchApp.fetch('https://content.dropboxapi.com/2/files/upload', {
-    method: 'post',
-    muteHttpExceptions: true,
-    headers: {
-      Authorization: 'Bearer ' + token,
-      'Dropbox-API-Arg': JSON.stringify({
-        path: path,
-        mode: 'add',
-        autorename: true,
-        mute: true,
-        strict_conflict: false
-      }),
-      'Content-Type': mime || 'application/octet-stream'
-    },
-    payload: bytes
-  });
-
-  if (response.getResponseCode() < 200 || response.getResponseCode() >= 300) {
-    throw new Error('Dropbox upload failed: ' + response.getContentText());
-  }
-
-  var json = JSON.parse(response.getContentText());
-  return json.path_display || json.path_lower || path;
-}
-
-function uploadTextFile_(token, path, content) {
-  var response = UrlFetchApp.fetch('https://content.dropboxapi.com/2/files/upload', {
-    method: 'post',
-    muteHttpExceptions: true,
-    headers: {
-      Authorization: 'Bearer ' + token,
-      'Dropbox-API-Arg': JSON.stringify({
-        path: path,
-        mode: 'add',
-        autorename: true,
-        mute: true,
-        strict_conflict: false
-      }),
-      'Content-Type': 'application/octet-stream'
-    },
-    payload: Utilities.newBlob(content, 'application/json').getBytes()
-  });
-
-  if (response.getResponseCode() < 200 || response.getResponseCode() >= 300) {
-    throw new Error('Dropbox metadata upload failed: ' + response.getContentText());
+  if (!safeString_(p.files.cv.base64) || !safeString_(p.files.cover_letter.base64)) {
+    throw new Error('Missing file bytes');
   }
 }
 
-function ensureFolder_(token, path) {
-  var response = UrlFetchApp.fetch('https://api.dropboxapi.com/2/files/create_folder_v2', {
-    method: 'post',
-    muteHttpExceptions: true,
-    contentType: 'application/json',
-    headers: {
-      Authorization: 'Bearer ' + token
-    },
-    payload: JSON.stringify({ path: path, autorename: false })
-  });
-
-  if (response.getResponseCode() === 409) return;
-  if (response.getResponseCode() < 200 || response.getResponseCode() >= 300) {
-    throw new Error('Dropbox folder setup failed: ' + response.getContentText());
-  }
-}
-
-function getDropboxAccessToken_() {
-  var direct = getProp_('DROPBOX_ACCESS_TOKEN');
-  if (direct) return direct;
-
-  var refresh = getProp_('DROPBOX_REFRESH_TOKEN');
-  var appKey = getProp_('DROPBOX_APP_KEY');
-  var appSecret = getProp_('DROPBOX_APP_SECRET');
-  if (!refresh || !appKey || !appSecret) {
-    throw new Error('Dropbox credentials are not configured in Script Properties');
+function buildAttachment_(fileObj, allowedExt, maxBytes, label) {
+  var name = safeString_(fileObj.name);
+  var mime = safeString_(fileObj.type) || 'application/octet-stream';
+  var ext = getExtension_(name);
+  if (!allowedExt.includes(ext)) {
+    throw new Error(label + ' has invalid file type');
   }
 
-  var response = UrlFetchApp.fetch('https://api.dropboxapi.com/oauth2/token', {
-    method: 'post',
-    muteHttpExceptions: true,
-    headers: {
-      Authorization: 'Basic ' + Utilities.base64Encode(appKey + ':' + appSecret)
-    },
-    payload: {
-      grant_type: 'refresh_token',
-      refresh_token: refresh
-    }
-  });
-
-  if (response.getResponseCode() < 200 || response.getResponseCode() >= 300) {
-    throw new Error('Dropbox token refresh failed: ' + response.getContentText());
+  var bytes = Utilities.base64Decode(safeString_(fileObj.base64));
+  if (!bytes || !bytes.length) {
+    throw new Error(label + ' is empty');
+  }
+  if (bytes.length > maxBytes) {
+    throw new Error(label + ' exceeds size limit');
   }
 
-  var json = JSON.parse(response.getContentText());
-  if (!json.access_token) {
-    throw new Error('Dropbox token refresh response missing access token');
-  }
-  return json.access_token;
+  return {
+    blob: Utilities.newBlob(bytes, mime, name),
+    size: bytes.length
+  };
 }
 
 function json_(obj) {
@@ -259,36 +128,14 @@ function safeString_(value) {
   return String(value).trim();
 }
 
-function cleanPath_(path) {
-  var value = safeString_(path) || '/';
-  if (value.charAt(0) !== '/') value = '/' + value;
-  return value.replace(/\/+/g, '/').replace(/\/$/, '');
-}
-
-function sanitize_(value) {
-  return safeString_(value)
-    .toLowerCase()
-    .replace(/[^a-z0-9-_]+/g, '-')
-    .replace(/-{2,}/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 80);
-}
-
-function stripExtension_(name) {
-  var s = safeString_(name);
-  var i = s.lastIndexOf('.');
-  return i > 0 ? s.substring(0, i) : s;
-}
-
 function getExtension_(name) {
   var s = safeString_(name).toLowerCase();
   var i = s.lastIndexOf('.');
   return i > 0 ? s.substring(i + 1) : '';
 }
 
-function buildSubmissionId_(name) {
-  var base = sanitize_(name) || 'applicant';
+function buildSubmissionId_() {
   var ts = new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
   var nonce = Math.random().toString(36).slice(2, 8);
-  return ts + '-' + base + '-' + nonce;
+  return ts + '-' + nonce;
 }

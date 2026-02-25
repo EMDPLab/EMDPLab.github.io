@@ -421,7 +421,7 @@
               status,
               'Submission request sent. ID: ' +
                 submissionId +
-                '. If you do not receive email in 1 minute, check Apps Script Executions.',
+                '. You should receive confirmation email shortly. If not, check Apps Script Executions.',
               'success'
             );
             return;
