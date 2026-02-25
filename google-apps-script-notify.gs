@@ -69,7 +69,7 @@ function doGet(_e) {
   });
 }
 
-function runSetupTest_() {
+function runSetupTest() {
   var notifyTo = getProp_('NOTIFY_TO') || 'hodh123@gmail.com';
   var ownerEmail = '';
   try {
@@ -95,7 +95,7 @@ function runSetupTest_() {
   Logger.log('Setup test email sent. notifyTo=' + notifyTo + ', owner=' + ownerEmail);
 }
 
-function runEmailDiagnostics_() {
+function runEmailDiagnostics() {
   var notifyTo = getProp_('NOTIFY_TO') || 'hodh123@gmail.com';
   var ownerEmail = '';
   try {
