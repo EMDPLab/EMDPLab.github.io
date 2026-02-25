@@ -311,7 +311,7 @@ main {
   background:
     linear-gradient(112deg, rgba(12, 16, 28, 0.58), rgba(12, 16, 28, 0.33) 48%, rgba(12, 16, 28, 0.52)),
     radial-gradient(circle at 88% 20%, rgba(196, 32, 59, 0.22), transparent 35%),
-    url('assets/images/home-hero.jpg') center/cover no-repeat;
+    url('../images/home-hero.jpg') center/cover no-repeat;
 }
 
 .hero::after {

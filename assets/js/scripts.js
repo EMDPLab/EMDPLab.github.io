@@ -481,7 +481,7 @@
       return;
     }
 
-    fetch('publications-data.json')
+    fetch('data/publications-data.json')
       .then(function (response) {
         return response.json();
       })
@@ -497,7 +497,7 @@
     var target = byId('instrumentsTableBody');
     if (!target) return;
 
-    fetch('instruments-data.json')
+    fetch('data/instruments-data.json')
       .then(function (response) {
         return response.json();
       })
@@ -526,7 +526,7 @@
     var target = byId('alumniList');
     if (!target) return;
 
-    fetch('alumni-data.json')
+    fetch('data/alumni-data.json')
       .then(function (response) {
         return response.json();
       })
