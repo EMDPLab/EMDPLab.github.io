@@ -451,6 +451,15 @@
     return String(value).trim();
   }
 
+  function escapeHtml(value) {
+    return safeText(value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   function publicationItemHtml(item) {
     var linkHtml = item.link
       ? '<a class="pub-link" href="' + item.link + '" target="_blank" rel="noopener noreferrer">View publication</a>'
@@ -522,32 +531,84 @@
       });
   }
 
-  function renderAlumni() {
-    var target = byId('alumniList');
-    if (!target) return;
+  function teamMemberCardHtml(item) {
+    var photo = escapeHtml(item.photo || '');
+    var alt = escapeHtml(item.alt || item.name || 'Team member');
+    return (
+      '<article class="team-card">' +
+      (photo ? '<img class="team-photo" src="' + photo + '" alt="' + alt + '">' : '') +
+      '<div class="team-content">' +
+      '<p class="kicker">' + escapeHtml(item.role) + '</p>' +
+      '<h3>' + escapeHtml(item.name) + '</h3>' +
+      '<p><strong>' + escapeHtml(item.education) + '</strong></p>' +
+      '<p>' + escapeHtml(item.description) + '</p>' +
+      '</div>' +
+      '</article>'
+    );
+  }
 
-    fetch('data/alumni-data.json')
+  function teamHistoryCardHtml(item, label) {
+    return (
+      '<article class="team-card team-card-intern">' +
+      '<div class="team-content">' +
+      '<p class="kicker">' + escapeHtml(label) + '</p>' +
+      '<h3>' + escapeHtml(item.name) + '</h3>' +
+      '<p><strong>' + escapeHtml(item.period) + '</strong></p>' +
+      '<p>' + escapeHtml(item.topic) + '</p>' +
+      '</div>' +
+      '</article>'
+    );
+  }
+
+  function renderTeamSection(targetId, items, renderer, emptyMessage) {
+    var target = byId(targetId);
+    if (!target) return;
+    if (!Array.isArray(items) || items.length === 0) {
+      target.innerHTML =
+        '<article class="team-card team-card-intern"><div class="team-content"><p>' +
+        escapeHtml(emptyMessage) +
+        '</p></div></article>';
+      return;
+    }
+    target.innerHTML = items.map(renderer).join('');
+  }
+
+  function renderTeamSections() {
+    var hasTeamPageTargets =
+      byId('teamPhdList') || byId('teamCombinedList') || byId('teamMscList') || byId('internshipList') || byId('alumniList');
+    if (!hasTeamPageTargets) return;
+
+    fetch('data/team-data.json')
       .then(function (response) {
         return response.json();
       })
-      .then(function (items) {
-        target.innerHTML = items
-          .map(function (item) {
-            return (
-              '<article class="team-card team-card-intern">' +
-              '<div class="team-content">' +
-              '<p class="kicker">Internship</p>' +
-              '<h3>' + safeText(item.name) + '</h3>' +
-              '<p><strong>' + safeText(item.period) + '</strong></p>' +
-              '<p>' + safeText(item.topic) + '</p>' +
-              '</div>' +
-              '</article>'
-            );
-          })
-          .join('');
+      .then(function (data) {
+        renderTeamSection('teamPhdList', data.phd_course, teamMemberCardHtml, 'No PhD members listed yet.');
+        renderTeamSection('teamCombinedList', data.combined_course, teamMemberCardHtml, 'No combined-course members listed yet.');
+        renderTeamSection('teamMscList', data.msc_course, teamMemberCardHtml, 'No MSC members listed yet.');
+        renderTeamSection(
+          'internshipList',
+          data.internship,
+          function (item) {
+            return teamHistoryCardHtml(item, 'Internship');
+          },
+          'No active internship members listed right now.'
+        );
+        renderTeamSection(
+          'alumniList',
+          data.alumni,
+          function (item) {
+            return teamHistoryCardHtml(item, 'Alumni');
+          },
+          'No alumni listed yet.'
+        );
       })
       .catch(function () {
-        target.innerHTML = '<article class="team-card team-card-intern"><div class="team-content"><p>Internship data could not be loaded.</p></div></article>';
+        renderTeamSection('teamPhdList', [], teamMemberCardHtml, 'Team data could not be loaded.');
+        renderTeamSection('teamCombinedList', [], teamMemberCardHtml, 'Team data could not be loaded.');
+        renderTeamSection('teamMscList', [], teamMemberCardHtml, 'Team data could not be loaded.');
+        renderTeamSection('internshipList', [], teamHistoryCardHtml, 'Team data could not be loaded.');
+        renderTeamSection('alumniList', [], teamHistoryCardHtml, 'Team data could not be loaded.');
       });
   }
 
@@ -559,5 +620,5 @@
   setupApplicationForm();
   renderPublications();
   renderInstruments();
-  renderAlumni();
+  renderTeamSections();
 })();
