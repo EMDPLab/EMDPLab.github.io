@@ -95,6 +95,32 @@ function runSetupTest_() {
   Logger.log('Setup test email sent. notifyTo=' + notifyTo + ', owner=' + ownerEmail);
 }
 
+function runEmailDiagnostics_() {
+  var notifyTo = getProp_('NOTIFY_TO') || 'hodh123@gmail.com';
+  var ownerEmail = '';
+  try {
+    ownerEmail = Session.getEffectiveUser().getEmail();
+  } catch (_error) {
+    ownerEmail = '(unavailable)';
+  }
+
+  var quota = MailApp.getRemainingDailyQuota();
+  var stamp = new Date().toISOString();
+  var subject = '[EMDP Apply] Mail Diagnostic ' + stamp;
+  var body =
+    'Diagnostic timestamp: ' + stamp + '\n' +
+    'Owner email: ' + ownerEmail + '\n' +
+    'NOTIFY_TO: ' + notifyTo + '\n' +
+    'Remaining quota: ' + quota + '\n';
+
+  safeSendEmail_(notifyTo, subject, body);
+  if (ownerEmail && ownerEmail !== '(unavailable)' && ownerEmail !== notifyTo) {
+    safeSendEmail_(ownerEmail, subject + ' (Owner Copy)', body);
+  }
+
+  Logger.log('Diagnostic sent. owner=' + ownerEmail + ', notifyTo=' + notifyTo + ', quota=' + quota);
+}
+
 function validatePayload_(p) {
   if (!p) throw new Error('Missing payload');
   if (!safeString_(p.applicant_name)) throw new Error('Missing applicant name');
