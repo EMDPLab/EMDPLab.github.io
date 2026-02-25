@@ -330,9 +330,10 @@
         return;
       }
 
-      var maxSize = 10 * 1024 * 1024;
+      var maxSizeMb = isAppsScriptEndpoint(uploadEndpoint) ? 7 : 10;
+      var maxSize = maxSizeMb * 1024 * 1024;
       if (cv.size > maxSize || cover.size > maxSize) {
-        setFormMessage(status, 'Each file must be 10MB or smaller.', 'error');
+        setFormMessage(status, 'Each file must be ' + maxSizeMb + 'MB or smaller.', 'error');
         return;
       }
 
@@ -384,7 +385,7 @@
             headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
             body: JSON.stringify(payload)
           }).then(function () {
-            return { success: true, submission_id: submissionId };
+            return { queued: true, submission_id: submissionId };
           });
         });
       } else {
@@ -415,6 +416,16 @@
           if (startedField) startedField.value = String(startedAt);
 
           var submissionId = payload && payload.submission_id ? payload.submission_id : '';
+          if (payload && payload.queued) {
+            setFormMessage(
+              status,
+              'Submission request sent. ID: ' +
+                submissionId +
+                '. If you do not receive email in 1 minute, check Apps Script Executions.',
+              'success'
+            );
+            return;
+          }
           if (submissionId) {
             setFormMessage(status, 'Application uploaded successfully. Submission ID: ' + submissionId, 'success');
             return;

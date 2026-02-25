@@ -70,6 +70,46 @@ function doPost(e) {
   }
 }
 
+function doGet(_e) {
+  return json_({
+    ok: true,
+    service: 'emdp-apply-upload',
+    time: new Date().toISOString()
+  });
+}
+
+function runSetupTest_() {
+  var token = getDropboxAccessToken_();
+  var accountResp = UrlFetchApp.fetch('https://api.dropboxapi.com/2/users/get_current_account', {
+    method: 'post',
+    muteHttpExceptions: true,
+    contentType: 'application/json',
+    headers: {
+      Authorization: 'Bearer ' + token
+    },
+    payload: '{}'
+  });
+  if (accountResp.getResponseCode() < 200 || accountResp.getResponseCode() >= 300) {
+    throw new Error('Dropbox auth test failed: ' + accountResp.getContentText());
+  }
+
+  sendNotification_(
+    {
+      submission_id: 'setup-test',
+      submitted_at: new Date().toISOString(),
+      applicant_name: 'Setup Test',
+      applicant_email: getProp_('NOTIFY_TO') || 'hodh123@gmail.com',
+      program_track: 'Setup',
+      affiliation: 'Setup',
+      research_proposal_note: 'This is a setup test email from Apps Script.',
+      special_note: ''
+    },
+    '(setup-test-folder)'
+  );
+
+  Logger.log('Setup test completed. Dropbox and Gmail notification are both working.');
+}
+
 function validatePayload_(p) {
   if (!p) throw new Error('Missing payload');
   if (!safeString_(p.applicant_name)) throw new Error('Missing applicant name');
@@ -222,7 +262,7 @@ function safeString_(value) {
 function cleanPath_(path) {
   var value = safeString_(path) || '/';
   if (value.charAt(0) !== '/') value = '/' + value;
-  return value.replace(/\\/+/g, '/').replace(/\\/$/, '');
+  return value.replace(/\/+/g, '/').replace(/\/$/, '');
 }
 
 function sanitize_(value) {
