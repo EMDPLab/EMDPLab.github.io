@@ -1,6 +1,53 @@
 (function () {
+  var THEME_STORAGE_KEY = 'emdp_theme_version';
+  var DEFAULT_THEME = 'current';
+  var ALLOWED_THEMES = { current: true, previous: true };
+
   function byId(id) {
     return document.getElementById(id);
+  }
+
+  function resolveTheme(theme) {
+    return ALLOWED_THEMES[theme] ? theme : DEFAULT_THEME;
+  }
+
+  function applyTheme(theme) {
+    var safeTheme = resolveTheme(theme);
+    document.body.setAttribute('data-theme', safeTheme);
+    document.querySelectorAll('.theme-option').forEach(function (option) {
+      var active = option.getAttribute('data-theme-value') === safeTheme;
+      option.classList.toggle('active', active);
+      option.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+  }
+
+  function getStoredTheme() {
+    try {
+      return resolveTheme(window.localStorage.getItem(THEME_STORAGE_KEY));
+    } catch (error) {
+      return DEFAULT_THEME;
+    }
+  }
+
+  function storeTheme(theme) {
+    try {
+      window.localStorage.setItem(THEME_STORAGE_KEY, resolveTheme(theme));
+    } catch (error) {}
+  }
+
+  function setupThemeSelector() {
+    var selectedTheme = getStoredTheme();
+    applyTheme(selectedTheme);
+
+    document.querySelectorAll('.theme-option').forEach(function (option) {
+      if (option.getAttribute('data-theme-bound') === '1') return;
+      option.setAttribute('data-theme-bound', '1');
+      option.addEventListener('click', function () {
+        var nextTheme = resolveTheme(option.getAttribute('data-theme-value') || DEFAULT_THEME);
+        applyTheme(nextTheme);
+        storeTheme(nextTheme);
+      });
+    });
   }
 
   function setActiveNav() {
@@ -766,6 +813,7 @@
       });
   }
 
+  runSafely(setupThemeSelector);
   runSafely(setupDeviceMode);
   runSafely(setActiveNav);
   runSafely(setupMenuToggle);
