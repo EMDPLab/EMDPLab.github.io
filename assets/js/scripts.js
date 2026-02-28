@@ -355,7 +355,7 @@
       window.matchMedia('(pointer: coarse)').matches ||
       document.body.getAttribute('data-performance') === 'lite';
     var targets = document.querySelectorAll(
-      '.site-nav, .theme-switch, .hero, .card, .contact, .metric-card, .fit-item, .step-card, .team-card, .photo-item, .news-media, .publication-item, .apply-form-side, .application-form'
+      '.hero, .card, .contact, .metric-card, .fit-item, .step-card, .team-card, .photo-item, .news-media, .publication-item, .apply-form-side, .application-form'
     );
 
     function setDefault(target) {
@@ -879,6 +879,37 @@
       });
   }
 
+  function setupPublicationsTopButton() {
+    var list = byId('publicationsList');
+    if (!list) return;
+
+    var section = list.closest('.section') || list.parentElement;
+    if (!section || section.getAttribute('data-top-bound') === '1') return;
+    section.setAttribute('data-top-bound', '1');
+
+    var wrap = document.createElement('div');
+    wrap.className = 'pub-top-wrap';
+    wrap.innerHTML = '<button type="button" class="pub-top-btn" aria-label="Go to top of page">Back to Top</button>';
+    section.appendChild(wrap);
+
+    var button = wrap.querySelector('.pub-top-btn');
+    if (!button) return;
+
+    button.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    function refreshVisibility() {
+      var threshold = section.offsetTop + 180;
+      var visible = (window.pageYOffset || document.documentElement.scrollTop || 0) > threshold;
+      button.classList.toggle('visible', visible);
+    }
+
+    window.addEventListener('scroll', refreshVisibility, { passive: true });
+    window.addEventListener('resize', refreshVisibility);
+    refreshVisibility();
+  }
+
   function renderInstruments() {
     var target = byId('instrumentsTableBody');
     if (!target) return;
@@ -1009,6 +1040,7 @@
   runSafely(setupInterestForm);
   runSafely(setupApplicationForm);
   runSafely(renderPublications);
+  runSafely(setupPublicationsTopButton);
   runSafely(renderInstruments);
   runSafely(renderTeamSections);
   runSafely(setupScrollProgress);
