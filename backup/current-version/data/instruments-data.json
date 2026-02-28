@@ -1,0 +1,219 @@
+[
+  {
+    "number": 31,
+    "name": "Tabletop digital multimeter",
+    "manufacturer": "Kiethley",
+    "model": "DM65000",
+    "spec": "6 1/2 Digit benchtop"
+  },
+  {
+    "number": 30,
+    "name": "Film applicator",
+    "manufacturer": "Korea",
+    "model": "117",
+    "spec": "variable thickness thin film applicator"
+  },
+  {
+    "number": 29,
+    "name": "Digital temperature measure",
+    "manufacturer": "Testo",
+    "model": "922",
+    "spec": "2 channel K-thermocouple"
+  },
+  {
+    "number": 28,
+    "name": "Dremel",
+    "manufacturer": "Dremel",
+    "model": "4250-3",
+    "spec": ""
+  },
+  {
+    "number": 27,
+    "name": "Timelapse camera",
+    "manufacturer": "Brino",
+    "model": "BAC2000",
+    "spec": ""
+  },
+  {
+    "number": 26,
+    "name": "Drill press",
+    "manufacturer": "Korea",
+    "model": "HS-DM10",
+    "spec": "Metal, wood available"
+  },
+  {
+    "number": 25,
+    "name": "Angle grinder",
+    "manufacturer": "TICHOP",
+    "model": "DC-9913",
+    "spec": "Metal, wood available"
+  },
+  {
+    "number": 24,
+    "name": "Macro lens",
+    "manufacturer": "LAOWA",
+    "model": "25mm f/2.8 2.5-5X",
+    "spec": ""
+  },
+  {
+    "number": 23,
+    "name": "Digital Camera",
+    "manufacturer": "Canon",
+    "model": "R50V",
+    "spec": "24.2MP/ 14-30mm kit lens"
+  },
+  {
+    "number": 22,
+    "name": "Hotplate stirrer",
+    "manufacturer": "various",
+    "model": "",
+    "spec": "total of 7 hotplate"
+  },
+  {
+    "number": 21,
+    "name": "Convection oven",
+    "manufacturer": "Tesla science",
+    "model": "KWGL-65L",
+    "spec": "65 L"
+  },
+  {
+    "number": 20,
+    "name": "Vacuum oven",
+    "manufacturer": "Jeiotech",
+    "model": "OV-11",
+    "spec": "28 L"
+  },
+  {
+    "number": 19,
+    "name": "Soldering station",
+    "manufacturer": "HAKKO",
+    "model": "FA-400",
+    "spec": "temp control possible, smoke absorber included"
+  },
+  {
+    "number": 18,
+    "name": "Motorized drill",
+    "manufacturer": "Milwaukee",
+    "model": "M18 FID2, M18 FDD2",
+    "spec": ""
+  },
+  {
+    "number": 17,
+    "name": "Heat gun",
+    "manufacturer": "BOSCH",
+    "model": "GHG 20-63",
+    "spec": "2000W"
+  },
+  {
+    "number": 16,
+    "name": "Spray setup",
+    "manufacturer": "Beetle bug",
+    "model": "Gunze Tank Full package",
+    "spec": "Spray booth, spray gun included"
+  },
+  {
+    "number": 15,
+    "name": "Pen XY plotter",
+    "manufacturer": "GRBL plotter",
+    "model": "GRBL plotter",
+    "spec": "Laser attachable"
+  },
+  {
+    "number": 14,
+    "name": "Ultrasonic homogenizer",
+    "manufacturer": "DAIHAN Scientific",
+    "model": "UH-300",
+    "spec": "25-250W, 2mm probe size, power rate 1-35%"
+  },
+  {
+    "number": 13,
+    "name": "DC power supply",
+    "manufacturer": "RIGOL",
+    "model": "DP2031",
+    "spec": "3 channel 32V/3A, 32V/3A, 6V/5A"
+  },
+  {
+    "number": 12,
+    "name": "Source meter",
+    "manufacturer": "Keithley",
+    "model": "2612B",
+    "spec": "200V, 100fA, 1.5A DC/10A Pulse"
+  },
+  {
+    "number": 11,
+    "name": "Triple channel DC power supply",
+    "manufacturer": "Keithley",
+    "model": "2230-30-6",
+    "spec": ""
+  },
+  {
+    "number": 10,
+    "name": "Data acquisition/multimeter system",
+    "manufacturer": "Keithley",
+    "model": "DAQ6510",
+    "spec": "40 channel multiplexer card attached"
+  },
+  {
+    "number": 9,
+    "name": "Precision current source",
+    "manufacturer": "Keithley",
+    "model": "6220",
+    "spec": ""
+  },
+  {
+    "number": 8,
+    "name": "Nanovoltemeter",
+    "manufacturer": "Keithley",
+    "model": "2182A",
+    "spec": ""
+  },
+  {
+    "number": 7,
+    "name": "Laser cutter",
+    "manufacturer": "THUNDER LASER",
+    "model": "Bolt pro 32",
+    "spec": "RF laser tube, dust collector attached"
+  },
+  {
+    "number": 6,
+    "name": "Digital microscope",
+    "manufacturer": "Leica",
+    "model": "DMV 6A",
+    "spec": "XYZ motor stage, tilt and rotation available, 10MP image, PLANAPO FOV 12.55"
+  },
+  {
+    "number": 5,
+    "name": "Planetary mixer",
+    "manufacturer": "HAN Tech",
+    "model": "HAN Tech",
+    "spec": "1400 RPM maximum"
+  },
+  {
+    "number": 4,
+    "name": "IR Camera",
+    "manufacturer": "FLIR",
+    "model": "ETS 320",
+    "spec": "320 x 240 Resolution"
+  },
+  {
+    "number": 3,
+    "name": "SLA 3D printer",
+    "manufacturer": "Formlabs",
+    "model": "Form 4",
+    "spec": "Cleaner, Post curing station included"
+  },
+  {
+    "number": 2,
+    "name": "FFF 3D printer",
+    "manufacturer": "Bambu Lab",
+    "model": "X1-Carbon",
+    "spec": "Filament drier attached"
+  },
+  {
+    "number": 1,
+    "name": "Oscilloscope",
+    "manufacturer": "RIGOL",
+    "model": "DHO 1204U",
+    "spec": "200MHz, 4 channel, 2GSa/s, 12 bit"
+  }
+]

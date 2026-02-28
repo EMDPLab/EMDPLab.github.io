@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Recent news from EMDP Lab.">
-  <title>EMDP Lab | News</title>
+  <meta name="description" content="Projects and publications from EMDP Lab.">
+  <title>EMDP Lab | Projects</title>
   <link rel="stylesheet" href="assets/css/style.css">
+  <script src="data/publications-data.js" defer></script>
   <script src="assets/js/scripts.js" defer></script>
 </head>
-<body data-page="news">
+<body data-page="projects">
   <header class="site-header">
     <div class="container nav-wrap">
       <a class="brand" href="index.html" aria-label="EMDP Lab Home">
@@ -28,66 +29,53 @@
       <div class="theme-switch" role="group" aria-label="Theme version selector">
         <button class="theme-option" type="button" data-theme-value="current" aria-pressed="false">Current</button>
         <button class="theme-option" type="button" data-theme-value="previous" aria-pressed="false">Previous</button>
-        <a class="theme-option theme-option-link" href="backup/current-version/index.html">Backup</a>
       </div>
     </div>
   </header>
 
   <main>
     <div class="container">
-      <h1 class="page-title">News</h1>
-      <p class="page-intro">Follow lab momentum and student growth milestones. These updates reflect active projects, funding, and team expansion.</p>
-
-      <section class="section grid grid-3 news-grid">
-        <article class="card news-card">
-          <h2>3. Welcome to the New Student</h2>
-          <figure class="news-media">
-            <img src="assets/images/news-negasi.png" alt="Negasi Teklay Weldesemat">
-          </figure>
-          <p>Negasi Teklay Weldesemat has joined the lab as a PhD candidate for the Fall 2025 semester. He will focus on developing deep learning-based material exploration techniques. Welcome to the EMDP lab!</p>
-        </article>
-
-        <article class="card news-card">
-          <h2>2. 2025 Summer Internship</h2>
-          <figure class="news-media">
-            <img src="assets/images/news-internship-2025.png" alt="2025 summer internship">
-          </figure>
-          <p>2025 summer season internship is successfully finished! Both of them made great progess in the set-up and delivered meaningful data.</p>
-        </article>
-
-        <article class="card news-card">
-          <h2>1. First Research Fund Granted</h2>
-          <figure class="news-media">
-            <img src="assets/images/news-fund-2025.jpg" alt="National Research Foundation of Korea symbol">
-          </figure>
-          <p>EMDP Lab received its first research fund from the National Research Foundation of Korea (RS-2025-00523249).</p>
-        </article>
-      </section>
+      <h1 class="page-title">Projects and Publications</h1>
+      <p class="page-intro">Research outcomes demonstrate the lab's execution quality and provide clear evidence of publication-oriented mentorship.</p>
 
       <section class="section card quick-fit">
-        <h2 class="section-title">For Prospective Students</h2>
+        <h2 class="section-title">Why This Matters for New Students</h2>
         <div class="fit-grid">
           <article class="fit-item">
-            <h3>Growing Team</h3>
-            <p>Recent member onboarding indicates active mentorship capacity and project expansion.</p>
+            <h3>Real Output Standard</h3>
+            <p>Projects are scoped around results that can move toward conference and journal publication.</p>
           </article>
           <article class="fit-item">
-            <h3>Funded Research</h3>
-            <p>National-level funding supports stable project execution and long-term student training.</p>
+            <h3>Structured Guidance</h3>
+            <p>Students are supported from experiment design through manuscript-quality figure building.</p>
           </article>
           <article class="fit-item">
-            <h3>Hands-On Opportunities</h3>
-            <p>Internship outcomes show that new members can contribute quickly with structured guidance.</p>
+            <h3>Research Visibility</h3>
+            <p>Strong publication culture helps students build profile and momentum for future careers.</p>
           </article>
         </div>
       </section>
 
+      <section class="section card">
+        <h2 class="section-title">Journal Covers</h2>
+        <div class="grid grid-3 cover-grid">
+          <figure class="photo-item"><img src="assets/images/cover-aenm.jpg" alt="AENM cover"></figure>
+          <figure class="photo-item"><img src="assets/images/cover-11.webp" alt="Journal cover"></figure>
+          <figure class="photo-item"><img src="assets/images/cover-jpcc.jpg" alt="JPCC cover"></figure>
+        </div>
+      </section>
+
+      <section class="section card">
+        <h2 class="section-title">Publication List</h2>
+        <ul id="publicationsList" class="publications"></ul>
+      </section>
+
       <section class="section card join-panel">
-        <h2 class="section-title">Join at the Right Time</h2>
-        <p>We are currently onboarding new students and interns. Reach out early to discuss fit and project options.</p>
+        <h2 class="section-title">Build Your First Publication with Us</h2>
+        <p>If you want to grow through rigorous experiments and high-quality writing, EMDP Lab is recruiting now.</p>
         <div class="cta-strip">
-          <a class="cta-link" href="apply.html">Contact for Openings</a>
-          <a class="cta-link alt" href="research.html">Explore Topics</a>
+          <a class="cta-link" href="apply.html">Apply for Publication Track</a>
+          <a class="cta-link alt" href="team.html">Check Team Openings</a>
         </div>
       </section>
 
@@ -101,8 +89,8 @@
           </div>
           <div>
             <form class="interest-form">
-              <label for="interestEmailNews">Enter Your Email Here</label>
-              <input id="interestEmailNews" type="email" required placeholder="you@example.com">
+              <label for="interestEmailProjects">Enter Your Email Here</label>
+              <input id="interestEmailProjects" type="email" required placeholder="you@example.com">
               <button type="submit">Subscribe</button>
             </form>
           </div>

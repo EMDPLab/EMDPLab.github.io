@@ -1,0 +1,53 @@
+{
+  "phd_course": [
+    {
+      "name": "Negasi Teklay Weldesemat",
+      "role": "PhD Candidate",
+      "education": "Myongji Univ. MSc",
+      "description": "Working on deep learning-based materials exploration and GaOx-based electronics fabrication techniques.",
+      "photo": "assets/images/team-negasi.png",
+      "alt": "Negasi Teklay Weldesemat"
+    }
+  ],
+  "combined_course": [
+    {
+      "name": "Jihyun Yu",
+      "role": "Integrated PhD Program",
+      "education": "Kangwon National Univ. BS",
+      "description": "Project W.I.P.",
+      "photo": "assets/images/team-jihyun-yu.jpeg",
+      "alt": "Jihyun Yu"
+    },
+    {
+      "name": "In Ja Park",
+      "role": "Integrated PhD Program",
+      "education": "Kangwon National Univ. BS",
+      "description": "Project W.I.P.",
+      "photo": "assets/images/team-in-ja-park.jpeg",
+      "alt": "In Ja Park"
+    }
+  ],
+  "msc_course": [
+    {
+      "name": "Junhyeong Seo",
+      "role": "Master's Program",
+      "education": "Kumoh National Institute of Technology. BS",
+      "description": "Project W.I.P.",
+      "photo": "assets/images/team-junhyeong-seo.jpeg",
+      "alt": "Junhyeong Seo"
+    }
+  ],
+  "internship": [],
+  "alumni": [
+    {
+      "name": "장호원",
+      "period": "2025년 하계 인턴",
+      "topic": "GaOx semiconductor fabrication"
+    },
+    {
+      "name": "김민승",
+      "period": "2024년 동계 인턴 / 2025년 하계 인턴",
+      "topic": "Elastocaloric effect"
+    }
+  ]
+}
