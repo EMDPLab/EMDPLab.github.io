@@ -1,7 +1,7 @@
 (function () {
   var THEME_STORAGE_KEY = 'emdp_theme_version';
   var DEFAULT_THEME = 'current';
-  var ALLOWED_THEMES = { current: true, previous: true };
+  var ALLOWED_THEMES = { current: true };
   var THEME_OPTION_SELECTOR = '.theme-option[data-theme-value]';
 
   function byId(id) {

@@ -1695,7 +1695,7 @@ body[data-device='mobile'] .application-form {
   }
 }
 
-/* Theme versions: default current = iOS-like glass, previous = legacy */
+/* Theme version: current (iOS-like glass) */
 :root {
   --glass-blur: 22px;
   --glass-surface: rgba(248, 251, 255, 0.56);
@@ -1733,30 +1733,6 @@ body[data-theme='current'] {
   --aura-bottom: rgba(47, 105, 255, 0.16);
   --aura-orb-left: rgba(141, 184, 255, 0.26);
   --aura-orb-right: rgba(96, 215, 255, 0.22);
-}
-
-body[data-theme='previous'] {
-  --font-main: 'Montserrat', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
-  --font-accent: 'Montserrat', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
-  --bg-canvas: #f5f6f8;
-  --bg-soft: #eceff5;
-  --bg-tint: #f9f4f5;
-  --glass: rgba(255, 255, 255, 0.66);
-  --glass-strong: rgba(255, 255, 255, 0.84);
-  --glass-line: rgba(255, 255, 255, 0.92);
-  --ink: #1d1d1f;
-  --ink-soft: #3f4757;
-  --ink-muted: #727b90;
-  --brand: #c4203b;
-  --brand-strong: #9f1830;
-  --brand-soft: rgba(196, 32, 59, 0.14);
-  --accent: #f7941d;
-  --shadow: 0 18px 52px rgba(15, 20, 40, 0.12);
-  --shadow-soft: 0 8px 28px rgba(15, 20, 40, 0.08);
-  --aura-top: rgba(196, 32, 59, 0.16);
-  --aura-bottom: rgba(247, 148, 29, 0.14);
-  --aura-orb-left: rgba(196, 32, 59, 0.16);
-  --aura-orb-right: rgba(247, 148, 29, 0.16);
 }
 
 body {
@@ -1991,23 +1967,6 @@ body[data-device='mobile'] .site-nav {
 
 .dynamic-tilt:hover {
   box-shadow: 0 18px 36px rgba(40, 67, 136, 0.16);
-}
-
-body[data-theme='previous'] {
-  background-attachment: initial;
-}
-
-body[data-theme='previous'] .theme-option.active {
-  background: linear-gradient(145deg, var(--brand), var(--brand-strong));
-  box-shadow: 0 8px 18px rgba(159, 24, 48, 0.26);
-}
-
-body[data-theme='previous'] .nav-glass-indicator {
-  display: none;
-}
-
-body[data-theme='previous'] .site-header {
-  background: rgba(247, 248, 251, 0.74);
 }
 
 @media (max-width: 980px) {
@@ -2360,10 +2319,6 @@ body[data-performance='lite'] .photo-item,
 body[data-performance='lite'] .team-card {
   backdrop-filter: blur(10px) !important;
   -webkit-backdrop-filter: blur(10px) !important;
-}
-
-body[data-theme='previous'] .theme-switch-thumb {
-  display: none;
 }
 
 body[data-theme='current'] .reveal-ready {
