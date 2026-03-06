@@ -14,7 +14,7 @@
       "name": "Jihyun Yu",
       "role": "Integrated PhD Program",
       "education": "Kangwon National Univ. BS",
-      "description": "Developing an initial project at the intersection of materials processing and device-level evaluation.",
+      "description": "Project W.I.P.",
       "photo": "assets/images/team-jihyun-yu.jpeg",
       "alt": "Jihyun Yu"
     },
@@ -22,7 +22,7 @@
       "name": "In Ja Park",
       "role": "Integrated PhD Program",
       "education": "Kangwon National Univ. BS",
-      "description": "Working toward a research direction focused on materials design, characterization, and reproducible process development.",
+      "description": "Project W.I.P.",
       "photo": "assets/images/team-in-ja-park.jpeg",
       "alt": "In Ja Park"
     }
@@ -32,12 +32,18 @@
       "name": "Junhyeong Seo",
       "role": "Master's Program",
       "education": "Kumoh National Institute of Technology. BS",
-      "description": "Building a master's project around process optimization and experimental validation in energy materials systems.",
+      "description": "Project W.I.P.",
       "photo": "assets/images/team-junhyeong-seo.jpeg",
       "alt": "Junhyeong Seo"
     }
   ],
-  "internship": [],
+  "internship": [
+    {
+      "name": "금정우",
+      "period": "2025년 동계 인턴 및 현재 인턴 · DGIST",
+      "topic": "Elastocaloric effect"
+    }
+  ],
   "alumni": [
     {
       "name": "장호원",
