@@ -690,17 +690,25 @@
     return '<span class="skeleton-line ' + widthClass + '"></span>';
   }
 
+  var publicationDoiOverrides = {
+    38: '10.1016/j.compositesb.2025.112626',
+    13: '10.31613/ceramist.2020.23.1.04',
+    10: '10.1016/j.nanoen.2020.105262',
+    1: '10.1002/adma.201505739'
+  };
+
   function publicationSkeletonHtml() {
     return (
-      '<li class="publication-item publication-item-skeleton">' +
+      '<article class="publication-item publication-item-skeleton">' +
       '<div class="pub-head">' +
-      skeletonLine('w-12') +
+      skeletonLine('w-18') +
       skeletonLine('w-18') +
       '</div>' +
       skeletonLine('w-88') +
       skeletonLine('w-72') +
       skeletonLine('w-64') +
-      '</li>'
+      skeletonLine('w-56') +
+      '</article>'
     );
   }
 
@@ -746,25 +754,183 @@
     refreshDynamicEffects();
   }
 
+  function sanitizeDoi(value) {
+    return safeText(value)
+      .replace(/^https?:\/\/(?:dx\.)?doi\.org\//i, '')
+      .replace(/^doi:\s*/i, '')
+      .replace(/[)\],.;]+$/g, '')
+      .trim();
+  }
+
+  function extractDoiFromLink(link) {
+    var value = safeText(link).trim();
+    var normalized = value;
+    var match = null;
+
+    if (!value || !/^https?:\/\//i.test(value)) return '';
+
+    try {
+      normalized = decodeURIComponent(value);
+    } catch (error) {}
+
+    match = normalized.match(/10\.\d{4,9}\/[^?#\s]+/i);
+    if (match) return sanitizeDoi(match[0]);
+
+    match = normalized.match(/nature\.com\/articles\/([^/?#]+)/i);
+    if (match) return sanitizeDoi('10.1038/' + match[1]);
+
+    match = normalized.match(/\/article\/(10\.\d{4,9}\/[^?#\s]+)/i);
+    if (match) return sanitizeDoi(match[1]);
+
+    return '';
+  }
+
+  function isPatentRecord(item) {
+    return /patent/i.test(safeText(item.venue)) || safeText(item.link).toLowerCase() === 'http://patent';
+  }
+
+  function hasUsablePublicationLink(link) {
+    var value = safeText(link).trim();
+    return /^https?:\/\//i.test(value) && value.toLowerCase() !== 'http://patent';
+  }
+
+  function publicationDoiValue(item) {
+    if (item && item.doi) return sanitizeDoi(item.doi);
+    if (item && publicationDoiOverrides[item.number]) return publicationDoiOverrides[item.number];
+    return extractDoiFromLink(item && item.link);
+  }
+
+  function publicationTypeLabel(item) {
+    return isPatentRecord(item) ? 'Patent' : 'Publication';
+  }
+
+  function publicationPagesLabel(item) {
+    return isPatentRecord(item) ? 'Patent record' : 'Article / Pages';
+  }
+
+  function publicationPagesValue(item) {
+    if (isPatentRecord(item)) return safeText(item.venue) || 'Patent filing';
+    return safeText(item.pages) || 'Not listed';
+  }
+
+  function publicationRecordLabel(item, doi) {
+    if (doi) return 'DOI';
+    if (hasUsablePublicationLink(item.link)) return 'Record link';
+    if (isPatentRecord(item)) return 'DOI status';
+    return 'Record';
+  }
+
+  function publicationRecordValue(item, doi) {
+    if (doi) return doi;
+    if (hasUsablePublicationLink(item.link)) {
+      return safeText(item.link).replace(/^https?:\/\//i, '').replace(/\/$/, '');
+    }
+    if (isPatentRecord(item)) return 'No DOI issued';
+    return 'No DOI listed';
+  }
+
+  function publicationPrimaryLink(item, doi) {
+    if (doi) return 'https://doi.org/' + doi;
+    if (hasUsablePublicationLink(item.link)) return safeText(item.link);
+    return '';
+  }
+
+  function groupPublicationsByYear(items) {
+    var groups = [];
+    var yearMap = Object.create(null);
+
+    items.forEach(function (item) {
+      var year = safeText(item.year) || 'Unknown';
+      if (!yearMap[year]) {
+        yearMap[year] = [];
+        groups.push({ year: year, items: yearMap[year] });
+      }
+      yearMap[year].push(item);
+    });
+
+    return groups;
+  }
+
   function publicationItemHtml(item) {
-    var linkHtml = item.link
-      ? '<a class="pub-link" href="' + item.link + '" target="_blank" rel="noopener noreferrer">View publication</a>'
-      : '';
-    var pagesHtml = item.pages ? '<p class="pub-pages">Pages/Article: ' + item.pages + '</p>' : '';
+    var doi = publicationDoiValue(item);
+    var link = publicationPrimaryLink(item, doi);
+    var actionLabel = doi ? 'Open DOI' : hasUsablePublicationLink(item.link) ? 'Open record' : '';
+    var recordHtml = '';
+
+    if (doi) {
+      recordHtml = '<code class="pub-record-value pub-record-doi">' + escapeHtml(doi) + '</code>';
+    } else if (hasUsablePublicationLink(item.link)) {
+      recordHtml =
+        '<a class="pub-record-link" href="' +
+        escapeHtml(item.link) +
+        '" target="_blank" rel="noopener noreferrer">' +
+        escapeHtml(publicationRecordValue(item, doi)) +
+        '</a>';
+    } else {
+      recordHtml = '<span class="pub-record-value">' + escapeHtml(publicationRecordValue(item, doi)) + '</span>';
+    }
+
     return (
-      '<li class="publication-item">' +
-      '<div class="pub-head"><span class="pub-no">#' + item.number + '</span><span class="pub-year">' + safeText(item.year) + '</span></div>' +
-      '<p class="pub-title">' + safeText(item.title) + '</p>' +
-      '<p class="pub-authors">' + safeText(item.authors) + '</p>' +
-      '<p class="pub-venue">' + safeText(item.venue) + '</p>' +
-      pagesHtml +
-      linkHtml +
-      '</li>'
+      '<article class="publication-item" role="listitem">' +
+      '<div class="pub-head">' +
+      '<span class="pub-no">Record #' + escapeHtml(item.number) + '</span>' +
+      '<div class="pub-chip-row"><span class="pub-type">' + escapeHtml(publicationTypeLabel(item)) + '</span><span class="pub-year">' + escapeHtml(item.year) + '</span></div>' +
+      '</div>' +
+      '<p class="pub-title">' + escapeHtml(item.title) + '</p>' +
+      '<div class="pub-meta-grid">' +
+      '<div class="pub-meta-item pub-venue"><span class="pub-label">Venue</span><span class="pub-meta-value">' + escapeHtml(item.venue) + '</span></div>' +
+      '<div class="pub-meta-item pub-pages"><span class="pub-label">' + escapeHtml(publicationPagesLabel(item)) + '</span><span class="pub-meta-value">' + escapeHtml(publicationPagesValue(item)) + '</span></div>' +
+      '<div class="pub-meta-item pub-authors pub-meta-item-wide"><span class="pub-label">Authors</span><span class="pub-meta-value">' + escapeHtml(item.authors) + '</span></div>' +
+      '<div class="pub-meta-item pub-record pub-meta-item-wide"><span class="pub-label">' + escapeHtml(publicationRecordLabel(item, doi)) + '</span>' + recordHtml + '</div>' +
+      '</div>' +
+      (link
+        ? '<div class="pub-actions"><a class="pub-link" href="' + escapeHtml(link) + '" target="_blank" rel="noopener noreferrer">' + actionLabel + '</a></div>'
+        : '') +
+      '</article>'
     );
   }
 
+  function publicationYearGroupHtml(group, index) {
+    var count = group.items.length;
+    var label = count + ' ' + (count === 1 ? 'record' : 'records');
+    return (
+      '<details class="pub-year-group"' +
+      (index === 0 ? ' open' : '') +
+      '>' +
+      '<summary class="pub-year-summary">' +
+      '<div class="pub-year-summary-main"><span class="pub-year-title">' +
+      escapeHtml(group.year) +
+      '</span><span class="pub-year-note">Expand archive</span></div>' +
+      '<div class="pub-year-summary-side"><span class="pub-year-count">' +
+      escapeHtml(label) +
+      '</span><span class="pub-year-caret" aria-hidden="true"></span></div>' +
+      '</summary>' +
+      '<div class="pub-year-items" role="list">' +
+      group.items.map(publicationItemHtml).join('') +
+      '</div>' +
+      '</details>'
+    );
+  }
+
+  function bindPublicationYearGroups(target) {
+    target.querySelectorAll('.pub-year-group').forEach(function (group) {
+      if (group.getAttribute('data-pub-bound') === '1') return;
+      group.setAttribute('data-pub-bound', '1');
+      group.addEventListener('toggle', function () {
+        if (group.open) {
+          target.querySelectorAll('.pub-year-group').forEach(function (other) {
+            if (other !== group) other.open = false;
+          });
+        }
+        refreshDynamicEffects();
+      });
+    });
+  }
+
   function renderPublicationItems(target, items) {
-    target.innerHTML = items.map(publicationItemHtml).join('');
+    var groups = groupPublicationsByYear(items);
+    target.innerHTML = groups.map(publicationYearGroupHtml).join('');
+    bindPublicationYearGroups(target);
     refreshDynamicEffects();
   }
 
@@ -787,7 +953,7 @@
         renderPublicationItems(target, items);
       })
       .catch(function () {
-        target.innerHTML = '<li class="publication-item">Publication data could not be loaded.</li>';
+        target.innerHTML = '<article class="publication-item">Publication data could not be loaded.</article>';
       });
   }
 
