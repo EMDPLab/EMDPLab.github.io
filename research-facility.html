@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Research facilities and instruments at EMDP Lab.">
-  <title>EMDP Lab | Research Facility</title>
+  <title>EMDP Lab | Facility</title>
   <link rel="stylesheet" href="assets/css/style.css">
   <script src="assets/js/scripts.js" defer></script>
 </head>
@@ -13,55 +13,88 @@
     <div class="container nav-wrap">
       <a class="brand" href="index.html" aria-label="EMDP Lab Home">
         <img class="brand-logo" src="assets/images/EMDP_Lab_logo.svg" alt="EMDP Lab logo">
-        <span class="brand-wordmark">EMDP LAB</span>
+        <span>
+          <span class="brand-wordmark">EMDP LAB</span>
+          <span class="brand-meta">DGIST Energy Science and Engineering</span>
+        </span>
       </a>
       <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
       <nav id="siteNav" class="site-nav" aria-label="Primary">
         <a class="nav-link" data-nav="home" href="index.html">Home</a>
         <a class="nav-link" data-nav="team" href="team.html">Team</a>
         <a class="nav-link" data-nav="research" href="research.html">Research</a>
-        <a class="nav-link" data-nav="facility" href="research-facility.html">Research Facility</a>
-        <a class="nav-link" data-nav="projects" href="projects.html">Projects</a>
+        <a class="nav-link" data-nav="facility" href="research-facility.html">Facility</a>
+        <a class="nav-link" data-nav="projects" href="projects.html">Output</a>
         <a class="nav-link" data-nav="news" href="news.html">News</a>
         <a class="nav-link nav-link-cta" data-nav="apply" href="apply.html">Apply</a>
       </nav>
-      <div class="theme-switch" role="group" aria-label="Theme version selector">
-        <button class="theme-option" type="button" data-theme-value="current" aria-pressed="false">Current</button>
-      </div>
     </div>
   </header>
 
   <main>
     <div class="container">
-      <h1 class="page-title">Research Facility List</h1>
-      <p class="page-intro">Major instruments currently available in EMDP Lab.</p>
+      <section class="hero page-hero">
+        <div class="hero-content">
+          <p class="kicker">Research Environment</p>
+          <h1 class="hero-title">Facility</h1>
+          <p class="hero-subtitle">This facility overview shows the kinds of fabrication, measurement, and process work that can be done directly inside the lab.</p>
+          <p class="hero-subtitle">Instrumentation matters because it shapes how quickly students can prototype, test, and learn from failure.</p>
+        </div>
+        <aside class="hero-panel">
+          <p class="panel-label">What the facility enables</p>
+          <ul class="meta-list">
+            <li>Rapid prototyping and fabrication for early experimental cycles.</li>
+            <li>Electrical and thermal measurement for evidence-based troubleshooting.</li>
+            <li>Hands-on learning that reduces dependence on external facilities.</li>
+          </ul>
+        </aside>
+      </section>
 
-      <section class="section card join-panel">
-        <h2 class="section-title">Hands-On Training Environment</h2>
-        <p>New students are trained with real equipment from early stages to accelerate experimental confidence and independent execution.</p>
-        <div class="cta-strip">
-          <a class="cta-link" href="apply.html">Ask About Training</a>
-          <a class="cta-link alt" href="research.html">See Research Topics</a>
+      <section class="section">
+        <div class="feature-grid">
+          <article class="feature-card">
+            <p class="kicker">Measurement basics</p>
+            <h3>Learn reliable setup discipline</h3>
+            <p>Students gain experience with calibration, repeatability, and clean data acquisition instead of only operating instruments at a superficial level.</p>
+          </article>
+          <article class="feature-card">
+            <p class="kicker">Fabrication practice</p>
+            <h3>Prototype and iterate quickly</h3>
+            <p>3D printing, mixing, and process tools help students move from design ideas to testable physical systems without long external delays.</p>
+          </article>
+          <article class="feature-card">
+            <p class="kicker">Reporting quality</p>
+            <h3>Turn observations into evidence</h3>
+            <p>The facility is not only for producing samples. It supports the disciplined measurement workflow needed for figures, comparisons, and publication claims.</p>
+          </article>
         </div>
       </section>
 
       <section class="section">
+        <div class="section-heading">
+          <p class="kicker">Featured instruments</p>
+          <h2 class="section-title">A visual snapshot of the lab environment</h2>
+        </div>
         <div class="photo-grid facility-gallery">
-          <figure class="photo-item"><img src="assets/images/facility-digital-microscope.jpg" alt="Digital microscopy"><figcaption>Digital Microscopy (Leica DMV 6A)</figcaption></figure>
-          <figure class="photo-item"><img src="assets/images/facility-transistor-suite.jpg" alt="Transistor measurement suite"><figcaption>Transistor Measurement Suite (Keithley 2612B)</figcaption></figure>
-          <figure class="photo-item"><img src="assets/images/facility-ultrasonic-homogenizer.jpg" alt="Ultrasonic homogenizer"><figcaption>Ultrasonic Homogenizer (Daihan Scientific)</figcaption></figure>
-          <figure class="photo-item"><img src="assets/images/facility-laser-cutter.jpg" alt="Laser cutter"><figcaption>Laser Cutter (THUNDER Bolt Pro 32)</figcaption></figure>
-          <figure class="photo-item"><img src="assets/images/facility-resin-printer.jpg" alt="Resin 3D printer"><figcaption>Resin 3D Printer (Form4)</figcaption></figure>
-          <figure class="photo-item"><img src="assets/images/facility-oscilloscope.jpg" alt="Oscilloscope"><figcaption>Oscilloscope (RIGOL DHO 1204U)</figcaption></figure>
-          <figure class="photo-item"><img src="assets/images/facility-te-measurement.jpg" alt="T.E. measuring"><figcaption>T.E. Measuring (Keithley set)</figcaption></figure>
-          <figure class="photo-item"><img src="assets/images/facility-fff-printer.jpg" alt="FFF 3D printer"><figcaption>FFF 3D Printer (Bambu Lab X1C)</figcaption></figure>
-          <figure class="photo-item"><img src="assets/images/facility-ir-camera.jpg" alt="Tabletop IR camera"><figcaption>Tabletop IR Camera (FLIR ETS320)</figcaption></figure>
-          <figure class="photo-item"><img src="assets/images/facility-planetary-mixer.jpg" alt="Planetary mixer"><figcaption>Planetary Mixer (HAN Tech)</figcaption></figure>
+          <figure class="photo-item"><img src="assets/images/facility-digital-microscope.jpg" alt="Digital microscopy" loading="lazy"><figcaption>Digital Microscopy (Leica DMV 6A)</figcaption></figure>
+          <figure class="photo-item"><img src="assets/images/facility-transistor-suite.jpg" alt="Transistor measurement suite" loading="lazy"><figcaption>Transistor Measurement Suite (Keithley 2612B)</figcaption></figure>
+          <figure class="photo-item"><img src="assets/images/facility-ultrasonic-homogenizer.jpg" alt="Ultrasonic homogenizer" loading="lazy"><figcaption>Ultrasonic Homogenizer (Daihan Scientific)</figcaption></figure>
+          <figure class="photo-item"><img src="assets/images/facility-laser-cutter.jpg" alt="Laser cutter" loading="lazy"><figcaption>Laser Cutter (THUNDER Bolt Pro 32)</figcaption></figure>
+          <figure class="photo-item"><img src="assets/images/facility-resin-printer.jpg" alt="Resin 3D printer" loading="lazy"><figcaption>Resin 3D Printer (Form4)</figcaption></figure>
+          <figure class="photo-item"><img src="assets/images/facility-oscilloscope.jpg" alt="Oscilloscope" loading="lazy"><figcaption>Oscilloscope (RIGOL DHO 1204U)</figcaption></figure>
+          <figure class="photo-item"><img src="assets/images/facility-te-measurement.jpg" alt="Thermoelectric measuring equipment" loading="lazy"><figcaption>T.E. Measuring (Keithley set)</figcaption></figure>
+          <figure class="photo-item"><img src="assets/images/facility-fff-printer.jpg" alt="FFF 3D printer" loading="lazy"><figcaption>FFF 3D Printer (Bambu Lab X1C)</figcaption></figure>
+          <figure class="photo-item"><img src="assets/images/facility-ir-camera.jpg" alt="Tabletop IR camera" loading="lazy"><figcaption>Tabletop IR Camera (FLIR ETS320)</figcaption></figure>
+          <figure class="photo-item"><img src="assets/images/facility-planetary-mixer.jpg" alt="Planetary mixer" loading="lazy"><figcaption>Planetary Mixer (HAN Tech)</figcaption></figure>
         </div>
       </section>
 
       <section class="section card">
-        <h2 class="section-title">Full List of Instruments</h2>
+        <div class="section-heading">
+          <p class="kicker">Instrument archive</p>
+          <h2 class="section-title">Full list of instruments</h2>
+          <p class="page-intro">The full list remains data-driven so the facility inventory can be updated independently from the page layout.</p>
+        </div>
         <div class="table-wrap">
           <table class="data-table">
             <thead>
@@ -78,37 +111,32 @@
         </div>
       </section>
 
-      <section class="section card quick-fit">
-        <h2 class="section-title">What You Will Learn</h2>
-        <div class="fit-grid">
-          <article class="fit-item">
-            <h3>Measurement Basics</h3>
-            <p>Reliable setup, calibration, and repeatable data acquisition in real lab workflows.</p>
-          </article>
-          <article class="fit-item">
-            <h3>Fabrication Practice</h3>
-            <p>From prototyping to process iteration with a strong focus on quality control.</p>
-          </article>
-          <article class="fit-item">
-            <h3>Data Reporting</h3>
-            <p>Evidence-based interpretation and presentation standards aligned with publication goals.</p>
-          </article>
+      <section class="section card join-panel">
+        <div class="section-heading">
+          <p class="kicker">Hands-on training</p>
+          <h2 class="section-title">Ask how the facility supports your project</h2>
+          <p class="page-intro">New students are trained on real equipment early so they can move faster from idea to measurement to iteration.</p>
+        </div>
+        <div class="cta-strip">
+          <a class="cta-link" href="apply.html">Ask About Training</a>
+          <a class="cta-link alt" href="research.html">See Research Topics</a>
         </div>
       </section>
 
       <section class="contact">
         <div class="contact-grid">
           <div>
-            <h2>Contact</h2>
+            <p class="kicker">Contact</p>
+            <h2>Discuss facility access and training</h2>
             <p>333, Techno jungang-daero, Hyeonpung-eup, Dalseong-gun, Daegu, Republic of Korea, 42988</p>
             <p><a href="mailto:hodh123@dgist.ac.kr">hodh123@dgist.ac.kr</a></p>
-            <p>If you are interested to do research with me, please leave your email.</p>
+            <p>If you want to know how the facility connects to your research interests, leave your email for follow-up.</p>
           </div>
           <div>
             <form class="interest-form">
-              <label for="interestEmailFacility">Enter Your Email Here</label>
+              <label for="interestEmailFacility">Leave your email for follow-up</label>
               <input id="interestEmailFacility" type="email" required placeholder="you@example.com">
-              <button type="submit">Subscribe</button>
+              <button type="submit">Send Interest</button>
             </form>
           </div>
         </div>
@@ -118,7 +146,10 @@
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <img class="footer-logo" src="assets/images/dgist-logo.svg" alt="DGIST logo">
+      <div>
+        <img class="footer-logo" src="assets/images/dgist-logo.svg" alt="DGIST logo">
+        <p class="footer-meta">Energy Materials Design and Processing Lab, Department of Energy Science and Engineering</p>
+      </div>
       <p>&copy; 2026 Energy Materials Design and Processing Lab, DGIST</p>
     </div>
   </footer>

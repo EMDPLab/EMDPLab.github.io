@@ -13,43 +13,59 @@
     <div class="container nav-wrap">
       <a class="brand" href="index.html" aria-label="EMDP Lab Home">
         <img class="brand-logo" src="assets/images/EMDP_Lab_logo.svg" alt="EMDP Lab logo">
-        <span class="brand-wordmark">EMDP LAB</span>
+        <span>
+          <span class="brand-wordmark">EMDP LAB</span>
+          <span class="brand-meta">DGIST Energy Science and Engineering</span>
+        </span>
       </a>
       <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
       <nav id="siteNav" class="site-nav" aria-label="Primary">
         <a class="nav-link" data-nav="home" href="index.html">Home</a>
         <a class="nav-link" data-nav="team" href="team.html">Team</a>
         <a class="nav-link" data-nav="research" href="research.html">Research</a>
-        <a class="nav-link" data-nav="facility" href="research-facility.html">Research Facility</a>
-        <a class="nav-link" data-nav="projects" href="projects.html">Projects</a>
+        <a class="nav-link" data-nav="facility" href="research-facility.html">Facility</a>
+        <a class="nav-link" data-nav="projects" href="projects.html">Output</a>
         <a class="nav-link" data-nav="news" href="news.html">News</a>
         <a class="nav-link nav-link-cta" data-nav="apply" href="apply.html">Apply</a>
       </nav>
-      <div class="theme-switch" role="group" aria-label="Theme version selector">
-        <button class="theme-option" type="button" data-theme-value="current" aria-pressed="false">Current</button>
-      </div>
     </div>
   </header>
 
   <main>
     <div class="container">
-      <h1 class="page-title">Research Interests</h1>
-      <p class="page-intro">We design materials and processes for energy devices that must work where conventional electronics fail. Each topic below highlights real student entry points and measurable research outcomes.</p>
+      <section class="hero page-hero">
+        <div class="hero-content">
+          <p class="kicker">Research Themes</p>
+          <h1 class="hero-title">Research</h1>
+          <p class="hero-subtitle">The lab studies how materials, interfaces, and processing windows can be engineered so energy devices continue to work under demanding environments and use conditions.</p>
+          <p class="hero-subtitle">Each research area below highlights the technical problem, the lab's approach, and the kinds of contributions students can make.</p>
+        </div>
+        <aside class="hero-panel">
+          <p class="panel-label">Research model</p>
+          <ul class="meta-list">
+            <li>Identify a failure mechanism or performance bottleneck.</li>
+            <li>Engineer materials and process parameters that change the outcome.</li>
+            <li>Validate the result at device level with measurable criteria.</li>
+          </ul>
+        </aside>
+      </section>
 
-      <section class="section card quick-fit">
-        <h2 class="section-title">Student Entry Points</h2>
-        <div class="fit-grid">
-          <article class="fit-item">
-            <h3>Materials & Process</h3>
-            <p>Hands-on synthesis, formulation, and process tuning for robust electrical behavior.</p>
+      <section class="section">
+        <div class="feature-grid">
+          <article class="feature-card">
+            <p class="kicker">Materials &amp; Process</p>
+            <h3>Build the material system</h3>
+            <p>Students work on synthesis, formulation, interfacial control, and process tuning rather than only running downstream tests.</p>
           </article>
-          <article class="fit-item">
-            <h3>Device Characterization</h3>
-            <p>Electrical, thermal, and reliability testing with data-driven troubleshooting.</p>
+          <article class="feature-card">
+            <p class="kicker">Characterization</p>
+            <h3>Prove what changed</h3>
+            <p>Electrical, thermal, and reliability measurements are treated as evidence for mechanism and process quality, not just a checklist.</p>
           </article>
-          <article class="fit-item">
-            <h3>Publication Pipeline</h3>
-            <p>Project framing, figure-quality reporting, and manuscript preparation support.</p>
+          <article class="feature-card">
+            <p class="kicker">Translation</p>
+            <h3>Connect to devices and output</h3>
+            <p>The research is framed so material advances can support functioning devices, credible claims, and eventually strong publications.</p>
           </article>
         </div>
       </section>
@@ -59,21 +75,22 @@
           <div class="topic-media">
             <figure class="photo-item topic-lead">
               <img src="assets/images/research-deep-sea.jpg" alt="Deep sea mission equipment and harsh marine conditions">
-              <figcaption>Extreme deployment conditions in deep-sea systems</figcaption>
+              <figcaption>Operating conditions in deep-sea systems can amplify small interfacial failures.</figcaption>
             </figure>
             <figure class="photo-item topic-thumb">
-              <img src="assets/images/research-space.jpg" alt="Satellite and space environment">
-              <figcaption>Orbital and low-pressure operating environments</figcaption>
+              <img src="assets/images/research-space.jpg" alt="Satellite and space environment" loading="lazy">
+              <figcaption>Space environments add thermal cycling, low pressure, and long-duration reliability demands.</figcaption>
             </figure>
           </div>
           <article class="topic-content">
+            <p class="kicker">Theme 01</p>
             <h2 class="section-title">Energy Transmission in Extreme Environments</h2>
-            <p class="topic-summary">Electric energy transmission in deep-sea, space, and highly strained platforms requires interconnects that can survive pressure, temperature cycling, low-pressure conditions, and repeated deformation. In these environments, small interfacial failures can propagate quickly and lead to unstable device performance.</p>
-            <p class="topic-detail">Our work focuses on materials selection, interface engineering, and process design that maintain conductivity while minimizing mechanical and thermal mismatch. Students can participate from early-stage failure analysis to fabrication and reliability validation, producing data that guides robust device architecture for long-duration operation.</p>
+            <p class="topic-summary"><strong>Problem.</strong> Electric energy transmission in deep-sea, space, and deformable systems requires interconnects that survive pressure, temperature variation, low-pressure conditions, and repeated mechanical stress.</p>
+            <p class="topic-detail"><strong>Approach.</strong> The lab studies materials selection, interface engineering, and fabrication routes that preserve conductivity while reducing thermal and mechanical mismatch across the structure.</p>
             <ul class="topic-points">
               <li>Define failure modes in harsh mechanical and thermal environments.</li>
-              <li>Develop soft/robust interconnect fabrication strategies.</li>
-              <li>Benchmark reliability for long-duration operation.</li>
+              <li>Develop robust interconnect fabrication strategies for long-duration use.</li>
+              <li>Benchmark reliability with conditions that map to realistic deployment.</li>
             </ul>
             <div class="topic-tags" aria-label="Topic keywords">
               <span class="topic-tag">Deep Sea</span>
@@ -89,22 +106,23 @@
         <div class="research-topic-card reverse">
           <div class="topic-media">
             <figure class="photo-item topic-lead">
-              <img src="assets/images/research-ion-boosting.png" alt="Selective ion boosting system and ion transport concept">
-              <figcaption>Selective ion boosting concept (Advanced Energy Materials)</figcaption>
+              <img src="assets/images/research-ion-boosting.png" alt="Selective ion boosting system and ion transport concept" loading="lazy">
+              <figcaption>Selective ion boosting concepts point to device functions beyond standard electronic transport.</figcaption>
             </figure>
             <figure class="photo-item topic-thumb">
-              <img src="assets/images/research-soft-via.png" alt="Soft via processing and polymer-compatible routing">
-              <figcaption>Polymer-compatible processing pathways</figcaption>
+              <img src="assets/images/research-soft-via.png" alt="Soft via processing and polymer-compatible routing" loading="lazy">
+              <figcaption>Processing conditions matter as much as composition when polymer systems are involved.</figcaption>
             </figure>
           </div>
           <article class="topic-content">
+            <p class="kicker">Theme 02</p>
             <h2 class="section-title">Ion-Based Energy Control in Polymer Systems</h2>
-            <p class="topic-summary">Many energy devices rely on ionic species for charge storage, but ionic transport is slower than electronic transport, which limits direct use in fast control electronics. At the same time, local ion concentration gradients and ion-polymer interactions can generate useful memory and thermoelectric behavior that electronic-only systems cannot easily reproduce.</p>
-            <p class="topic-detail">We investigate ion-gel composition, polymer-network structure, and 3D processing conditions to control ionic dynamics in a predictable way. The goal is to translate these material-level effects into stable, tunable device functions for sensing, adaptive control, and next-generation low-power platforms.</p>
+            <p class="topic-summary"><strong>Problem.</strong> Ionic transport is slower than electronic transport, but ion concentration gradients and ion-polymer interactions can create useful memory, thermal, and adaptive behaviors that standard systems do not offer.</p>
+            <p class="topic-detail"><strong>Approach.</strong> The lab investigates ion-gel composition, polymer-network structure, and 3D processing conditions so ionic dynamics can be tuned into stable and controllable device functions.</p>
             <ul class="topic-points">
-              <li>Engineer ion transport pathways in polymer matrices.</li>
-              <li>Link composition and process to switching/thermal response.</li>
-              <li>Translate ionic effects into controllable device functions.</li>
+              <li>Engineer ion transport pathways inside polymer matrices.</li>
+              <li>Connect processing conditions to switching and thermal response.</li>
+              <li>Translate ionic effects into practical sensing and control functions.</li>
             </ul>
             <div class="topic-tags" aria-label="Topic keywords">
               <span class="topic-tag">Ion Gels</span>
@@ -120,24 +138,25 @@
         <div class="research-topic-card">
           <div class="topic-media">
             <figure class="photo-item topic-lead">
-              <img src="assets/images/research-liquid-metal-composite.png" alt="Liquid-metal composite route for power electronics">
-              <figcaption>Liquid-metal composite route (Advanced Functional Materials)</figcaption>
+              <img src="assets/images/research-liquid-metal-composite.png" alt="Liquid-metal composite route for power electronics" loading="lazy">
+              <figcaption>Liquid-metal-enabled processing offers a path toward more accessible high-power material fabrication.</figcaption>
             </figure>
             <figure class="photo-item topic-thumb">
-              <video autoplay muted loop playsinline preload="metadata" poster="assets/images/research-liquid-metal-extrusion.jpg" aria-label="Liquid-metal-assisted extrusion process video clip">
+              <video controls playsinline preload="none" poster="assets/images/research-liquid-metal-extrusion.jpg" aria-label="Liquid-metal-assisted extrusion process video clip">
                 <source src="assets/images/IMG_8444.MOV" type="video/quicktime">
               </video>
-              <figcaption>Liquid-metal-assisted extrusion for fabrication</figcaption>
+              <figcaption>Process footage is presented as a reference artifact rather than a looping decorative element.</figcaption>
             </figure>
           </div>
           <article class="topic-content">
+            <p class="kicker">Theme 03</p>
             <h2 class="section-title">Wide-Bandgap Routes for High-Power Electronics</h2>
-            <p class="topic-summary">Growing demand from electric vehicles, AI servers, and large-scale power systems is pushing devices beyond the operating range of conventional silicon. Wide-bandgap systems such as GaN and SiC offer strong potential for high-voltage and high-temperature operation, but scalable fabrication routes remain a central challenge.</p>
-            <p class="topic-detail">Our lab explores liquid-metal-enabled processing in ambient environments to reduce manufacturing barriers while preserving performance. We study composite design, interface control, and process integration so that high-power materials can move more efficiently from laboratory demonstrations to deployable device modules.</p>
+            <p class="topic-summary"><strong>Problem.</strong> Demand from electric vehicles, AI infrastructure, and power systems is pushing beyond conventional silicon, but scalable routes for materials such as GaN and SiC remain a core challenge.</p>
+            <p class="topic-detail"><strong>Approach.</strong> The lab explores liquid-metal-assisted processing in ambient environments to lower fabrication barriers while maintaining the interfaces and structures needed for high-performance device modules.</p>
             <ul class="topic-points">
-              <li>Address high-voltage/high-temperature material constraints.</li>
-              <li>Use liquid-metal-assisted fabrication in ambient conditions.</li>
-              <li>Target scalable processing for power-device integration.</li>
+              <li>Address material constraints for high-voltage and high-temperature operation.</li>
+              <li>Use liquid-metal-enabled fabrication under more accessible conditions.</li>
+              <li>Target processing paths that can scale beyond isolated demonstrations.</li>
             </ul>
             <div class="topic-tags" aria-label="Topic keywords">
               <span class="topic-tag">GaN</span>
@@ -150,8 +169,11 @@
       </section>
 
       <section class="section card join-panel">
-        <h2 class="section-title">Find Your Research Match</h2>
-        <p>Tell us which topic you want to explore and we can define a starter milestone for internship, MSc, or PhD onboarding.</p>
+        <div class="section-heading">
+          <p class="kicker">Student fit</p>
+          <h2 class="section-title">Find a research direction you can own</h2>
+          <p class="page-intro">If one of these themes is a match, the application process can focus quickly on defining a realistic first project and milestone.</p>
+        </div>
         <div class="cta-strip">
           <a class="cta-link" href="apply.html">Discuss a Project</a>
           <a class="cta-link alt" href="team.html">Meet the Team</a>
@@ -161,16 +183,17 @@
       <section class="contact">
         <div class="contact-grid">
           <div>
-            <h2>Contact</h2>
+            <p class="kicker">Contact</p>
+            <h2>Talk through a potential project</h2>
             <p>333, Techno jungang-daero, Hyeonpung-eup, Dalseong-gun, Daegu, Republic of Korea, 42988</p>
             <p><a href="mailto:hodh123@dgist.ac.kr">hodh123@dgist.ac.kr</a></p>
-            <p>If you are interested to do research with me, please leave your email.</p>
+            <p>If you are interested in one of these themes, leave your email and the lab can follow up.</p>
           </div>
           <div>
             <form class="interest-form">
-              <label for="interestEmailResearch">Enter Your Email Here</label>
+              <label for="interestEmailResearch">Leave your email for follow-up</label>
               <input id="interestEmailResearch" type="email" required placeholder="you@example.com">
-              <button type="submit">Subscribe</button>
+              <button type="submit">Send Interest</button>
             </form>
           </div>
         </div>
@@ -180,7 +203,10 @@
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <img class="footer-logo" src="assets/images/dgist-logo.svg" alt="DGIST logo">
+      <div>
+        <img class="footer-logo" src="assets/images/dgist-logo.svg" alt="DGIST logo">
+        <p class="footer-meta">Energy Materials Design and Processing Lab, Department of Energy Science and Engineering</p>
+      </div>
       <p>&copy; 2026 Energy Materials Design and Processing Lab, DGIST</p>
     </div>
   </footer>
