@@ -1,0 +1,39 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="40" fill="#F6F9FC"/>
+  <rect x="70" y="72" width="1060" height="616" rx="30" fill="white" stroke="#D9E3EC"/>
+  <text x="120" y="146" fill="#0D6172" font-family="Arial, sans-serif" font-size="22" font-weight="700">Liquid Metal Study Map</text>
+  <text x="120" y="180" fill="#31465C" font-family="Arial, sans-serif" font-size="16">A student-facing view of how the field expands from material properties to devices.</text>
+
+  <rect x="120" y="236" width="212" height="160" rx="26" fill="#E7F4F6"/>
+  <text x="146" y="286" fill="#0D6172" font-family="Arial, sans-serif" font-size="18" font-weight="700">Base Material</text>
+  <text x="146" y="322" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Gallium-based alloys</text>
+  <text x="146" y="348" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Low melting point</text>
+  <text x="146" y="374" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Metallic transport</text>
+
+  <rect x="372" y="236" width="212" height="160" rx="26" fill="#FFF1E7"/>
+  <text x="398" y="286" fill="#D87430" font-family="Arial, sans-serif" font-size="18" font-weight="700">Droplet State</text>
+  <text x="398" y="322" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Surface tension</text>
+  <text x="398" y="348" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Oxide skin</text>
+  <text x="398" y="374" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Interface control</text>
+
+  <rect x="624" y="236" width="212" height="160" rx="26" fill="#EAF5EF"/>
+  <text x="650" y="286" fill="#2B7A55" font-family="Arial, sans-serif" font-size="18" font-weight="700">Composites</text>
+  <text x="650" y="322" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Core-shell routes</text>
+  <text x="650" y="348" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Polymer hosts</text>
+  <text x="650" y="374" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Particle hybrids</text>
+
+  <rect x="876" y="236" width="212" height="160" rx="26" fill="#EEF2F7"/>
+  <text x="902" y="286" fill="#111C2D" font-family="Arial, sans-serif" font-size="18" font-weight="700">Devices</text>
+  <text x="902" y="322" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Sensors</text>
+  <text x="902" y="348" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Reconfigurable circuits</text>
+  <text x="902" y="374" fill="#31465C" font-family="Arial, sans-serif" font-size="15">EMI shielding</text>
+
+  <path d="M332 316H372" stroke="#9EB4C5" stroke-width="10" stroke-linecap="round"/>
+  <path d="M584 316H624" stroke="#9EB4C5" stroke-width="10" stroke-linecap="round"/>
+  <path d="M836 316H876" stroke="#9EB4C5" stroke-width="10" stroke-linecap="round"/>
+
+  <rect x="146" y="462" width="916" height="148" rx="26" fill="#F8FAFC" stroke="#D9E3EC"/>
+  <text x="176" y="512" fill="#111C2D" font-family="Arial, sans-serif" font-size="18" font-weight="700">Reading rule for students</text>
+  <text x="176" y="548" fill="#31465C" font-family="Arial, sans-serif" font-size="16">Ask in order: which property matters, what form the liquid metal takes, what the surrounding structure does,</text>
+  <text x="176" y="576" fill="#31465C" font-family="Arial, sans-serif" font-size="16">and what device-level function is actually validated.</text>
+</svg>

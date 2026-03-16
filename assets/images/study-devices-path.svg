@@ -1,0 +1,30 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="40" fill="#F6F9FC"/>
+  <rect x="86" y="78" width="1028" height="604" rx="30" fill="white" stroke="#D9E3EC"/>
+  <text x="126" y="148" fill="#0D6172" font-family="Arial, sans-serif" font-size="22" font-weight="700">Droplets to Devices</text>
+  <text x="126" y="182" fill="#31465C" font-family="Arial, sans-serif" font-size="16">A device emerges only after processing, activation, and validation are connected.</text>
+
+  <circle cx="200" cy="336" r="64" fill="#E7F4F6"/>
+  <text x="160" y="330" fill="#0D6172" font-family="Arial, sans-serif" font-size="18" font-weight="700">Droplet</text>
+  <text x="152" y="358" fill="#31465C" font-family="Arial, sans-serif" font-size="15">generation</text>
+
+  <circle cx="446" cy="336" r="64" fill="#FFF1E7"/>
+  <text x="411" y="330" fill="#D87430" font-family="Arial, sans-serif" font-size="18" font-weight="700">Interface</text>
+  <text x="399" y="358" fill="#31465C" font-family="Arial, sans-serif" font-size="15">control</text>
+
+  <circle cx="692" cy="336" r="64" fill="#EAF5EF"/>
+  <text x="655" y="330" fill="#2B7A55" font-family="Arial, sans-serif" font-size="18" font-weight="700">Network</text>
+  <text x="649" y="358" fill="#31465C" font-family="Arial, sans-serif" font-size="15">activation</text>
+
+  <circle cx="938" cy="336" r="64" fill="#EEF2F7"/>
+  <text x="902" y="330" fill="#111C2D" font-family="Arial, sans-serif" font-size="18" font-weight="700">Device</text>
+  <text x="890" y="358" fill="#31465C" font-family="Arial, sans-serif" font-size="15">validation</text>
+
+  <path d="M264 336H382" stroke="#9EB4C5" stroke-width="10" stroke-linecap="round"/>
+  <path d="M510 336H628" stroke="#9EB4C5" stroke-width="10" stroke-linecap="round"/>
+  <path d="M756 336H874" stroke="#9EB4C5" stroke-width="10" stroke-linecap="round"/>
+
+  <rect x="150" y="488" width="820" height="122" rx="26" fill="#F8FAFC" stroke="#D9E3EC"/>
+  <text x="182" y="532" fill="#111C2D" font-family="Arial, sans-serif" font-size="18" font-weight="700">Typical outputs</text>
+  <text x="182" y="566" fill="#31465C" font-family="Arial, sans-serif" font-size="16">Sensors, reconfigurable circuits, thermal switches, self-healing electronics, and EMI shielding architectures.</text>
+</svg>

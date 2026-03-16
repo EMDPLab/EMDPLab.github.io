@@ -1,0 +1,43 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="40" fill="#F6F9FC"/>
+  <rect x="84" y="76" width="1032" height="608" rx="30" fill="white" stroke="#D9E3EC"/>
+  <text x="128" y="146" fill="#0D6172" font-family="Arial, sans-serif" font-size="22" font-weight="700">Composite Design Routes</text>
+  <text x="128" y="180" fill="#31465C" font-family="Arial, sans-serif" font-size="16">Three recurring architectures explain most liquid-metal composite papers.</text>
+
+  <circle cx="600" cy="316" r="74" fill="#0D6172"/>
+  <text x="548" y="308" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="700">Liquid Metal</text>
+  <text x="565" y="336" fill="white" font-family="Arial, sans-serif" font-size="16">as phase</text>
+
+  <rect x="138" y="236" width="238" height="180" rx="28" fill="#FFF1E7"/>
+  <text x="168" y="286" fill="#D87430" font-family="Arial, sans-serif" font-size="19" font-weight="700">Core-shell</text>
+  <text x="168" y="322" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Stabilized interfaces</text>
+  <text x="168" y="348" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Functional coatings</text>
+  <text x="168" y="374" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Catalytic or reactive skins</text>
+
+  <rect x="462" y="488" width="276" height="150" rx="28" fill="#E7F4F6"/>
+  <text x="498" y="534" fill="#0D6172" font-family="Arial, sans-serif" font-size="19" font-weight="700">Polymer composites</text>
+  <text x="498" y="568" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Stretchability and toughness</text>
+  <text x="498" y="594" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Reprocessable soft circuitry</text>
+
+  <rect x="824" y="236" width="238" height="180" rx="28" fill="#EAF5EF"/>
+  <text x="854" y="286" fill="#2B7A55" font-family="Arial, sans-serif" font-size="19" font-weight="700">Particle hybrids</text>
+  <text x="854" y="322" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Magnetic loss</text>
+  <text x="854" y="348" fill="#31465C" font-family="Arial, sans-serif" font-size="15">EMI shielding</text>
+  <text x="854" y="374" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Multifunctional networks</text>
+
+  <path d="M376 316H506" stroke="#9EB4C5" stroke-width="10" stroke-linecap="round"/>
+  <path d="M694 316H824" stroke="#9EB4C5" stroke-width="10" stroke-linecap="round"/>
+  <path d="M600 390V488" stroke="#9EB4C5" stroke-width="10" stroke-linecap="round"/>
+
+  <rect x="138" y="486" width="238" height="152" rx="26" fill="#F8FAFC" stroke="#D9E3EC"/>
+  <text x="168" y="532" fill="#111C2D" font-family="Arial, sans-serif" font-size="18" font-weight="700">Design question</text>
+  <text x="168" y="566" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Which limitation of pure</text>
+  <text x="168" y="592" fill="#31465C" font-family="Arial, sans-serif" font-size="15">liquid metal must the</text>
+  <text x="168" y="618" fill="#31465C" font-family="Arial, sans-serif" font-size="15">composite solve first?</text>
+
+  <rect x="824" y="486" width="238" height="152" rx="26" fill="#F8FAFC" stroke="#D9E3EC"/>
+  <text x="854" y="532" fill="#111C2D" font-family="Arial, sans-serif" font-size="18" font-weight="700">Outcome</text>
+  <text x="854" y="566" fill="#31465C" font-family="Arial, sans-serif" font-size="15">Self-healing electronics,</text>
+  <text x="854" y="592" fill="#31465C" font-family="Arial, sans-serif" font-size="15">thermal interfaces, and</text>
+  <text x="854" y="618" fill="#31465C" font-family="Arial, sans-serif" font-size="15">shielding platforms.</text>
+</svg>

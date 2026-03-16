@@ -1704,6 +1704,34 @@ body.study-page {
   margin: 0 auto;
 }
 
+.study-figure-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.study-panel-figure,
+.study-inline-figure {
+  overflow: hidden;
+}
+
+.study-panel-figure img,
+.study-inline-figure img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  background: #f6f9fc;
+}
+
+.study-panel-figure figcaption,
+.study-inline-figure figcaption {
+  padding: 0.95rem 1rem 1.05rem;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
 .study-essay-section + .study-essay-section {
   margin-top: 2.2rem;
   padding-top: 2rem;
@@ -2117,6 +2145,10 @@ body.study-page {
 
   .study-subnav-link {
     width: 100%;
+  }
+
+  .study-figure-grid {
+    grid-template-columns: 1fr;
   }
 
   .study-top-button {
