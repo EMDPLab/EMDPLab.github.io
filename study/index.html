@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Student study space for liquid metal fundamentals, properties, composites, and devices.">
+  <title>EMDP Lab | Study</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" href="../assets/images/EMDP_Lab_logo.svg" type="image/svg+xml">
+  <script src="../data/study-data.js" defer></script>
+  <script src="../assets/js/scripts.js" defer></script>
+  <script src="../assets/js/study.js" defer></script>
+</head>
+<body data-page="study" data-study-section="overview" class="study-page">
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../index.html" aria-label="EMDP Lab Home">
+        <img class="brand-logo" src="../assets/images/EMDP_Lab_logo.svg" alt="EMDP Lab logo">
+        <span>
+          <span class="brand-wordmark">EMDP LAB</span>
+          <span class="brand-meta">Energy Materials Design &amp; Processing Lab</span>
+        </span>
+      </a>
+      <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
+      <nav id="siteNav" class="site-nav" aria-label="Primary">
+        <a class="nav-link" data-nav="home" href="../index.html">Home</a>
+        <a class="nav-link" data-nav="team" href="../team.html">Team</a>
+        <a class="nav-link" data-nav="research" href="../research.html">Research</a>
+        <a class="nav-link" data-nav="study" href="index.html">Study</a>
+        <a class="nav-link" data-nav="facility" href="../research-facility.html">Facility</a>
+        <a class="nav-link" data-nav="projects" href="../projects.html">Output</a>
+        <a class="nav-link" data-nav="news" href="../news.html">News</a>
+        <a class="nav-link nav-link-cta" data-nav="apply" href="../apply.html">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <section class="hero page-hero study-hero">
+        <div class="hero-content">
+          <p class="kicker">Liquid Metal Learning Space</p>
+          <h1 class="hero-title">Study</h1>
+          <p class="hero-subtitle">This section reorganizes five liquid-metal papers into a student-facing study site: one page for the field overview, one for a handbook-style property atlas, one for composites, and one for device-level applications.</p>
+          <p class="hero-subtitle">The goal is not to mirror the papers chapter-by-chapter. It is to help new students understand how the field fits together: materials, droplets, composites, and finally usable devices.</p>
+        </div>
+        <aside class="hero-panel study-hero-panel">
+          <div class="study-orbit">
+            <span class="study-orbit-core">Liquid Metal</span>
+            <span class="study-orbit-node study-node-top">Properties</span>
+            <span class="study-orbit-node study-node-right">Droplets</span>
+            <span class="study-orbit-node study-node-bottom">Composites</span>
+            <span class="study-orbit-node study-node-left">Devices</span>
+          </div>
+          <p class="study-hero-note">Built from review papers on droplet-enabled electronics, composites, shielding materials, and one regenerative soft-electronics case study.</p>
+        </aside>
+      </section>
+
+      <section class="study-subnav-shell">
+        <nav class="study-subnav" aria-label="Study pages">
+          <a class="study-subnav-link is-active" href="index.html">Overview</a>
+          <a class="study-subnav-link" href="handbook.html">Handbook</a>
+          <a class="study-subnav-link" href="composites.html">Composites</a>
+          <a class="study-subnav-link" href="devices.html">Devices</a>
+        </nav>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="kicker">How to use this study space</p>
+          <h2 class="section-title">Start with the map, then go deeper by topic</h2>
+          <p class="page-intro">Students new to the field usually struggle because liquid metal is discussed from too many angles at once. The pages below break the field into a clearer sequence.</p>
+        </div>
+        <div class="study-module-grid">
+          <article class="study-module-card">
+            <p class="study-module-no">01</p>
+            <h3>Field overview</h3>
+            <p>Learn why gallium-based alloys matter, why droplets are special, and how the field expands from material science into device engineering.</p>
+            <a class="cta-link alt" href="index.html">Read overview</a>
+          </article>
+          <article class="study-module-card">
+            <p class="study-module-no">02</p>
+            <h3>Property handbook</h3>
+            <p>Use a graph-based property explorer to compare conductivity, thermal transport, viscosity, density, and interfacial behavior.</p>
+            <a class="cta-link alt" href="handbook.html">Open handbook</a>
+          </article>
+          <article class="study-module-card">
+            <p class="study-module-no">03</p>
+            <h3>Composite session</h3>
+            <p>Study why the field repeatedly moves from pure liquid metal to composite architectures such as core-shell, polymer, and particle systems.</p>
+            <a class="cta-link alt" href="composites.html">Study composites</a>
+          </article>
+          <article class="study-module-card">
+            <p class="study-module-no">04</p>
+            <h3>Droplets to devices</h3>
+            <p>Trace the path from droplet generation and interface control to sensors, circuits, self-healing electronics, and EMI shielding.</p>
+            <a class="cta-link alt" href="devices.html">See devices</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section card study-map-card">
+        <div class="section-heading">
+          <p class="kicker">Field map</p>
+          <h2 class="section-title">The liquid-metal field in one view</h2>
+        </div>
+        <div class="study-ladder">
+          <article class="study-ladder-step">
+            <p class="study-ladder-tag">Stage A</p>
+            <h3>Base material</h3>
+            <p>Gallium-based liquid metals are attractive because they combine room-temperature liquidity with metallic electrical and thermal transport. Compared with mercury, they are the practical low-toxicity route emphasized across the papers.</p>
+          </article>
+          <article class="study-ladder-step">
+            <p class="study-ladder-tag">Stage B</p>
+            <h3>Droplet form factor</h3>
+            <p>Once the metal is broken into droplets, interface and scale begin to dominate behavior. Surface tension, oxide skin, mobility, and field responsiveness become central design variables.</p>
+          </article>
+          <article class="study-ladder-step">
+            <p class="study-ladder-tag">Stage C</p>
+            <h3>Composite architecture</h3>
+            <p>Pure liquid metal is rarely enough. Composites improve stability, processability, self-healing, mechanical integrity, magnetic response, or electromagnetic shielding performance.</p>
+          </article>
+          <article class="study-ladder-step">
+            <p class="study-ladder-tag">Stage D</p>
+            <h3>Device translation</h3>
+            <p>The target is not the droplet itself. The target is a working function: strain sensing, switchable conduction, recyclable circuitry, thermal control, or EMI shielding under realistic conditions.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="kicker">Core takeaways</p>
+          <h2 class="section-title">What students should remember first</h2>
+        </div>
+        <div class="study-notes-grid">
+          <article class="study-note-card">
+            <h3>Gallium alloys are the practical center of the field</h3>
+            <p>Most current work is built around gallium, EGaIn, and Galinstan because they stay liquid near room temperature while keeping strong electrical and thermal transport.</p>
+          </article>
+          <article class="study-note-card">
+            <h3>The oxide layer is both an asset and a constraint</h3>
+            <p>The oxide skin stabilizes droplets and supports patterning, but it can also resist coalescence, alter thermal transport, and complicate precise control.</p>
+          </article>
+          <article class="study-note-card">
+            <h3>Droplets make the interface visible</h3>
+            <p>When liquid metal becomes microscale or nanoscale droplets, surface area, coatings, particle pinning, and field-driven responses matter far more than in the bulk state.</p>
+          </article>
+          <article class="study-note-card">
+            <h3>Composite design is not optional</h3>
+            <p>Many target functions only emerge after combining liquid metal with polymers, magnetic particles, conductive fillers, or shell-forming species.</p>
+          </article>
+          <article class="study-note-card">
+            <h3>Performance comes from architecture, not only composition</h3>
+            <p>Embossing, percolation, sonication, surface functionalization, and magnetic alignment can matter as much as alloy selection.</p>
+          </article>
+          <article class="study-note-card">
+            <h3>The field is moving toward reusable systems</h3>
+            <p>Recent work pushes beyond simple conductivity toward self-healing, reconfigurable, recyclable, and multifunctional materials, including shielding platforms.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section card">
+        <div class="section-heading">
+          <p class="kicker">Source shelf</p>
+          <h2 class="section-title">Papers behind this study section</h2>
+          <p class="page-intro">These pages were reconstructed from the documents below. Each source is linked directly so students can move from the handbook-style summary back to the original paper.</p>
+        </div>
+        <div class="study-source-grid">
+          <article class="study-source-card">
+            <p class="study-source-type">Review · Matter 2020</p>
+            <h3>Liquid Metal Composites</h3>
+            <p>Establishes the classic composite taxonomy: core-shell, polymer, and particle-based strategies.</p>
+            <a href="../references/1-s2.0-S2590238520301296-main.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+          </article>
+          <article class="study-source-card">
+            <p class="study-source-type">Review · Advanced Functional Materials 2024</p>
+            <h3>From Droplets to Devices</h3>
+            <p>Frames liquid metal droplets as a bridge from base material properties to sensors, circuits, and responsive electronics.</p>
+            <a href="../references/Adv Funct Materials - 2023 - Babatain - From Droplets to Devices  Recent Advances in Liquid Metal Droplet Enabled.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+          </article>
+          <article class="study-source-card">
+            <p class="study-source-type">Review · Trends in Chemistry 2024</p>
+            <h3>Advances in Liquid Metal Composites</h3>
+            <p>Explains physical versus chemical synthesis, along with organic and inorganic composite routes.</p>
+            <a href="../references/PIIS2589597423002654.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+          </article>
+          <article class="study-source-card">
+            <p class="study-source-type">Communication · Communications Materials 2021</p>
+            <h3>Self-Healing Liquid Metal Composite</h3>
+            <p>Provides a concrete device-scale example of reconfigurable, recyclable, and damage-tolerant soft electronics.</p>
+            <a href="../references/s43246-021-00169-4.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+          </article>
+          <article class="study-source-card">
+            <p class="study-source-type">Review · Nanomaterials 2025</p>
+            <h3>Liquid Metal-Based Electromagnetic Shielding Materials</h3>
+            <p>Shows how the field is moving toward shielding architectures that combine conductivity, deformability, and multifunctional design.</p>
+            <a href="../references/nanomaterials-15-01346.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section card join-panel">
+        <div class="section-heading">
+          <p class="kicker">Next step</p>
+          <h2 class="section-title">Use this section before starting a project</h2>
+          <p class="page-intro">A new student should be able to answer three questions after finishing this mini-site: what liquid metal is, why composites matter, and which device functions are actually realistic.</p>
+        </div>
+        <div class="cta-strip">
+          <a class="cta-link" href="handbook.html">Go to Handbook</a>
+          <a class="cta-link alt" href="../research.html">Connect to Lab Research</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <img class="footer-logo" src="../assets/images/dgist-logo.svg" alt="DGIST logo">
+        <p class="footer-meta">Energy Materials Design and Processing Lab, Department of Energy Science and Engineering</p>
+      </div>
+      <p>&copy; 2026 Energy Materials Design and Processing Lab, DGIST</p>
+    </div>
+  </footer>
+</body>
+</html>

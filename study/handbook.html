@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Handbook-style liquid metal property guide with graph-based comparison tools.">
+  <title>EMDP Lab | Study Handbook</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" href="../assets/images/EMDP_Lab_logo.svg" type="image/svg+xml">
+  <script src="../data/study-data.js" defer></script>
+  <script src="../assets/js/scripts.js" defer></script>
+  <script src="../assets/js/study.js" defer></script>
+</head>
+<body data-page="study" data-study-section="handbook" class="study-page">
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../index.html" aria-label="EMDP Lab Home">
+        <img class="brand-logo" src="../assets/images/EMDP_Lab_logo.svg" alt="EMDP Lab logo">
+        <span>
+          <span class="brand-wordmark">EMDP LAB</span>
+          <span class="brand-meta">Energy Materials Design &amp; Processing Lab</span>
+        </span>
+      </a>
+      <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
+      <nav id="siteNav" class="site-nav" aria-label="Primary">
+        <a class="nav-link" data-nav="home" href="../index.html">Home</a>
+        <a class="nav-link" data-nav="team" href="../team.html">Team</a>
+        <a class="nav-link" data-nav="research" href="../research.html">Research</a>
+        <a class="nav-link" data-nav="study" href="index.html">Study</a>
+        <a class="nav-link" data-nav="facility" href="../research-facility.html">Facility</a>
+        <a class="nav-link" data-nav="projects" href="../projects.html">Output</a>
+        <a class="nav-link" data-nav="news" href="../news.html">News</a>
+        <a class="nav-link nav-link-cta" data-nav="apply" href="../apply.html">Apply</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <section class="hero page-hero study-hero handbook-hero">
+        <div class="hero-content">
+          <p class="kicker">Property Atlas</p>
+          <h1 class="hero-title">Liquid Metal Handbook</h1>
+          <p class="hero-subtitle">This page is designed like a handbook: compare major properties quickly, then connect each property to why it matters in composites, devices, and experimental design.</p>
+          <p class="hero-subtitle">The values shown here are organized from the review papers, mainly the 2024 droplet review and the 2020 composite review, with water kept as an intuitive baseline.</p>
+        </div>
+        <aside class="hero-panel study-hero-panel">
+          <p class="panel-label">How to read the handbook</p>
+          <ul class="meta-list">
+            <li>Use the graph to compare materials.</li>
+            <li>Read the implication note for design meaning.</li>
+            <li>Connect the property to droplets, composites, and devices.</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="study-subnav-shell">
+        <nav class="study-subnav" aria-label="Study pages">
+          <a class="study-subnav-link" href="index.html">Overview</a>
+          <a class="study-subnav-link is-active" href="handbook.html">Handbook</a>
+          <a class="study-subnav-link" href="composites.html">Composites</a>
+          <a class="study-subnav-link" href="devices.html">Devices</a>
+        </nav>
+      </section>
+
+      <section class="section card study-dashboard" data-study-dashboard>
+        <div class="section-heading">
+          <p class="kicker">Graph view</p>
+          <h2 class="section-title">Interactive property explorer</h2>
+          <p class="page-intro">Select a property to see how Gallium, EGaIn, Galinstan, and water compare. The chart is meant to make the field easier to scan, not to replace the original papers.</p>
+        </div>
+        <div class="study-dashboard-grid">
+          <div class="study-property-menu" data-property-buttons></div>
+          <div class="study-property-detail" data-property-detail></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="kicker">Property families</p>
+          <h2 class="section-title">A fast interpretation layer for students</h2>
+        </div>
+        <div class="study-notes-grid">
+          <article class="study-note-card">
+            <h3>Transport properties</h3>
+            <p>Electrical and thermal conductivity explain why liquid metals appear in soft wiring, heat spreading, thermal switching, and shielding systems.</p>
+          </article>
+          <article class="study-note-card">
+            <h3>Fluidic properties</h3>
+            <p>Viscosity and density shape how droplets move, settle, disperse, and percolate inside polymer or particle matrices.</p>
+          </article>
+          <article class="study-note-card">
+            <h3>Interfacial properties</h3>
+            <p>Surface tension and oxide formation decide whether the metal beads up, wets, prints, coalesces, or stays as stable droplets.</p>
+          </article>
+          <article class="study-note-card">
+            <h3>Thermal window</h3>
+            <p>The combination of low melting point and high boiling point creates a wide operating window that is unusual for room-temperature fluids.</p>
+          </article>
+          <article class="study-note-card">
+            <h3>Droplet-specific behavior</h3>
+            <p>At the droplet scale, mobility, controllability, and functionalization become more important than bulk composition alone.</p>
+          </article>
+          <article class="study-note-card">
+            <h3>Property tradeoff</h3>
+            <p>Students should avoid thinking in terms of a single “best” property. Most useful systems are built by trading fluidity, stability, conductivity, and manufacturability against each other.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section card">
+        <div class="section-heading">
+          <p class="kicker">Rule-of-thumb guide</p>
+          <h2 class="section-title">From property to design decision</h2>
+        </div>
+        <div class="study-table">
+          <div class="study-table-row study-table-head">
+            <div>Property</div>
+            <div>What it enables</div>
+            <div>What it complicates</div>
+          </div>
+          <div class="study-table-row">
+            <div>High conductivity</div>
+            <div>Stretchable circuits, EMI shielding, thermal interfaces</div>
+            <div>Conductivity alone does not guarantee stable networks inside soft matrices</div>
+          </div>
+          <div class="study-table-row">
+            <div>High surface tension</div>
+            <div>Droplet integrity and recoverable geometry</div>
+            <div>Wetting, printing, and uniform coating become harder</div>
+          </div>
+          <div class="study-table-row">
+            <div>Low melting point</div>
+            <div>Room-temperature processing and adaptive form factors</div>
+            <div>Encapsulation and shape control become essential</div>
+          </div>
+          <div class="study-table-row">
+            <div>Oxide-enabled interfaces</div>
+            <div>Stabilized droplets, pattern retention, particle attachment</div>
+            <div>Extra resistance, altered thermal transport, limited coalescence</div>
+          </div>
+          <div class="study-table-row">
+            <div>Low viscosity</div>
+            <div>Flow, self-healing, microfluidics, reconfiguration</div>
+            <div>Containment and precise routing require structure</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section card join-panel">
+        <div class="section-heading">
+          <p class="kicker">Continue studying</p>
+          <h2 class="section-title">Move from properties to architectures</h2>
+          <p class="page-intro">Once the property map is clear, the next question is how those properties are translated into usable systems. That is the role of composites.</p>
+        </div>
+        <div class="cta-strip">
+          <a class="cta-link" href="composites.html">Go to Composites</a>
+          <a class="cta-link alt" href="devices.html">Skip to Devices</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <img class="footer-logo" src="../assets/images/dgist-logo.svg" alt="DGIST logo">
+        <p class="footer-meta">Energy Materials Design and Processing Lab, Department of Energy Science and Engineering</p>
+      </div>
+      <p>&copy; 2026 Energy Materials Design and Processing Lab, DGIST</p>
+    </div>
+  </footer>
+</body>
+</html>
