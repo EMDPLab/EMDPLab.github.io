@@ -44,10 +44,16 @@
         </div>
         <aside class="hero-panel study-hero-panel">
           <p class="panel-label">Main lesson</p>
-          <figure class="photo-item study-panel-figure">
-            <img src="../assets/images/study-devices-path.svg" alt="Diagram showing the path from droplet generation to device validation" loading="lazy">
-            <figcaption>Device performance emerges only after processing, interface control, activation, and validation are connected.</figcaption>
-          </figure>
+          <div class="study-ascii-card" role="img" aria-label="ASCII diagram showing the path from droplet generation to device validation">
+            <pre class="study-ascii-diagram">[ Droplet ] -> [ Interface ] -> [ Activation ] -> [ Device ]
+ generation     control          / network         validation
+                                   formation
+
+ sensors
+ circuits
+ self-healing electronics
+ EMI shielding</pre>
+          </div>
           <p class="page-intro">A droplet is not the final goal. It is an engineered intermediate state that gives access to new device architectures.</p>
         </aside>
       </section>
