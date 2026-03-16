@@ -41,7 +41,8 @@
     var saveData = !!(connection && connection.saveData);
     var lowMemory = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 4;
     var lowCoreCount = typeof navigator.hardwareConcurrency === 'number' && navigator.hardwareConcurrency <= 4;
-    var liteMode = prefersReducedMotion() || saveData || lowMemory || lowCoreCount;
+    var studyPage = document.body && document.body.classList.contains('study-page');
+    var liteMode = prefersReducedMotion() || saveData || lowMemory || lowCoreCount || studyPage;
     document.body.setAttribute('data-performance', liteMode ? 'lite' : 'full');
   }
 
@@ -199,6 +200,13 @@
   }
 
   function setupScrollReveal() {
+    if (document.body && document.body.classList.contains('study-page')) {
+      revealTargets().forEach(function (target) {
+        target.classList.add('revealed');
+      });
+      return;
+    }
+
     if (!prefersReducedMotion() && 'IntersectionObserver' in window) {
       try {
         revealObserver = new IntersectionObserver(

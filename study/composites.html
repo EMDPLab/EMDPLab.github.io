@@ -7,11 +7,9 @@
   <title>EMDP Lab | Study Composites</title>
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="icon" href="../assets/images/EMDP_Lab_logo.svg" type="image/svg+xml">
-  <script src="../data/study-data.js" defer></script>
   <script src="../assets/js/scripts.js" defer></script>
-  <script src="../assets/js/study.js" defer></script>
 </head>
-<body data-page="study" data-study-section="composites" class="study-page">
+<body id="pageTop" data-page="study" data-study-section="composites" class="study-page">
   <header class="site-header">
     <div class="container nav-wrap">
       <a class="brand" href="../index.html" aria-label="EMDP Lab Home">
@@ -59,158 +57,57 @@
         </nav>
       </section>
 
-      <section class="section">
-        <div class="section-heading">
-          <p class="kicker">Main taxonomy</p>
-          <h2 class="section-title">Three composite routes students should know first</h2>
+      <section class="section card study-reading-card">
+        <div class="section-heading study-reading-head">
+          <p class="kicker">Long-form composites review</p>
+          <h2 class="section-title">Why composite design is the real operating language of liquid-metal engineering</h2>
+          <p class="page-intro">This page intentionally avoids a fragmented card layout. The goal is to read composites the way a student would read a serious review article: as one connected argument about why pure liquid metal is rarely enough and how different architectures solve different engineering limits.</p>
         </div>
-        <div class="study-module-grid">
-          <article class="study-module-card">
-            <p class="study-module-no">A</p>
-            <h3>Core-shell systems</h3>
-            <p>A shell stabilizes or functionalizes the droplet surface. This route is useful when interface control, catalytic activity, non-stick behavior, or controlled interactions matter.</p>
-          </article>
-          <article class="study-module-card">
-            <p class="study-module-no">B</p>
-            <h3>LM-polymer composites</h3>
-            <p>Polymers provide shape, elasticity, toughness, and process windows. Liquid metal provides transport, self-healing potential, and stress-tolerant conductive pathways.</p>
-          </article>
-          <article class="study-module-card">
-            <p class="study-module-no">C</p>
-            <h3>LM-particle or hybrid composites</h3>
-            <p>Particles bring magnetic response, higher conductivity, catalytic function, or shielding mechanisms. The result is often a strongly multifunctional material rather than a single-purpose conductor.</p>
-          </article>
-        </div>
-      </section>
+        <article class="study-reading-body">
+          <section class="study-essay-section">
+            <h3>1. Why the composite question appears so quickly</h3>
+            <p>Liquid metal becomes exciting very quickly in the literature because it can conduct, deform, flow, and sometimes recover from damage in ways that rigid conductors cannot. However, exactly those strengths make it difficult to stabilize in practical form. A liquid that moves easily can also spread where it should not spread. A conductive phase that is highly mobile can also disconnect or coalesce in uncontrolled ways. A soft conductor that looks ideal in a single demonstration may still be hard to package, pattern, or recycle. Composite design enters the field because it turns these raw strengths into a controlled system.</p>
+            <p>The major composite reviews make this point from slightly different angles, but they converge on the same engineering logic. Liquid metal is best understood not as a standalone answer but as a phase whose function depends on what surrounds it. Shells control the interface. Polymers create structure, elasticity, and confinement. Solid particles introduce conductivity enhancement, magnetic behavior, catalytic sites, or shielding mechanisms. Once students see composites in this way, the field stops looking like a random collection of exotic materials and starts looking like a disciplined exercise in architecture.</p>
+          </section>
 
-      <section class="section card study-map-card">
-        <div class="section-heading">
-          <p class="kicker">Synthesis logic</p>
-          <h2 class="section-title">Physical versus chemical construction</h2>
-          <p class="page-intro">The 2024 Trends in Chemistry review organizes composite fabrication into two broad logics. That distinction is useful because it changes what the researcher can control.</p>
-        </div>
-        <div class="study-ladder">
-          <article class="study-ladder-step">
-            <p class="study-ladder-tag">Physical route</p>
-            <h3>Break, mix, disperse, assemble</h3>
-            <p>Mechanical mixing, sonication, shearing, extrusion, and templating are used when the goal is to distribute droplets, particles, or flakes in a matrix while retaining the liquid-metal phase.</p>
-          </article>
-          <article class="study-ladder-step">
-            <p class="study-ladder-tag">Chemical route</p>
-            <h3>React at the interface</h3>
-            <p>Chemical synthesis becomes useful when the droplet surface acts as a reaction site, forming shells, intermetallic features, coated particles, or other new phases that do not appear by simple blending.</p>
-          </article>
-          <article class="study-ladder-step">
-            <p class="study-ladder-tag">Student implication</p>
-            <h3>Ask what you are actually controlling</h3>
-            <p>Are you controlling droplet size, network formation, adhesion, reactivity, magnetic response, or end-of-life recyclability? The synthesis route should follow that answer.</p>
-          </article>
-        </div>
-      </section>
+          <section class="study-essay-section">
+            <h3>2. Core-shell systems: when the interface is the main design site</h3>
+            <p>Core-shell liquid-metal systems are especially important because they teach students that the droplet surface is not a passive boundary. It can be engineered into an active layer that stabilizes the droplet, prevents sticking, supports particle adsorption, modifies wetting, or participates in a chemical reaction. This is why the interface repeatedly appears in discussions of catalysis, droplet motion, surface functionalization, and patterning. The shell is often thin, but the effect can be decisive.</p>
+            <p>What makes this route valuable is that it does not require the researcher to eliminate the liquid character of the core. Instead, the shell allows the liquid phase to be preserved while selected weaknesses are reduced. In some cases, the shell helps isolate the liquid metal from the environment. In other cases, it acts as a bridge to another material system. The broader lesson is that composite design can be subtle. A composite is not always a bulk mixture. Sometimes the most important composite feature is an interface only a short distance thick.</p>
+          </section>
 
-      <section class="section">
-        <div class="section-heading">
-          <p class="kicker">Composite design matrix</p>
-          <h2 class="section-title">Choose the architecture by function</h2>
-        </div>
-        <div class="study-table">
-          <div class="study-table-row study-table-head">
-            <div>Target function</div>
-            <div>Useful composite route</div>
-            <div>Why that route works</div>
-          </div>
-          <div class="study-table-row">
-            <div>Self-healing circuit</div>
-            <div>LM-polymer composite</div>
-            <div>Polymer holds the form while liquid metal droplets reconfigure and reconnect under damage.</div>
-          </div>
-          <div class="study-table-row">
-            <div>Stretchable conductor</div>
-            <div>Embossed LM-elastomer network</div>
-            <div>Percolated liquid-metal paths can maintain or even improve conduction during deformation.</div>
-          </div>
-          <div class="study-table-row">
-            <div>EMI shielding</div>
-            <div>LM with conductive or magnetic fillers</div>
-            <div>Shielding relies on more than conductivity alone; interfacial polarization and magnetic loss also matter.</div>
-          </div>
-          <div class="study-table-row">
-            <div>Catalytic or reactive surface</div>
-            <div>Core-shell or chemically derived hybrid</div>
-            <div>The droplet interface becomes the active site for coating, charge transfer, or reaction-driven functionality.</div>
-          </div>
-          <div class="study-table-row">
-            <div>Thermal interface material</div>
-            <div>LM-polymer or LM-particle hybrid</div>
-            <div>The composite balances heat transport with mechanical integrity, leakage control, and practical handling.</div>
-          </div>
-        </div>
-      </section>
+          <section class="study-essay-section">
+            <h3>3. Polymer-based composites: where most soft-device thinking becomes practical</h3>
+            <p>Liquid metal-polymer composites are central because polymers provide what a fluid alone cannot: persistent shape, elastic recovery, damage tolerance, and a processable host. The polymer does not merely contain the liquid metal. It determines the mechanical identity of the device. Meanwhile, the liquid-metal phase provides transport and a way to preserve function during deformation. This is why liquid metal-polymer systems repeatedly appear in soft circuits, strain-tolerant conductors, thermal interface materials, and self-healing concepts.</p>
+            <p>At the same time, this route brings one of the field’s core difficulties into view. Liquid metal does not automatically disperse uniformly or remain stable in a polymer matrix. Droplet size, oxide chemistry, mixing energy, surface modification, and curing conditions all matter. The literature shows again and again that “liquid metal added to polymer” is not yet a finished material design. The actual challenge is to decide how dispersed the droplets should be, whether they must remain isolated or become percolated, and what activation step will convert the dispersed state into a functional electrical path.</p>
+            <p>The regenerative soft-electronics case study is especially useful here. It shows that a polymer matrix can do more than passively host liquid metal. In that work, the matrix enabled reprocessing, while local embossing converted initially isolated droplets into conductive networks only where circuitry was desired. That is a valuable design lesson for students. Function was not obtained from composition alone. It was obtained from the sequence of dispersion, confinement, activation, and later reconfiguration.</p>
+          </section>
 
-      <section class="section editorial-split">
-        <article class="card statement-card study-case-card">
-          <div class="statement-copy">
-            <p class="kicker">Case study 01</p>
-            <h2 class="section-title">Regenerative soft electronics</h2>
-            <p class="page-intro">The 2021 Communications Materials paper is a useful example because it shows what a composite can do at full device level, not only in material characterization.</p>
-            <ul class="bullet-list">
-              <li>A styrene-isoprene-styrene elastomer matrix provided softness and reprocessability.</li>
-              <li>Liquid metal droplets were embossed into conductive networks only where needed.</li>
-              <li>The system remained conductive through extreme strain, tolerated damage, and could be rewired or recycled.</li>
-            </ul>
-          </div>
-        </article>
-        <article class="card callout-card">
-          <p class="kicker">What to learn</p>
-          <h2 class="section-title">Architecture creates function</h2>
-          <p>The core lesson is that the liquid metal was not simply mixed into a polymer and left there. Network formation, local activation, and reprocessing strategy made the material useful as an actual electronic platform.</p>
+          <section class="study-essay-section">
+            <h3>4. Particle and hybrid composites: the route toward multifunctionality</h3>
+            <p>Particle-filled and hybrid liquid-metal composites show how quickly the field expands once additional mechanisms are invited into the system. Conductive particles can change network formation and electrical behavior. Magnetic particles can introduce field response and magnetic loss. Ceramic or catalytic phases can create thermal, chemical, or reactive functions. In other words, once particles are introduced, the composite stops being only a soft conductor and becomes a multifunctional engineered material.</p>
+            <p>This logic is especially clear in electromagnetic shielding research. Shielding is not achieved by conductivity alone. It depends on how electromagnetic waves are reflected, absorbed, scattered, or dissipated across a structured medium. That is why the shielding review organizes the field into monolithic liquid-metal frameworks, blends with conductive fillers, magnetic-particle composites, and architectured multifunctional systems. Each route represents a different strategy for controlling electromagnetic behavior while preserving the mechanical advantages that make liquid metal attractive in the first place.</p>
+          </section>
+
+          <section class="study-essay-section">
+            <h3>5. What students should learn before attempting a composite design</h3>
+            <p>Before proposing a new liquid-metal composite, students should ask a sequence of practical questions. Is the target function electrical, thermal, magnetic, catalytic, or shielding-related? Must the liquid-metal phase remain mobile, or should it be activated into a network only after processing? Does the surrounding matrix mainly provide elasticity, interfacial stability, spatial confinement, or end-of-life reprocessability? Is the synthesis route physical, chemical, or a combination of both? Most weak composite ideas fail because these questions are answered too late or only implicitly.</p>
+            <p>The best reading of the field is therefore not “what filler can I add next?” but “what limitation of pure liquid metal am I solving, and what new limitation does my composite create in return?” That tradeoff mindset is essential. A composite that improves one property may worsen processability, repeatability, or long-term stability. Mature liquid-metal research is increasingly defined by how clearly those tradeoffs are managed.</p>
+          </section>
         </article>
       </section>
 
-      <section class="section editorial-split">
-        <article class="card statement-card study-case-card">
-          <div class="statement-copy">
-            <p class="kicker">Case study 02</p>
-            <h2 class="section-title">EMI shielding composites</h2>
-            <p class="page-intro">The 2025 Nanomaterials review shows how the field is expanding from soft conduction to shielding architectures with structural and electromagnetic design in mind.</p>
-            <ul class="bullet-list">
-              <li>Monolithic liquid-metal scaffolds emphasize continuous conductive frameworks.</li>
-              <li>LM/conductive-filler blends strengthen reflection and network formation.</li>
-              <li>LM/magnetic particle composites introduce magnetic loss and broaden shielding mechanisms.</li>
-              <li>Architectured multifunctional systems target lightweight and broadband performance.</li>
-            </ul>
-          </div>
-        </article>
-        <article class="card callout-card">
-          <p class="kicker">Student note</p>
-          <h2 class="section-title">Shielding is a system problem</h2>
-          <p>For shielding, conductivity helps, but geometry, interface polarization, filler selection, and mechanical integrity matter just as much. This is why composite thinking becomes unavoidable.</p>
-        </article>
-      </section>
-
-      <section class="section card">
+      <section class="section card study-reading-card">
         <div class="section-heading">
-          <p class="kicker">Open questions</p>
-          <h2 class="section-title">Where students can still contribute</h2>
+          <p class="kicker">Reference webpages</p>
+          <h2 class="section-title">Journal landing pages for the composite section</h2>
         </div>
-        <div class="study-notes-grid">
-          <article class="study-note-card">
-            <h3>Better compatibility</h3>
-            <p>Uniform dispersion inside polymers remains difficult because liquid metal tends to coalesce unless interface control is carefully designed.</p>
-          </article>
-          <article class="study-note-card">
-            <h3>Reliable network formation</h3>
-            <p>Many useful functions depend on controlled percolation, but turning discrete droplets into stable conductive pathways is still application-specific.</p>
-          </article>
-          <article class="study-note-card">
-            <h3>Scalable processing</h3>
-            <p>Lab demonstrations are easier than large-area manufacturing. Students should ask how a method behaves when sample size, speed, and reproducibility increase.</p>
-          </article>
-          <article class="study-note-card">
-            <h3>Lifecycle thinking</h3>
-            <p>Recyclability, rewiring, and reconfiguration are becoming more important as soft devices move toward practical use.</p>
-          </article>
-        </div>
+        <ol class="study-reference-list">
+          <li><a href="https://doi.org/10.1016/j.matt.2020.03.016" target="_blank" rel="noopener noreferrer">Chen, Wang, Zhao, Rao, and Liu, “Liquid Metal Composites,” Matter (2020).</a></li>
+          <li><a href="https://doi.org/10.1016/j.trechm.2023.11.003" target="_blank" rel="noopener noreferrer">Ghasemian, Tang, Rahim, Tang, and Kalantar-Zadeh, “Advances in Liquid Metal Composites: Properties, Applications, and Future Prospects,” Trends in Chemistry (2024).</a></li>
+          <li><a href="https://doi.org/10.1038/s43246-021-00169-4" target="_blank" rel="noopener noreferrer">Tutika, Haque, and Bartlett, “Self-Healing Liquid Metal Composite for Reconfigurable and Recyclable Soft Electronics,” Communications Materials (2021).</a></li>
+          <li><a href="https://doi.org/10.3390/nano15171346" target="_blank" rel="noopener noreferrer">Suo et al., “Recent Progress of Liquid Metal-Based Electromagnetic Shielding Materials,” Nanomaterials (2025).</a></li>
+        </ol>
       </section>
 
       <section class="section card join-panel">
@@ -225,6 +122,7 @@
         </div>
       </section>
     </div>
+    <a class="study-top-button" href="#pageTop" aria-label="Back to top">Top</a>
   </main>
 
   <footer class="site-footer">

@@ -7,11 +7,9 @@
   <title>EMDP Lab | Study</title>
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="icon" href="../assets/images/EMDP_Lab_logo.svg" type="image/svg+xml">
-  <script src="../data/study-data.js" defer></script>
   <script src="../assets/js/scripts.js" defer></script>
-  <script src="../assets/js/study.js" defer></script>
 </head>
-<body data-page="study" data-study-section="overview" class="study-page">
+<body id="pageTop" data-page="study" data-study-section="overview" class="study-page">
   <header class="site-header">
     <div class="container nav-wrap">
       <a class="brand" href="../index.html" aria-label="EMDP Lab Home">
@@ -65,140 +63,55 @@
         </nav>
       </section>
 
-      <section class="section">
-        <div class="section-heading">
-          <p class="kicker">How to use this study space</p>
-          <h2 class="section-title">Start with the map, then go deeper by topic</h2>
-          <p class="page-intro">Students new to the field usually struggle because liquid metal is discussed from too many angles at once. The pages below break the field into a clearer sequence.</p>
+      <section class="section card study-reading-card">
+        <div class="section-heading study-reading-head">
+          <p class="kicker">Long-form overview</p>
+          <h2 class="section-title">A structured introduction for students entering the liquid-metal field</h2>
+          <p class="page-intro">This page is intentionally written as continuous reading material. The aim is to let a new student move through the field in the same order that a researcher usually has to learn it: first the material itself, then the droplet state, then the need for composites, and finally the question of device relevance.</p>
         </div>
-        <div class="study-module-grid">
-          <article class="study-module-card">
-            <p class="study-module-no">01</p>
-            <h3>Field overview</h3>
-            <p>Learn why gallium-based alloys matter, why droplets are special, and how the field expands from material science into device engineering.</p>
-            <a class="cta-link alt" href="index.html">Read overview</a>
-          </article>
-          <article class="study-module-card">
-            <p class="study-module-no">02</p>
-            <h3>Property handbook</h3>
-            <p>Use a graph-based property explorer to compare conductivity, thermal transport, viscosity, density, and interfacial behavior.</p>
-            <a class="cta-link alt" href="handbook.html">Open handbook</a>
-          </article>
-          <article class="study-module-card">
-            <p class="study-module-no">03</p>
-            <h3>Composite session</h3>
-            <p>Study why the field repeatedly moves from pure liquid metal to composite architectures such as core-shell, polymer, and particle systems.</p>
-            <a class="cta-link alt" href="composites.html">Study composites</a>
-          </article>
-          <article class="study-module-card">
-            <p class="study-module-no">04</p>
-            <h3>Droplets to devices</h3>
-            <p>Trace the path from droplet generation and interface control to sensors, circuits, self-healing electronics, and EMI shielding.</p>
-            <a class="cta-link alt" href="devices.html">See devices</a>
-          </article>
-        </div>
+        <article class="study-reading-body">
+          <section class="study-essay-section">
+            <h3>1. Why liquid metal has become a serious research field</h3>
+            <p>Liquid metal attracts attention because it brings together properties that are usually separated. In most introductory materials science courses, students learn to think of metals as rigid, highly conductive solids and to think of liquids as mobile but electrically poor media. Gallium-based liquid metals force those two categories to overlap. They remain fluid at or near room temperature, but they still keep metallic electrical and thermal transport. That unusual combination is the reason the field keeps appearing in soft electronics, thermal management, reconfigurable circuits, robotics, and more recently electromagnetic shielding.</p>
+            <p>The papers used for this study page repeatedly return to the same practical point: the modern field is centered on gallium and gallium-based alloys because they are the workable alternative to mercury. Gallium, EGaIn, and Galinstan provide a realistic materials platform with low melting points, high boiling points, low vapor pressure, and strong electrical conduction. In other words, the field did not grow simply because liquid metals are visually interesting. It grew because gallium-based systems opened a usable operating window for real devices and real processing routes.</p>
+            <p>For students, this is the first conceptual anchor. Liquid metal is not one isolated niche material. It is a broader design platform for problems where compliance, conductivity, thermal transport, and geometric reconfiguration have to coexist. Once that is clear, the rest of the field becomes easier to organize.</p>
+          </section>
+
+          <section class="study-essay-section">
+            <h3>2. Why the droplet form changes the way we think about the material</h3>
+            <p>Bulk liquid metal already has unusual value, but the field expands dramatically when the material is turned into droplets. The droplet state introduces a new scale of control. At that point, the metal is no longer defined only by conductivity or melting point. It becomes an interfacial object. Surface tension, oxide formation, droplet size, mobility, and interaction with surrounding media begin to control what the material can actually do.</p>
+            <p>This is why the droplet review is so important for students. It shows that droplets are not just smaller pieces of the same material. They create new engineering possibilities. Droplets can be patterned, stabilized, coated, aligned, dispersed in matrices, and activated into networks. Their large surface-to-volume ratio makes functionalization far more consequential than it is in the bulk state. The oxide layer becomes a central actor. It can help droplets hold shape, avoid uncontrolled coalescence, and support printing or pattern retention. At the same time, that same oxide layer can hinder merging, introduce transport penalties, or complicate precise control.</p>
+            <p>Students often find the liquid-metal literature confusing because the same oxide layer is sometimes described as useful and sometimes described as a problem. The correct interpretation is that it is both. In this field, a useful property often arrives with a constraint. The job of device design is to decide when a given feature should be stabilized, suppressed, or redirected toward another function.</p>
+          </section>
+
+          <section class="study-essay-section">
+            <h3>3. Why the field quickly moves from pure liquid metal to composite systems</h3>
+            <p>Once the droplet perspective is understood, the next major transition becomes clear: pure liquid metal is rarely enough by itself. It is highly conductive and highly deformable, but that does not automatically mean it is easy to integrate into devices. It must often be confined, dispersed, activated, connected, or protected. This is the point where composites become the backbone of the field. The major reviews on composites show that the most important advances come from combining liquid metal with shells, polymers, particles, or hybrid interfaces that compensate for what the pure liquid cannot provide on its own.</p>
+            <p>In practical terms, composites answer the questions that a raw liquid cannot answer well. How do we stop uncontrolled spreading? How do we keep conductivity while stretching? How do we maintain a stable droplet population inside a soft matrix? How do we add magnetic response, catalytic activity, or electromagnetic shielding performance? How do we design a system that can be rewired or recycled instead of discarded after damage? These are not minor adjustments. They are the reason the field can move from material curiosity to serious engineering.</p>
+            <p>This is also the point where students should stop thinking of liquid metal as a singular substance and start thinking of it as a phase inside a larger architecture. In many successful systems, the most important design choice is not the alloy alone. It is the relationship between the liquid-metal phase and the surrounding structure.</p>
+          </section>
+
+          <section class="study-essay-section">
+            <h3>4. How students should read the field from this point forward</h3>
+            <p>A useful way to read the field is to ask four questions in order. First, what fundamental property is the work trying to exploit: conductivity, thermal transport, mobility, self-healing, or field responsiveness? Second, what form does the liquid metal take: bulk channel, isolated droplets, percolated network, or composite filler? Third, what problem is the surrounding material solving: encapsulation, toughness, activation, electromagnetic loss, or process compatibility? Fourth, what device-level function is being claimed, and under what operating conditions is it validated?</p>
+            <p>If students keep those four questions in view, the literature becomes much less scattered. Different papers begin to look like different answers to the same structural problem. Some emphasize interfacial control, some emphasize composite stabilization, some emphasize device reliability, and some emphasize multifunctionality such as shielding. But all of them are trying to turn a distinctive phase of matter into a controllable engineering system.</p>
+            <p>The other important lesson is that the field is moving toward more realistic and lifecycle-aware goals. Reconfigurable electronics, recyclable composites, and shielding architectures show that the research frontier is no longer just “can liquid metal conduct while soft.” The frontier is increasingly about whether a liquid-metal system can survive damage, retain function, be reconfigured for a new role, and operate in environments that matter outside a single lab demonstration.</p>
+          </section>
+        </article>
       </section>
 
-      <section class="section card study-map-card">
+      <section class="section card study-reading-card">
         <div class="section-heading">
-          <p class="kicker">Field map</p>
-          <h2 class="section-title">The liquid-metal field in one view</h2>
+          <p class="kicker">Reference webpages</p>
+          <h2 class="section-title">Journal landing pages used to reconstruct this section</h2>
         </div>
-        <div class="study-ladder">
-          <article class="study-ladder-step">
-            <p class="study-ladder-tag">Stage A</p>
-            <h3>Base material</h3>
-            <p>Gallium-based liquid metals are attractive because they combine room-temperature liquidity with metallic electrical and thermal transport. Compared with mercury, they are the practical low-toxicity route emphasized across the papers.</p>
-          </article>
-          <article class="study-ladder-step">
-            <p class="study-ladder-tag">Stage B</p>
-            <h3>Droplet form factor</h3>
-            <p>Once the metal is broken into droplets, interface and scale begin to dominate behavior. Surface tension, oxide skin, mobility, and field responsiveness become central design variables.</p>
-          </article>
-          <article class="study-ladder-step">
-            <p class="study-ladder-tag">Stage C</p>
-            <h3>Composite architecture</h3>
-            <p>Pure liquid metal is rarely enough. Composites improve stability, processability, self-healing, mechanical integrity, magnetic response, or electromagnetic shielding performance.</p>
-          </article>
-          <article class="study-ladder-step">
-            <p class="study-ladder-tag">Stage D</p>
-            <h3>Device translation</h3>
-            <p>The target is not the droplet itself. The target is a working function: strain sensing, switchable conduction, recyclable circuitry, thermal control, or EMI shielding under realistic conditions.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-heading">
-          <p class="kicker">Core takeaways</p>
-          <h2 class="section-title">What students should remember first</h2>
-        </div>
-        <div class="study-notes-grid">
-          <article class="study-note-card">
-            <h3>Gallium alloys are the practical center of the field</h3>
-            <p>Most current work is built around gallium, EGaIn, and Galinstan because they stay liquid near room temperature while keeping strong electrical and thermal transport.</p>
-          </article>
-          <article class="study-note-card">
-            <h3>The oxide layer is both an asset and a constraint</h3>
-            <p>The oxide skin stabilizes droplets and supports patterning, but it can also resist coalescence, alter thermal transport, and complicate precise control.</p>
-          </article>
-          <article class="study-note-card">
-            <h3>Droplets make the interface visible</h3>
-            <p>When liquid metal becomes microscale or nanoscale droplets, surface area, coatings, particle pinning, and field-driven responses matter far more than in the bulk state.</p>
-          </article>
-          <article class="study-note-card">
-            <h3>Composite design is not optional</h3>
-            <p>Many target functions only emerge after combining liquid metal with polymers, magnetic particles, conductive fillers, or shell-forming species.</p>
-          </article>
-          <article class="study-note-card">
-            <h3>Performance comes from architecture, not only composition</h3>
-            <p>Embossing, percolation, sonication, surface functionalization, and magnetic alignment can matter as much as alloy selection.</p>
-          </article>
-          <article class="study-note-card">
-            <h3>The field is moving toward reusable systems</h3>
-            <p>Recent work pushes beyond simple conductivity toward self-healing, reconfigurable, recyclable, and multifunctional materials, including shielding platforms.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section card">
-        <div class="section-heading">
-          <p class="kicker">Source shelf</p>
-          <h2 class="section-title">Papers behind this study section</h2>
-          <p class="page-intro">These pages were reconstructed from the documents below. Each source is linked directly so students can move from the handbook-style summary back to the original paper.</p>
-        </div>
-        <div class="study-source-grid">
-          <article class="study-source-card">
-            <p class="study-source-type">Review · Matter 2020</p>
-            <h3>Liquid Metal Composites</h3>
-            <p>Establishes the classic composite taxonomy: core-shell, polymer, and particle-based strategies.</p>
-            <a href="../references/1-s2.0-S2590238520301296-main.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
-          </article>
-          <article class="study-source-card">
-            <p class="study-source-type">Review · Advanced Functional Materials 2024</p>
-            <h3>From Droplets to Devices</h3>
-            <p>Frames liquid metal droplets as a bridge from base material properties to sensors, circuits, and responsive electronics.</p>
-            <a href="../references/Adv Funct Materials - 2023 - Babatain - From Droplets to Devices  Recent Advances in Liquid Metal Droplet Enabled.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
-          </article>
-          <article class="study-source-card">
-            <p class="study-source-type">Review · Trends in Chemistry 2024</p>
-            <h3>Advances in Liquid Metal Composites</h3>
-            <p>Explains physical versus chemical synthesis, along with organic and inorganic composite routes.</p>
-            <a href="../references/PIIS2589597423002654.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
-          </article>
-          <article class="study-source-card">
-            <p class="study-source-type">Communication · Communications Materials 2021</p>
-            <h3>Self-Healing Liquid Metal Composite</h3>
-            <p>Provides a concrete device-scale example of reconfigurable, recyclable, and damage-tolerant soft electronics.</p>
-            <a href="../references/s43246-021-00169-4.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
-          </article>
-          <article class="study-source-card">
-            <p class="study-source-type">Review · Nanomaterials 2025</p>
-            <h3>Liquid Metal-Based Electromagnetic Shielding Materials</h3>
-            <p>Shows how the field is moving toward shielding architectures that combine conductivity, deformability, and multifunctional design.</p>
-            <a href="../references/nanomaterials-15-01346.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
-          </article>
-        </div>
+        <ol class="study-reference-list">
+          <li><a href="https://doi.org/10.1016/j.matt.2020.03.016" target="_blank" rel="noopener noreferrer">Chen, Wang, Zhao, Rao, and Liu, “Liquid Metal Composites,” Matter (2020).</a></li>
+          <li><a href="https://doi.org/10.1002/adfm.202308116" target="_blank" rel="noopener noreferrer">Babatain, Kim, and Hussain, “From Droplets to Devices: Recent Advances in Liquid Metal Droplet Enabled Electronics,” Advanced Functional Materials (2024).</a></li>
+          <li><a href="https://doi.org/10.1016/j.trechm.2023.11.003" target="_blank" rel="noopener noreferrer">Ghasemian, Tang, Rahim, Tang, and Kalantar-Zadeh, “Advances in Liquid Metal Composites: Properties, Applications, and Future Prospects,” Trends in Chemistry (2024).</a></li>
+          <li><a href="https://doi.org/10.1038/s43246-021-00169-4" target="_blank" rel="noopener noreferrer">Tutika, Haque, and Bartlett, “Self-Healing Liquid Metal Composite for Reconfigurable and Recyclable Soft Electronics,” Communications Materials (2021).</a></li>
+          <li><a href="https://doi.org/10.3390/nano15171346" target="_blank" rel="noopener noreferrer">Suo et al., “Recent Progress of Liquid Metal-Based Electromagnetic Shielding Materials,” Nanomaterials (2025).</a></li>
+        </ol>
       </section>
 
       <section class="section card join-panel">
@@ -213,6 +126,7 @@
         </div>
       </section>
     </div>
+    <a class="study-top-button" href="#pageTop" aria-label="Back to top">Top</a>
   </main>
 
   <footer class="site-footer">

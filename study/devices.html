@@ -7,11 +7,9 @@
   <title>EMDP Lab | Study Devices</title>
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="icon" href="../assets/images/EMDP_Lab_logo.svg" type="image/svg+xml">
-  <script src="../data/study-data.js" defer></script>
   <script src="../assets/js/scripts.js" defer></script>
-  <script src="../assets/js/study.js" defer></script>
 </head>
-<body data-page="study" data-study-section="devices" class="study-page">
+<body id="pageTop" data-page="study" data-study-section="devices" class="study-page">
   <header class="site-header">
     <div class="container nav-wrap">
       <a class="brand" href="../index.html" aria-label="EMDP Lab Home">
@@ -59,140 +57,61 @@
         </nav>
       </section>
 
-      <section class="section card study-map-card">
-        <div class="section-heading">
-          <p class="kicker">Process route</p>
-          <h2 class="section-title">From liquid metal to working device</h2>
+      <section class="section card study-reading-card">
+        <div class="section-heading study-reading-head">
+          <p class="kicker">Long-form applications review</p>
+          <h2 class="section-title">How droplets and composites become devices that do useful work</h2>
+          <p class="page-intro">This page is written as a continuous narrative rather than a grid of topic cards. The focus is on the process that connects liquid-metal properties to device function, because that is the step students usually need the most help understanding.</p>
         </div>
-        <div class="study-ladder">
-          <article class="study-ladder-step">
-            <p class="study-ladder-tag">Step 1</p>
-            <h3>Create droplets</h3>
-            <p>Methods such as drop-on-demand, molding, microfluidics, sonication, and shearing define droplet size, uniformity, and throughput.</p>
-          </article>
-          <article class="study-ladder-step">
-            <p class="study-ladder-tag">Step 2</p>
-            <h3>Control the interface</h3>
-            <p>Oxide management, surface coatings, functional particles, and host-matrix choice determine whether droplets stay isolated, merge, respond, or adhere.</p>
-          </article>
-          <article class="study-ladder-step">
-            <p class="study-ladder-tag">Step 3</p>
-            <h3>Activate conduction or function</h3>
-            <p>Percolation, embossing, alignment, gating, or external fields convert a dispersed state into a sensing, switching, or shielding state.</p>
-          </article>
-          <article class="study-ladder-step">
-            <p class="study-ladder-tag">Step 4</p>
-            <h3>Validate at device scale</h3>
-            <p>The final question is always practical: does the system work under strain, repeated cycling, environmental exposure, or electromagnetic loading?</p>
-          </article>
-        </div>
-      </section>
+        <article class="study-reading-body">
+          <section class="study-essay-section">
+            <h3>1. The important shift from material property to device behavior</h3>
+            <p>One of the most valuable lessons from the droplet literature is that a liquid-metal device is never defined only by the alloy it uses. A device emerges when a property is turned into a repeatable behavior. Conductivity becomes a working interconnect only after path formation is controlled. Fluidity becomes self-healing only when a system architecture allows broken paths to reconnect. Surface tension becomes useful only when the resulting droplet geometry can be patterned or activated on demand. The device perspective therefore begins one step after materials selection.</p>
+            <p>This is why the phrase “from droplets to devices” is so useful. It reminds students that droplets are not the final result. They are an engineered intermediate state. Once the metal is in droplet form, it can be positioned, dispersed, coated, gated, merged, activated, or embedded. Each of those operations opens a different device class.</p>
+          </section>
 
-      <section class="section">
-        <div class="section-heading">
-          <p class="kicker">Processing methods</p>
-          <h2 class="section-title">Why fabrication route matters</h2>
-        </div>
-        <div class="study-module-grid">
-          <article class="study-module-card">
-            <p class="study-module-no">01</p>
-            <h3>Drop-on-demand and molding</h3>
-            <p>Useful for controlled placement, patterned arrays, and shaped droplet structures when spatial precision matters more than throughput.</p>
-          </article>
-          <article class="study-module-card">
-            <p class="study-module-no">02</p>
-            <h3>Microfluidics</h3>
-            <p>Supports better control over droplet size and continuous generation, especially when uniformity and flow-driven assembly are important.</p>
-          </article>
-          <article class="study-module-card">
-            <p class="study-module-no">03</p>
-            <h3>Sonication and shearing</h3>
-            <p>Widely used to create microdroplets and nanodroplets for composite preparation, inks, and interface-rich systems.</p>
-          </article>
-          <article class="study-module-card">
-            <p class="study-module-no">04</p>
-            <h3>Pattern activation</h3>
-            <p>Embossing or local activation is often the step that turns a passive composite into an operational circuit or strain-tolerant conductor.</p>
-          </article>
-        </div>
-      </section>
+          <section class="study-essay-section">
+            <h3>2. Processing route matters because it defines what can be controlled later</h3>
+            <p>Device behavior is already constrained at the fabrication stage. Drop-on-demand and molding methods are useful when placement and geometry must be tightly controlled. Microfluidic approaches matter when researchers need continuous droplet production with narrower size distribution. Sonication and shearing are especially important for composite and ink preparation because they create large populations of microdroplets or nanodroplets with interface-rich behavior. Embossing and other local activation methods become critical when the goal is to start from a dispersed insulating state and then selectively create conductive paths only where needed.</p>
+            <p>Students should interpret these methods not as a menu of equivalent options but as different commitments. A fabrication route determines droplet size, throughput, spatial order, oxide exposure, and how easily the system can later be activated into a working device. In that sense, processing is part of device design from the beginning.</p>
+          </section>
 
-      <section class="section">
-        <div class="section-heading">
-          <p class="kicker">Application map</p>
-          <h2 class="section-title">Where droplets and composites are actually used</h2>
-        </div>
-        <div class="study-notes-grid">
-          <article class="study-note-card">
-            <h3>Sensors</h3>
-            <p>The droplet review reports pressure, strain, gas, and tactile sensing routes. In many of these systems, mechanical deformation changes capacitance, percolation, or resistance.</p>
-          </article>
-          <article class="study-note-card">
-            <h3>Circuits and interconnects</h3>
-            <p>Liquid metal enables soft routing and deformable conductors, but real circuit behavior depends on how droplets are connected and stabilized inside a host structure.</p>
-          </article>
-          <article class="study-note-card">
-            <h3>Transistors and switches</h3>
-            <p>Droplet positioning and coalescence can modulate electrical or thermal pathways, creating switch-like behavior that is difficult with rigid conductors alone.</p>
-          </article>
-          <article class="study-note-card">
-            <h3>Soft robotics and actuation</h3>
-            <p>Field responsiveness, conductivity, and liquid-like compliance make liquid metal attractive for actuators, adaptive systems, and robotic skins.</p>
-          </article>
-          <article class="study-note-card">
-            <h3>Self-healing electronics</h3>
-            <p>The regenerative composite example shows that device lifetime can be improved when the conductive phase is able to reconfigure instead of crack irreversibly.</p>
-          </article>
-          <article class="study-note-card">
-            <h3>EMI shielding</h3>
-            <p>The newest review broadens the device story toward electromagnetic protection, where conductivity, filler choice, and architecture combine to suppress interference.</p>
-          </article>
-        </div>
-      </section>
+          <section class="study-essay-section">
+            <h3>3. Sensors, circuits, and switches all depend on how the liquid-metal phase is reorganized</h3>
+            <p>The literature on sensors shows that liquid metal is valuable when mechanical deformation can be translated into an electrical change without sacrificing softness. Pressure, strain, tactile, and gas sensors do not all use the same mechanism, but they often depend on a change in capacitance, resistance, percolation, or interfacial contact. The droplet or network structure is therefore central. The liquid-metal phase must be arranged so that deformation produces a readable signal rather than random electrical noise.</p>
+            <p>The same logic applies to circuits and switches. A soft conductor is not enough. The field has developed ways to move droplets, merge droplets, or activate percolated paths so that a device can turn on, turn off, reroute, or respond to heat. Some systems behave like electrical switches, while others function as thermal switches or reconfigurable conductors. What unifies them is that the device response comes from a controlled transition in the organization of the liquid-metal phase.</p>
+          </section>
 
-      <section class="section editorial-split">
-        <article class="card statement-card study-case-card">
-          <div class="statement-copy">
-            <p class="kicker">Design checkpoint</p>
-            <h2 class="section-title">Questions students should ask before building</h2>
-            <ul class="bullet-list">
-              <li>Do I need isolated droplets, or a connected conductive network?</li>
-              <li>Is the critical failure mode mechanical fracture, oxidation, leakage, or electromagnetic performance loss?</li>
-              <li>What activates the device response: pressure, strain, field input, heat, or chemistry?</li>
-              <li>Can the fabrication method scale beyond one demonstration sample?</li>
-            </ul>
-          </div>
-        </article>
-        <article class="card callout-card">
-          <p class="kicker">Interpretation</p>
-          <h2 class="section-title">Applications are interface problems</h2>
-          <p>Across the papers, device success rarely comes from liquid metal alone. It comes from how the liquid metal is confined, activated, patterned, coated, and connected to another material system.</p>
+          <section class="study-essay-section">
+            <h3>4. Regenerative electronics show what device-level maturity looks like</h3>
+            <p>The self-healing and recyclable composite work is valuable because it pushes the conversation beyond one-time demonstration of conductivity. It asks whether a soft electronic system can survive damage, recover useful behavior, be rewired, and even be recycled into a new device. That is a much stronger standard. It means the liquid-metal phase must not only conduct; it must participate in a lifecycle strategy.</p>
+            <p>For students, this is an important shift in perspective. A device paper is strongest when it does not stop at “the material stretches.” It becomes much more convincing when it asks what happens after repeated use, after tearing, after reconfiguration, or after the end of the original design purpose. Liquid metal is especially promising in this area because its mobility allows conductive pathways to be reorganized instead of only broken.</p>
+          </section>
+
+          <section class="study-essay-section">
+            <h3>5. EMI shielding shows where the field is heading next</h3>
+            <p>Electromagnetic shielding broadens the meaning of liquid-metal devices. Here the target is not only soft conduction or sensing, but controlled interaction with electromagnetic waves. This requires another level of design because shielding performance depends on reflection, absorption, interfacial polarization, conductive-network formation, and sometimes magnetic loss. As a result, the newest work increasingly uses architectured composites rather than simple liquid-metal traces.</p>
+            <p>This matters because it shows the field maturing toward multifunctional systems. A future liquid-metal platform may need to conduct, deform, survive damage, spread heat, and shield electromagnetic noise at the same time. That is a harder design problem, but it is also exactly why liquid-metal research remains active and strategically useful.</p>
+          </section>
+
+          <section class="study-essay-section">
+            <h3>6. The practical reading strategy for students</h3>
+            <p>When reading device papers, students should always ask what structural change inside the material produces the claimed function. Is the key event droplet deformation, droplet coalescence, field-driven motion, selective percolation, or interfacial reaction? What form of activation is required? What failure mode would end the function first? And most importantly, is the reported behavior tied to realistic loading, repeated use, and system integration?</p>
+            <p>Once these questions become routine, device papers stop looking like unrelated demonstrations. They become different answers to the same engineering challenge: how to organize a liquid conductive phase so that function remains controllable under soft, damaged, or dynamically changing conditions.</p>
+          </section>
         </article>
       </section>
 
-      <section class="section card">
+      <section class="section card study-reading-card">
         <div class="section-heading">
-          <p class="kicker">Future direction</p>
-          <h2 class="section-title">Where the field seems to be heading</h2>
+          <p class="kicker">Reference webpages</p>
+          <h2 class="section-title">Journal landing pages for the applications section</h2>
         </div>
-        <div class="study-notes-grid">
-          <article class="study-note-card">
-            <h3>More multifunctionality</h3>
-            <p>Future systems are likely to combine sensing, conduction, thermal control, and shielding instead of optimizing only one behavior.</p>
-          </article>
-          <article class="study-note-card">
-            <h3>More realistic reliability tests</h3>
-            <p>Stretching once is not enough. Long-cycle loading, damage events, and environmental variation are becoming more important.</p>
-          </article>
-          <article class="study-note-card">
-            <h3>More lifecycle-aware devices</h3>
-            <p>Reconfigurable and recyclable platforms are gaining attention because soft and wearable systems are hard to maintain if they are treated as disposable.</p>
-          </article>
-          <article class="study-note-card">
-            <h3>More structured shielding materials</h3>
-            <p>Shielding research points toward lightweight, broadband, and intelligent architectures rather than simple conductive coatings.</p>
-          </article>
-        </div>
+        <ol class="study-reference-list">
+          <li><a href="https://doi.org/10.1002/adfm.202308116" target="_blank" rel="noopener noreferrer">Babatain, Kim, and Hussain, “From Droplets to Devices: Recent Advances in Liquid Metal Droplet Enabled Electronics,” Advanced Functional Materials (2024).</a></li>
+          <li><a href="https://doi.org/10.1038/s43246-021-00169-4" target="_blank" rel="noopener noreferrer">Tutika, Haque, and Bartlett, “Self-Healing Liquid Metal Composite for Reconfigurable and Recyclable Soft Electronics,” Communications Materials (2021).</a></li>
+          <li><a href="https://doi.org/10.3390/nano15171346" target="_blank" rel="noopener noreferrer">Suo et al., “Recent Progress of Liquid Metal-Based Electromagnetic Shielding Materials,” Nanomaterials (2025).</a></li>
+        </ol>
       </section>
 
       <section class="section card join-panel">
@@ -207,6 +126,7 @@
         </div>
       </section>
     </div>
+    <a class="study-top-button" href="#pageTop" aria-label="Back to top">Top</a>
   </main>
 
   <footer class="site-footer">
