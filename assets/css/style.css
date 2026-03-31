@@ -962,6 +962,10 @@ p {
   aspect-ratio: 4 / 3;
 }
 
+.team-group-photo {
+  aspect-ratio: 3 / 2;
+}
+
 .facility-gallery {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
