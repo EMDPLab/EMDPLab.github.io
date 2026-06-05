@@ -23,7 +23,7 @@
   --container: min(1180px, 92vw);
   --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-display: var(--font-body);
-  --font-hero: 'Bodoni Moda', 'Bodoni 72', Didot, Georgia, serif;
+  --font-hero: 'Fraunces', 'Bodoni 72', Didot, Georgia, serif;
 }
 
 * {
@@ -2335,8 +2335,8 @@ main {
 
 .nav-link {
   min-height: 2.35rem;
-  padding: 0.5rem 0.72rem;
-  font-size: 0.88rem;
+  padding: 0.48rem 0.58rem;
+  font-size: 0.82rem;
   font-weight: 700;
 }
 
@@ -2873,11 +2873,12 @@ body {
 .ref-hero h1 {
   max-width: 8.5ch;
   color: var(--ref-ink);
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: var(--font-hero);
   font-size: clamp(4.6rem, 9vw, 10.8rem);
   font-weight: 900;
   letter-spacing: 0 !important;
-  line-height: 0.82;
+  line-height: 0.84;
+  text-wrap: balance;
 }
 
 .ref-hero-copy > p:last-child {
@@ -2915,19 +2916,10 @@ body {
   background: #000;
 }
 
-.ref-project-media::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(255, 106, 42, 0.22), transparent 48%);
-  mix-blend-mode: screen;
-}
-
 .ref-project-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(0.92) contrast(1.08);
 }
 
 .ref-project-caption {
@@ -3018,9 +3010,10 @@ body {
 .ref-board-head h2,
 .ref-contact h2 {
   color: var(--ref-ink);
-  font-size: clamp(3rem, 8vw, 8rem);
+  font-size: clamp(2.6rem, 5.2vw, 5.2rem);
   font-weight: 900;
-  line-height: 0.86;
+  line-height: 0.96;
+  text-wrap: balance;
 }
 
 .ref-section-body p,
@@ -3066,7 +3059,7 @@ body {
 
 .ref-board-head h2 {
   margin-top: 1rem;
-  font-size: clamp(2.8rem, 6vw, 6rem);
+  font-size: clamp(2.6rem, 4.8vw, 4.8rem);
 }
 
 .ref-work-grid {
@@ -3107,9 +3100,9 @@ body {
   display: block;
   max-width: 14ch;
   margin: 2rem 0 1rem;
-  font-size: clamp(2rem, 4.2vw, 4.8rem);
+  font-size: clamp(1.8rem, 3.4vw, 3.8rem);
   font-weight: 900;
-  line-height: 0.88;
+  line-height: 0.94;
   text-transform: uppercase;
 }
 
@@ -3349,6 +3342,475 @@ body {
   .ref-section-body h2,
   .ref-board-head h2,
   .ref-contact h2 {
-    font-size: clamp(3.2rem, 15vw, 5.2rem);
+    font-size: clamp(2.45rem, 12vw, 4.2rem);
+  }
+}
+
+/* REF-style system for interior pages */
+body:not([data-page='home']) {
+  color: var(--ref-ink);
+  background: var(--ref-bg);
+}
+
+body:not([data-page='home']) main {
+  padding: 0 0 5rem;
+  background: var(--ref-bg);
+}
+
+body:not([data-page='home']) main > .container {
+  width: min(1480px, 100%);
+}
+
+body:not([data-page='home']) .hero,
+body:not([data-page='home']) .card,
+body:not([data-page='home']) .contact,
+body:not([data-page='home']) .feature-card,
+body:not([data-page='home']) .metric-card,
+body:not([data-page='home']) .fit-item,
+body:not([data-page='home']) .step-card,
+body:not([data-page='home']) .team-card,
+body:not([data-page='home']) .publication-item,
+body:not([data-page='home']) .application-form,
+body:not([data-page='home']) .apply-form-side,
+body:not([data-page='home']) .consent-row,
+body:not([data-page='home']) .news-item,
+body:not([data-page='home']) .pub-year-group,
+body:not([data-page='home']) .table-wrap,
+body:not([data-page='home']) .study-module-card,
+body:not([data-page='home']) .study-note-card,
+body:not([data-page='home']) .study-source-card,
+body:not([data-page='home']) .study-ladder-step,
+body:not([data-page='home']) .study-chart-card,
+body:not([data-page='home']) .study-property-note,
+body:not([data-page='home']) .study-ascii-card {
+  border: 1px solid var(--ref-line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body:not([data-page='home']) .hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.42fr);
+  gap: 0;
+  align-items: stretch;
+  min-height: clamp(460px, 62vh, 760px);
+  margin: 0;
+  padding: 0;
+  border-width: 0 0 1px;
+}
+
+body:not([data-page='home']) .hero-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(0.8rem, 1.5vw, 1.2rem);
+  min-width: 0;
+  padding: clamp(1.5rem, 5vw, 5rem);
+}
+
+body:not([data-page='home']) .hero-panel {
+  align-content: end;
+  padding: clamp(1.25rem, 3vw, 3rem);
+  border-width: 0 0 0 1px;
+  border-radius: 0;
+  background: var(--ref-bg-soft);
+}
+
+body:not([data-page='home']) .hero-title {
+  max-width: 11.5ch;
+  color: var(--ref-ink);
+  font-family: var(--font-hero);
+  font-size: clamp(4.5rem, 12vw, 12rem);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+body:not([data-page='home']) .hero-subtitle,
+body:not([data-page='home']) .page-intro,
+body:not([data-page='home']) .topic-summary,
+body:not([data-page='home']) .topic-detail,
+body:not([data-page='home']) .meta-list,
+body:not([data-page='home']) .bullet-list,
+body:not([data-page='home']) .topic-points,
+body:not([data-page='home']) .feature-card p,
+body:not([data-page='home']) .fit-item p,
+body:not([data-page='home']) .step-card p,
+body:not([data-page='home']) .team-content p,
+body:not([data-page='home']) .news-copy p,
+body:not([data-page='home']) .contact p,
+body:not([data-page='home']) .publication-item,
+body:not([data-page='home']) .pub-meta-value,
+body:not([data-page='home']) .pub-record-value,
+body:not([data-page='home']) .pub-record-link,
+body:not([data-page='home']) .study-module-card p,
+body:not([data-page='home']) .study-note-card p,
+body:not([data-page='home']) .study-source-card p,
+body:not([data-page='home']) .study-ladder-step p,
+body:not([data-page='home']) .study-property-note p,
+body:not([data-page='home']) .study-chart-material span,
+body:not([data-page='home']) .study-table-row:not(.study-table-head) {
+  color: var(--ref-muted);
+}
+
+body:not([data-page='home']) .kicker,
+body:not([data-page='home']) .panel-label,
+body:not([data-page='home']) .step-no,
+body:not([data-page='home']) .subsection-title,
+body:not([data-page='home']) .pub-no,
+body:not([data-page='home']) .pub-label,
+body:not([data-page='home']) .news-date,
+body:not([data-page='home']) .study-ladder-tag,
+body:not([data-page='home']) .study-source-type {
+  color: var(--ref-muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+body:not([data-page='home']) .kicker::before,
+body:not([data-page='home']) .panel-label::before {
+  background: var(--ref-muted);
+}
+
+body:not([data-page='home']) .section {
+  margin: 0;
+  padding: clamp(1.25rem, 3vw, 3rem);
+  border-bottom: 1px solid var(--ref-line);
+}
+
+body:not([data-page='home']) .section.card,
+body:not([data-page='home']) .contact {
+  padding: clamp(1.5rem, 4vw, 4rem);
+}
+
+body:not([data-page='home']) .section-heading {
+  max-width: 980px;
+}
+
+body:not([data-page='home']) .section-heading::after {
+  background: var(--ref-line);
+}
+
+body:not([data-page='home']) .section-title,
+body:not([data-page='home']) .contact h2,
+body:not([data-page='home']) .feature-card h3,
+body:not([data-page='home']) .fit-item h3,
+body:not([data-page='home']) .step-card h3,
+body:not([data-page='home']) .team-content h3,
+body:not([data-page='home']) .news-copy h2,
+body:not([data-page='home']) .publication-item .pub-title,
+body:not([data-page='home']) .pub-year-title,
+body:not([data-page='home']) .study-essay-section h3 {
+  color: var(--ref-ink);
+  font-family: var(--font-body);
+  font-weight: 900;
+}
+
+body:not([data-page='home']) .section-title,
+body:not([data-page='home']) .contact h2 {
+  font-size: clamp(2.4rem, 4.8vw, 4.8rem);
+  line-height: 0.96;
+  text-wrap: balance;
+}
+
+body:not([data-page='home']) .feature-grid,
+body:not([data-page='home']) .fit-grid,
+body:not([data-page='home']) .apply-steps,
+body:not([data-page='home']) .team-grid,
+body:not([data-page='home']) .study-module-grid,
+body:not([data-page='home']) .study-notes-grid,
+body:not([data-page='home']) .study-source-grid,
+body:not([data-page='home']) .study-ladder {
+  gap: 0;
+}
+
+body:not([data-page='home']) .feature-card,
+body:not([data-page='home']) .fit-item,
+body:not([data-page='home']) .step-card,
+body:not([data-page='home']) .team-card,
+body:not([data-page='home']) .study-module-card,
+body:not([data-page='home']) .study-note-card,
+body:not([data-page='home']) .study-source-card,
+body:not([data-page='home']) .study-ladder-step {
+  min-height: 220px;
+  padding: clamp(1.1rem, 2.5vw, 2rem);
+}
+
+body:not([data-page='home']) .feature-card::before,
+body:not([data-page='home']) .fit-item::before,
+body:not([data-page='home']) .step-card::before,
+body:not([data-page='home']) .team-card::before,
+body:not([data-page='home']) .publication-item::before,
+body:not([data-page='home']) .news-item::before {
+  background: var(--ref-line);
+}
+
+body:not([data-page='home']) .feature-card:hover,
+body:not([data-page='home']) .fit-item:hover,
+body:not([data-page='home']) .step-card:hover,
+body:not([data-page='home']) .team-card:hover,
+body:not([data-page='home']) .news-item:hover,
+body:not([data-page='home']) .publication-item:hover {
+  border-color: var(--ref-ink);
+  transform: none;
+  box-shadow: none;
+}
+
+body:not([data-page='home']) a {
+  color: var(--ref-ink);
+}
+
+body:not([data-page='home']) .cta-link,
+body:not([data-page='home']) .pub-link,
+body:not([data-page='home']) .pub-top-btn,
+body:not([data-page='home']) .interest-form button,
+body:not([data-page='home']) .application-form button,
+body:not([data-page='home']) .study-subnav-link,
+body:not([data-page='home']) .study-top-button {
+  border: 1px solid var(--ref-ink);
+  border-radius: 0;
+  background: var(--ref-ink);
+  color: var(--ref-bg);
+  box-shadow: none;
+  text-transform: uppercase;
+}
+
+body:not([data-page='home']) .cta-link.alt,
+body:not([data-page='home']) .pub-top-btn,
+body:not([data-page='home']) .pub-link {
+  background: transparent;
+  color: var(--ref-ink);
+}
+
+body:not([data-page='home']) .chip,
+body:not([data-page='home']) .topic-tag,
+body:not([data-page='home']) .pub-year,
+body:not([data-page='home']) .pub-type,
+body:not([data-page='home']) .pub-year-count,
+body:not([data-page='home']) .study-pill,
+body:not([data-page='home']) .study-module-no {
+  border-color: var(--ref-line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ref-muted);
+  text-transform: uppercase;
+}
+
+body:not([data-page='home']) .research-topic {
+  padding: clamp(1.25rem, 3vw, 3rem);
+}
+
+body:not([data-page='home']) .research-topic-card,
+body:not([data-page='home']) .research-topic-card.reverse {
+  gap: clamp(1.25rem, 3vw, 3rem);
+}
+
+body:not([data-page='home']) .profile {
+  gap: clamp(1rem, 3vw, 2rem);
+}
+
+body:not([data-page='home']) .profile-side > div,
+body:not([data-page='home']) .pub-meta-item,
+body:not([data-page='home']) .study-hero-note,
+body:not([data-page='home']) .study-chart-card,
+body:not([data-page='home']) .study-property-note {
+  border-color: var(--ref-line);
+  border-radius: 0;
+  background: transparent;
+}
+
+body:not([data-page='home']) .pub-year-summary,
+body:not([data-page='home']) .pub-year-items {
+  background: transparent;
+}
+
+body:not([data-page='home']) .pub-year-summary {
+  border-bottom-color: var(--ref-line);
+}
+
+body:not([data-page='home']) .pub-record-doi,
+body:not([data-page='home']) code {
+  border-radius: 0;
+  background: var(--ref-bg-soft);
+  color: var(--ref-ink);
+}
+
+body:not([data-page='home']) .news-item {
+  grid-template-columns: 96px minmax(220px, 0.75fr) minmax(0, 1fr);
+}
+
+body:not([data-page='home']) .news-index {
+  color: var(--ref-ink);
+  font-family: var(--font-body);
+  font-weight: 900;
+}
+
+body:not([data-page='home']) .contact {
+  background: var(--ref-paper);
+  color: var(--ref-paper-ink);
+}
+
+body:not([data-page='home']) .contact h2,
+body:not([data-page='home']) .contact .kicker,
+body:not([data-page='home']) .contact a,
+body:not([data-page='home']) .contact label {
+  color: var(--ref-paper-ink);
+}
+
+body:not([data-page='home']) .contact p,
+body:not([data-page='home']) .contact .page-intro {
+  color: rgba(23, 19, 16, 0.74);
+}
+
+body:not([data-page='home']) input,
+body:not([data-page='home']) select,
+body:not([data-page='home']) textarea,
+body:not([data-page='home']) .application-form input[type='file'] {
+  border-color: var(--ref-line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ref-ink);
+}
+
+body:not([data-page='home']) input::placeholder,
+body:not([data-page='home']) textarea::placeholder {
+  color: rgba(255, 248, 238, 0.42);
+}
+
+body:not([data-page='home']) .contact input,
+body:not([data-page='home']) .contact textarea,
+body:not([data-page='home']) .contact select {
+  border-color: var(--ref-paper-ink);
+  color: var(--ref-paper-ink);
+}
+
+body:not([data-page='home']) .contact input::placeholder,
+body:not([data-page='home']) .contact textarea::placeholder {
+  color: rgba(23, 19, 16, 0.48);
+}
+
+body:not([data-page='home']) .application-form,
+body:not([data-page='home']) .apply-form-side,
+body:not([data-page='home']) .consent-row {
+  background: var(--ref-bg-soft);
+}
+
+body:not([data-page='home']) .application-form label,
+body:not([data-page='home']) .interest-form label,
+body:not([data-page='home']) .protection-title {
+  color: var(--ref-ink);
+  text-transform: uppercase;
+}
+
+body:not([data-page='home']) .consent-row span {
+  color: var(--ref-muted);
+}
+
+body:not([data-page='home']) .table-wrap {
+  border-color: var(--ref-line);
+}
+
+body:not([data-page='home']) .data-table th {
+  background: var(--ref-bg-soft);
+  color: var(--ref-ink);
+}
+
+body:not([data-page='home']) .data-table td,
+body:not([data-page='home']) .data-table th {
+  border-color: var(--ref-line);
+}
+
+body:not([data-page='home']) .data-table td {
+  color: var(--ref-muted);
+}
+
+body:not([data-page='home']).study-page {
+  background: var(--ref-bg);
+}
+
+body:not([data-page='home']) .study-subnav {
+  border-color: var(--ref-line);
+  border-radius: 0;
+  background: transparent;
+}
+
+body:not([data-page='home']) .study-subnav-link.is-active,
+body:not([data-page='home']) .study-subnav-link:hover,
+body:not([data-page='home']) .study-subnav-link:focus-visible {
+  color: var(--ref-bg);
+  background: var(--ref-ink);
+}
+
+body:not([data-page='home']) .study-orbit {
+  border-color: var(--ref-line);
+  border-radius: 0;
+  background: var(--ref-bg-soft);
+}
+
+body:not([data-page='home']) .study-orbit-core,
+body:not([data-page='home']) .study-orbit-node {
+  border: 1px solid var(--ref-line);
+  border-radius: 0;
+  background: var(--ref-bg);
+  color: var(--ref-ink);
+  box-shadow: none;
+}
+
+body:not([data-page='home']) .study-chart-track {
+  background: rgba(255, 248, 238, 0.14);
+}
+
+body:not([data-page='home']) .study-table {
+  border-color: var(--ref-line);
+  border-radius: 0;
+  background: transparent;
+}
+
+body:not([data-page='home']) .study-table-row {
+  border-color: var(--ref-line);
+}
+
+body:not([data-page='home']) .study-table-head {
+  background: var(--ref-bg-soft);
+  color: var(--ref-ink);
+}
+
+body:not([data-page='home']) .footer-meta,
+body:not([data-page='home']) .site-footer p {
+  color: var(--ref-muted);
+}
+
+@media (max-width: 1100px) {
+  body:not([data-page='home']) .hero {
+    grid-template-columns: 1fr;
+  }
+
+  body:not([data-page='home']) .hero-panel {
+    border-width: 1px 0 0;
+  }
+}
+
+@media (max-width: 760px) {
+  body:not([data-page='home']) .hero-title {
+    font-size: clamp(4rem, 18vw, 6.4rem);
+  }
+
+  body:not([data-page='home']) .section,
+  body:not([data-page='home']) .section.card,
+  body:not([data-page='home']) .contact {
+    padding: 1.25rem;
+  }
+
+  body:not([data-page='home']) .section-title,
+  body:not([data-page='home']) .contact h2 {
+    font-size: clamp(2.35rem, 11vw, 4rem);
+  }
+
+  body:not([data-page='home']) .news-item {
+    grid-template-columns: 1fr;
   }
 }
