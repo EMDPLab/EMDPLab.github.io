@@ -829,12 +829,13 @@
       panel.setAttribute('aria-labelledby', 'privacyConsentTitle');
       panel.innerHTML =
         '<div class="privacy-consent-copy">' +
-        '<p id="privacyConsentTitle" class="privacy-consent-title">Visitor analytics</p>' +
-        '<p>EMDP Lab can record an anonymous page visit to understand site traffic. The tracker does not use advertising cookies and only runs if you allow it.</p>' +
+        '<p id="privacyConsentTitle" class="privacy-consent-title">Cookies</p>' +
+        '<p>We use a small visitor tracker to understand site traffic. It does not use advertising cookies and only records analytics if you allow it.</p>' +
         '</div>' +
         '<div class="privacy-consent-actions">' +
-        '<button type="button" class="privacy-consent-btn primary" data-consent-choice="granted">Allow analytics</button>' +
-        '<button type="button" class="privacy-consent-btn" data-consent-choice="declined">Decline</button>' +
+        '<button type="button" class="privacy-consent-btn primary" data-consent-choice="granted">Allow all cookies</button>' +
+        '<button type="button" class="privacy-consent-btn" data-consent-choice="declined">Allow necessary cookies</button>' +
+        '<button type="button" class="privacy-consent-btn" data-consent-manage>Manage cookies</button>' +
         '</div>';
       var header = document.querySelector('.site-header');
       if (header && header.parentNode) {
@@ -843,18 +844,54 @@
         document.body.appendChild(panel);
       }
 
-      panel.querySelectorAll('[data-consent-choice]').forEach(function (button) {
-        button.addEventListener('click', function () {
-          var choice = button.getAttribute('data-consent-choice') === 'granted' ? 'granted' : 'declined';
-          storageSet(consentKey, choice);
-          closeConsent();
-          if (choice === 'granted') {
-            recordPageView();
-          } else {
-            updateTrackerWidget('declined', readStats());
+      function applyChoice(choice) {
+        storageSet(consentKey, choice);
+        closeConsent();
+        if (choice === 'granted') {
+          recordPageView();
+        } else {
+          updateTrackerWidget('declined', readStats());
+        }
+      }
+
+      function bindChoiceButtons() {
+        panel.querySelectorAll('[data-consent-choice]').forEach(function (button) {
+          if (button.getAttribute('data-consent-bound') === '1') return;
+          button.setAttribute('data-consent-bound', '1');
+          button.addEventListener('click', function () {
+            var choice = button.getAttribute('data-consent-choice') === 'granted' ? 'granted' : 'declined';
+            applyChoice(choice);
+          });
+        });
+      }
+
+      var manageButton = panel.querySelector('[data-consent-manage]');
+      if (manageButton) {
+        manageButton.addEventListener('click', function () {
+          var copy = panel.querySelector('.privacy-consent-copy');
+          var actions = panel.querySelector('.privacy-consent-actions');
+          if (!copy || !actions) return;
+          copy.innerHTML =
+            '<p id="privacyConsentTitle" class="privacy-consent-title">Manage cookies</p>' +
+            '<div class="privacy-cookie-options">' +
+            '<label><input type="checkbox" checked disabled> Necessary <span>Always active</span></label>' +
+            '<label><input id="analyticsCookieChoice" type="checkbox"> Analytics <span>Anonymous page visits</span></label>' +
+            '</div>';
+          actions.innerHTML =
+            '<button type="button" class="privacy-consent-btn primary" data-consent-confirm>Confirm my choice</button>' +
+            '<button type="button" class="privacy-consent-btn" data-consent-choice="declined">Back to necessary only</button>';
+          bindChoiceButtons();
+          var confirm = panel.querySelector('[data-consent-confirm]');
+          if (confirm) {
+            confirm.addEventListener('click', function () {
+              var analytics = byId('analyticsCookieChoice');
+              applyChoice(analytics && analytics.checked ? 'granted' : 'declined');
+            });
           }
         });
-      });
+      }
+
+      bindChoiceButtons();
     }
 
     function renderTrackerWidget() {
@@ -864,10 +901,10 @@
       widget.id = 'visitorTracker';
       widget.className = 'visitor-tracker';
       widget.innerHTML =
-        '<span class="visitor-tracker-label">Visitor tracker</span>' +
+        '<span class="visitor-tracker-label">Cookies</span>' +
         '<span class="visitor-tracker-pill" data-tracker-status>Consent pending</span>' +
         '<span class="visitor-tracker-count"><strong data-tracker-count>0</strong> local visits</span>' +
-        '<button type="button" class="visitor-tracker-settings">Privacy settings</button>';
+        '<button type="button" class="visitor-tracker-settings">Cookie settings</button>';
       footer.appendChild(widget);
 
       var settings = widget.querySelector('.visitor-tracker-settings');
