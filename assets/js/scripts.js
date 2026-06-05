@@ -663,10 +663,13 @@
   function setupVisitorTracker() {
     var consentKey = 'emdp_analytics_consent_v1';
     var statsKey = 'emdp_local_visit_stats_v1';
+    var geoKey = 'emdp_geo_snapshot_v1';
     var visitorKey = 'emdp_visitor_id_v1';
     var sessionKey = 'emdp_session_id_v1';
     var pageSessionKey = 'emdp_pageview_' + window.location.pathname;
     var endpoint = (document.body.getAttribute('data-analytics-endpoint') || '').trim();
+    var geoEndpoint = (document.body.getAttribute('data-geo-endpoint') || 'https://ipapi.co/json/').trim();
+    var geoCacheMs = 24 * 60 * 60 * 1000;
 
     function storageGet(key) {
       try {
@@ -739,20 +742,106 @@
       } catch (error) {}
     }
 
+    function readGeoSnapshot() {
+      try {
+        var raw = storageGet(geoKey);
+        var parsed = raw ? JSON.parse(raw) : {};
+        return parsed && typeof parsed === 'object' ? parsed : {};
+      } catch (error) {
+        return {};
+      }
+    }
+
+    function writeGeoSnapshot(snapshot) {
+      try {
+        storageSet(geoKey, JSON.stringify(snapshot));
+      } catch (error) {}
+    }
+
+    function normalizeGeo(data) {
+      if (!data || typeof data !== 'object') return null;
+      var country = safeText(data.country_name || data.country || data.countryCode);
+      var region = safeText(data.region || data.region_name || data.regionName);
+      var city = safeText(data.city);
+      var timezone = safeText(data.timezone || data.time_zone);
+      var latitude = Number(data.latitude || data.lat);
+      var longitude = Number(data.longitude || data.lon || data.lng);
+      var geo = {
+        country: country,
+        region: region,
+        city: city,
+        timezone: timezone
+      };
+      if (Number.isFinite(latitude)) geo.latitude = Number(latitude.toFixed(2));
+      if (Number.isFinite(longitude)) geo.longitude = Number(longitude.toFixed(2));
+      geo.location_key = [country, region, city].filter(Boolean).join(' / ') || 'Unknown';
+      return geo.location_key === 'Unknown' ? null : geo;
+    }
+
+    function resolveGeo() {
+      var snapshot = readGeoSnapshot();
+      var cachedAt = Date.parse(snapshot.cached_at || '');
+      if (snapshot.geo && cachedAt && Date.now() - cachedAt < geoCacheMs) {
+        return Promise.resolve(snapshot.geo);
+      }
+      if (!geoEndpoint || !/^https:\/\//i.test(geoEndpoint) || !window.fetch) {
+        return Promise.resolve(null);
+      }
+      return fetch(geoEndpoint, {
+        method: 'GET',
+        cache: 'no-store',
+        credentials: 'omit'
+      })
+        .then(function (response) {
+          if (!response.ok) throw new Error('Geo lookup failed');
+          return response.json();
+        })
+        .then(function (data) {
+          var geo = normalizeGeo(data);
+          if (geo) {
+            writeGeoSnapshot({
+              cached_at: new Date().toISOString(),
+              source: new URL(geoEndpoint).hostname,
+              geo: geo
+            });
+          }
+          return geo;
+        })
+        .catch(function () {
+          return null;
+        });
+    }
+
+    function mergeGeoStats(stats, geo) {
+      if (!geo || !geo.location_key) return stats;
+      stats.geo_last = geo;
+      stats.locations = stats.locations && typeof stats.locations === 'object' ? stats.locations : {};
+      stats.locations[geo.location_key] = Number(stats.locations[geo.location_key] || 0) + 1;
+      return stats;
+    }
+
     function updateTrackerWidget(state, stats) {
       var widget = byId('visitorTracker');
       if (!widget) return;
       var status = widget.querySelector('[data-tracker-status]');
       var count = widget.querySelector('[data-tracker-count]');
+      var location = widget.querySelector('[data-tracker-location]');
       if (status) {
         status.textContent = state === 'granted' ? 'Analytics on' : state === 'declined' ? 'Analytics off' : 'Consent pending';
       }
       if (count) {
         count.textContent = stats && stats.total ? String(stats.total) : '0';
       }
+      if (location) {
+        if (state === 'granted' && stats && stats.geo_last) {
+          location.textContent = stats.geo_last.city || stats.geo_last.region || stats.geo_last.country || 'Location saved';
+        } else {
+          location.textContent = state === 'declined' ? 'Location off' : 'Location pending';
+        }
+      }
     }
 
-    function buildPayload(visitorId, sessionId, stats) {
+    function buildPayload(visitorId, sessionId, stats, geo) {
       return {
         event: 'page_view',
         site: 'emdp-lab',
@@ -762,6 +851,7 @@
         visitor_id: visitorId,
         session_id: sessionId,
         local_visit_count: stats.total || 0,
+        geo: geo || stats.geo_last || null,
         sent_at: new Date().toISOString()
       };
     }
@@ -810,8 +900,15 @@
       writeStats(stats);
       sessionSet(pageSessionKey, '1');
 
-      sendPayload(buildPayload(ensureVisitorId(), ensureSessionId(), stats));
       updateTrackerWidget('granted', stats);
+      resolveGeo().then(function (geo) {
+        if (geo) {
+          mergeGeoStats(stats, geo);
+          writeStats(stats);
+        }
+        sendPayload(buildPayload(ensureVisitorId(), ensureSessionId(), stats, geo));
+        updateTrackerWidget('granted', stats);
+      });
     }
 
     function closeConsent() {
@@ -830,7 +927,7 @@
       panel.innerHTML =
         '<div class="privacy-consent-copy">' +
         '<p id="privacyConsentTitle" class="privacy-consent-title">Cookies</p>' +
-        '<p>We use a small visitor tracker to understand site traffic. It does not use advertising cookies and only records analytics if you allow it.</p>' +
+        '<p>We use a small visitor tracker to understand site traffic and approximate visitor location by IP address. It does not use advertising cookies and only records analytics if you allow it.</p>' +
         '</div>' +
         '<div class="privacy-consent-actions">' +
         '<button type="button" class="privacy-consent-btn primary" data-consent-choice="granted">Allow all cookies</button>' +
@@ -875,7 +972,7 @@
             '<p id="privacyConsentTitle" class="privacy-consent-title">Manage cookies</p>' +
             '<div class="privacy-cookie-options">' +
             '<label><input type="checkbox" checked disabled> Necessary <span>Always active</span></label>' +
-            '<label><input id="analyticsCookieChoice" type="checkbox"> Analytics <span>Anonymous page visits</span></label>' +
+            '<label><input id="analyticsCookieChoice" type="checkbox"> Analytics <span>Page visits and approximate location</span></label>' +
             '</div>';
           actions.innerHTML =
             '<button type="button" class="privacy-consent-btn primary" data-consent-confirm>Confirm my choice</button>' +
@@ -904,6 +1001,7 @@
         '<span class="visitor-tracker-label">Cookies</span>' +
         '<span class="visitor-tracker-pill" data-tracker-status>Consent pending</span>' +
         '<span class="visitor-tracker-count"><strong data-tracker-count>0</strong> local visits</span>' +
+        '<span class="visitor-tracker-location" data-tracker-location>Location pending</span>' +
         '<button type="button" class="visitor-tracker-settings">Cookie settings</button>';
       footer.appendChild(widget);
 
