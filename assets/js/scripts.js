@@ -464,8 +464,6 @@
     var status = byId('applicationStatus');
     var submitBtn = byId('applicationSubmit');
     var startedField = byId('applicationStartedAt');
-    var humanQuestion = byId('humanQuestion');
-    var humanCheck = byId('humanCheck');
     var consentCheck = byId('consentCheck');
     var cvFile = byId('cvFile');
     var coverFile = byId('coverFile');
@@ -474,18 +472,6 @@
     var startedAt = Date.now();
 
     if (startedField) startedField.value = String(startedAt);
-
-    var answer = 0;
-
-    function refreshSecurityQuestion() {
-      var a = Math.floor(Math.random() * 8) + 3;
-      var b = Math.floor(Math.random() * 8) + 4;
-      answer = a + b;
-      if (humanQuestion) humanQuestion.textContent = 'Security check: ' + a + ' + ' + b + ' = ?';
-      if (humanCheck) humanCheck.value = '';
-    }
-
-    refreshSecurityQuestion();
 
     function hasExt(file, list) {
       if (!file || !file.name) return false;
@@ -536,18 +522,13 @@
         return;
       }
 
-      if (Date.now() - startedAt < 8000) {
-        setFormMessage(status, 'Please take a little more time before submitting.', 'error');
-        return;
-      }
-
       if (!consentCheck || !consentCheck.checked) {
         setFormMessage(status, 'Please confirm the consent checkbox.', 'error');
         return;
       }
 
-      if (!humanCheck || parseInt(humanCheck.value, 10) !== answer) {
-        setFormMessage(status, 'Security check answer is incorrect.', 'error');
+      if (isRateLimited('emdp_apply_submit', 5, 24 * 60 * 60 * 1000)) {
+        setFormMessage(status, 'Too many submissions from this browser today. Please try again tomorrow or email the lab directly.', 'error');
         return;
       }
 
@@ -645,7 +626,6 @@
         .then(function (payload) {
           recordEvent('emdp_apply_submit');
           form.reset();
-          refreshSecurityQuestion();
           startedAt = Date.now();
           if (startedField) startedField.value = String(startedAt);
 
@@ -678,6 +658,230 @@
           }
         });
     });
+  }
+
+  function setupVisitorTracker() {
+    var consentKey = 'emdp_analytics_consent_v1';
+    var statsKey = 'emdp_local_visit_stats_v1';
+    var visitorKey = 'emdp_visitor_id_v1';
+    var sessionKey = 'emdp_session_id_v1';
+    var pageSessionKey = 'emdp_pageview_' + window.location.pathname;
+    var endpoint = (document.body.getAttribute('data-analytics-endpoint') || '').trim();
+
+    function storageGet(key) {
+      try {
+        return window.localStorage.getItem(key);
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function storageSet(key, value) {
+      try {
+        window.localStorage.setItem(key, value);
+      } catch (error) {}
+    }
+
+    function sessionGet(key) {
+      try {
+        return window.sessionStorage.getItem(key);
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function sessionSet(key, value) {
+      try {
+        window.sessionStorage.setItem(key, value);
+      } catch (error) {}
+    }
+
+    function id(prefix) {
+      return prefix + '-' + Math.random().toString(36).slice(2, 10) + '-' + Date.now().toString(36);
+    }
+
+    function consentState() {
+      var value = storageGet(consentKey);
+      return value === 'granted' || value === 'declined' ? value : '';
+    }
+
+    function ensureVisitorId() {
+      var value = storageGet(visitorKey);
+      if (!value) {
+        value = id('visitor');
+        storageSet(visitorKey, value);
+      }
+      return value;
+    }
+
+    function ensureSessionId() {
+      var value = sessionGet(sessionKey);
+      if (!value) {
+        value = id('session');
+        sessionSet(sessionKey, value);
+      }
+      return value;
+    }
+
+    function readStats() {
+      try {
+        var raw = storageGet(statsKey);
+        var parsed = raw ? JSON.parse(raw) : {};
+        return parsed && typeof parsed === 'object' ? parsed : {};
+      } catch (error) {
+        return {};
+      }
+    }
+
+    function writeStats(stats) {
+      try {
+        storageSet(statsKey, JSON.stringify(stats));
+      } catch (error) {}
+    }
+
+    function updateTrackerWidget(state, stats) {
+      var widget = byId('visitorTracker');
+      if (!widget) return;
+      var status = widget.querySelector('[data-tracker-status]');
+      var count = widget.querySelector('[data-tracker-count]');
+      if (status) {
+        status.textContent = state === 'granted' ? 'Analytics on' : state === 'declined' ? 'Analytics off' : 'Consent pending';
+      }
+      if (count) {
+        count.textContent = stats && stats.total ? String(stats.total) : '0';
+      }
+    }
+
+    function buildPayload(visitorId, sessionId, stats) {
+      return {
+        event: 'page_view',
+        site: 'emdp-lab',
+        page: window.location.pathname || '/',
+        title: document.title,
+        referrer_host: document.referrer ? safeReferrerHost(document.referrer) : '',
+        visitor_id: visitorId,
+        session_id: sessionId,
+        local_visit_count: stats.total || 0,
+        sent_at: new Date().toISOString()
+      };
+    }
+
+    function safeReferrerHost(referrer) {
+      try {
+        return new URL(referrer).hostname;
+      } catch (error) {
+        return '';
+      }
+    }
+
+    function sendPayload(payload) {
+      if (!endpoint || !/^https?:\/\//i.test(endpoint)) return;
+      var body = JSON.stringify(payload);
+      if (navigator.sendBeacon) {
+        try {
+          var blob = new Blob([body], { type: 'application/json' });
+          if (navigator.sendBeacon(endpoint, blob)) return;
+        } catch (error) {}
+      }
+      fetch(endpoint, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+        body: body,
+        keepalive: true
+      }).catch(function () {});
+    }
+
+    function recordPageView() {
+      if (consentState() !== 'granted') return;
+      if (sessionGet(pageSessionKey) === '1') {
+        updateTrackerWidget('granted', readStats());
+        return;
+      }
+
+      var now = new Date().toISOString();
+      var path = window.location.pathname || '/';
+      var stats = readStats();
+      stats.total = Number(stats.total || 0) + 1;
+      stats.first_seen = stats.first_seen || now;
+      stats.last_seen = now;
+      stats.pages = stats.pages && typeof stats.pages === 'object' ? stats.pages : {};
+      stats.pages[path] = Number(stats.pages[path] || 0) + 1;
+      writeStats(stats);
+      sessionSet(pageSessionKey, '1');
+
+      sendPayload(buildPayload(ensureVisitorId(), ensureSessionId(), stats));
+      updateTrackerWidget('granted', stats);
+    }
+
+    function closeConsent() {
+      var panel = byId('privacyConsent');
+      if (panel) panel.remove();
+    }
+
+    function showConsentPanel() {
+      closeConsent();
+      var panel = document.createElement('section');
+      panel.id = 'privacyConsent';
+      panel.className = 'privacy-consent';
+      panel.setAttribute('role', 'dialog');
+      panel.setAttribute('aria-modal', 'false');
+      panel.setAttribute('aria-labelledby', 'privacyConsentTitle');
+      panel.innerHTML =
+        '<div class="privacy-consent-copy">' +
+        '<p id="privacyConsentTitle" class="privacy-consent-title">Visitor analytics</p>' +
+        '<p>EMDP Lab can record an anonymous page visit to understand site traffic. The tracker does not use advertising cookies and only runs if you allow it.</p>' +
+        '</div>' +
+        '<div class="privacy-consent-actions">' +
+        '<button type="button" class="privacy-consent-btn primary" data-consent-choice="granted">Allow analytics</button>' +
+        '<button type="button" class="privacy-consent-btn" data-consent-choice="declined">Decline</button>' +
+        '</div>';
+      var header = document.querySelector('.site-header');
+      if (header && header.parentNode) {
+        header.insertAdjacentElement('afterend', panel);
+      } else {
+        document.body.appendChild(panel);
+      }
+
+      panel.querySelectorAll('[data-consent-choice]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          var choice = button.getAttribute('data-consent-choice') === 'granted' ? 'granted' : 'declined';
+          storageSet(consentKey, choice);
+          closeConsent();
+          if (choice === 'granted') {
+            recordPageView();
+          } else {
+            updateTrackerWidget('declined', readStats());
+          }
+        });
+      });
+    }
+
+    function renderTrackerWidget() {
+      if (byId('visitorTracker')) return;
+      var footer = document.querySelector('.site-footer .footer-inner') || document.querySelector('.site-footer') || document.body;
+      var widget = document.createElement('div');
+      widget.id = 'visitorTracker';
+      widget.className = 'visitor-tracker';
+      widget.innerHTML =
+        '<span class="visitor-tracker-label">Visitor tracker</span>' +
+        '<span class="visitor-tracker-pill" data-tracker-status>Consent pending</span>' +
+        '<span class="visitor-tracker-count"><strong data-tracker-count>0</strong> local visits</span>' +
+        '<button type="button" class="visitor-tracker-settings">Privacy settings</button>';
+      footer.appendChild(widget);
+
+      var settings = widget.querySelector('.visitor-tracker-settings');
+      if (settings) settings.addEventListener('click', showConsentPanel);
+      updateTrackerWidget(consentState(), readStats());
+    }
+
+    renderTrackerWidget();
+
+    if (consentState() === 'granted') {
+      recordPageView();
+    } else if (!consentState()) {
+      showConsentPanel();
+    }
   }
 
   function safeText(value) {
@@ -1122,6 +1326,7 @@
   runSafely(setupMenuToggle);
   runSafely(setupInterestForm);
   runSafely(setupApplicationForm);
+  runSafely(setupVisitorTracker);
   runSafely(renderPublications);
   runSafely(setupPublicationsTopButton);
   runSafely(renderInstruments);
