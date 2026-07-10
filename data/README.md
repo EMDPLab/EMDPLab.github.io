@@ -8,7 +8,7 @@ This folder is the content source for dynamic sections in the website.
   - Used by: `team.html` via `assets/js/scripts.js`
   - Controls: `PhD Course`, `Combined Course (MS/PhD)`, `MSC Course`, `Internship`, `Alumni`
 - `publications-data.json`
-  - Used by: `publications.html` and publication list rendering
+  - Used by: the site build to render `projects.html`
 - `instruments-data.json`
   - Used by: `research-facility.html` instruments table rendering
 
@@ -48,4 +48,4 @@ Internship/Alumni object:
 ## Editing Rule
 
 When updating team members, edit only `data/team-data.json`.
-Do not hardcode member cards in `team.html`.
+Do not hardcode member cards in generated root HTML. Run `npm run build` after changing data.

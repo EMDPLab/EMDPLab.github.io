@@ -23,7 +23,7 @@ function doPost(e) {
     var notifyTo = getProp_('NOTIFY_TO') || 'hodh123@gmail.com';
     var notifyCc = getProp_('NOTIFY_CC') || 'hodh123@dgist.ac.kr';
 
-    var subject = '[EMDP Apply] ' + safeString_(payload.applicant_name) + ' (' + safeString_(payload.program_track) + ')';
+    var subject = '[EMDP Apply] ' + singleLine_(payload.applicant_name) + ' (' + singleLine_(payload.program_track) + ')';
     var body =
       'A new application was submitted from the website.\n\n' +
       'Submission ID: ' + submissionId + '\n' +
@@ -57,7 +57,8 @@ function doPost(e) {
 
     return json_({ success: true, submission_id: submissionId });
   } catch (error) {
-    return json_({ success: false, error: String(error) });
+    Logger.log('Application submission failed: ' + String(error));
+    return json_({ success: false, error: 'Submission could not be processed.' });
   }
 }
 
@@ -123,15 +124,41 @@ function runEmailDiagnostics() {
 
 function validatePayload_(p) {
   if (!p) throw new Error('Missing payload');
-  if (!safeString_(p.applicant_name)) throw new Error('Missing applicant name');
-  if (!safeString_(p.applicant_email)) throw new Error('Missing applicant email');
-  if (!safeString_(p.program_track)) throw new Error('Missing program track');
-  if (!safeString_(p.affiliation)) throw new Error('Missing affiliation');
-  if (!safeString_(p.research_proposal_note)) throw new Error('Missing research proposal note');
+  requireText_(p.applicant_name, 'Applicant name', 80);
+  var email = requireText_(p.applicant_email, 'Applicant email', 254);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('Invalid applicant email');
+
+  var track = requireText_(p.program_track, 'Program track', 40);
+  if (['Internship', 'Undergraduate Research', 'MSc', 'PhD'].indexOf(track) === -1) {
+    throw new Error('Invalid program track');
+  }
+
+  requireText_(p.affiliation, 'Affiliation', 120);
+  requireText_(p.research_proposal_note, 'Research proposal note', 4000);
+  optionalText_(p.special_note, 'Special note', 2000);
+  optionalText_(p.source_page, 'Source page', 500);
+
+  var submissionId = safeString_(p.submission_id);
+  if (submissionId && !/^[a-z0-9-]{8,80}$/i.test(submissionId)) {
+    throw new Error('Invalid submission ID');
+  }
   if (!p.files || !p.files.cv || !p.files.cover_letter) throw new Error('Missing files');
   if (!safeString_(p.files.cv.base64) || !safeString_(p.files.cover_letter.base64)) {
     throw new Error('Missing file bytes');
   }
+}
+
+function requireText_(value, label, maxLength) {
+  var text = safeString_(value);
+  if (!text) throw new Error('Missing ' + label.toLowerCase());
+  if (text.length > maxLength) throw new Error(label + ' exceeds length limit');
+  return text;
+}
+
+function optionalText_(value, label, maxLength) {
+  var text = safeString_(value);
+  if (text.length > maxLength) throw new Error(label + ' exceeds length limit');
+  return text;
 }
 
 function buildAttachment_(fileObj, allowedExt, maxBytes, label) {
@@ -168,6 +195,10 @@ function getProp_(key) {
 function safeString_(value) {
   if (value === null || value === undefined) return '';
   return String(value).trim();
+}
+
+function singleLine_(value) {
+  return safeString_(value).replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ');
 }
 
 function getExtension_(name) {

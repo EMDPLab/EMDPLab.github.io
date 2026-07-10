@@ -1,391 +1,128 @@
 (function () {
+  'use strict';
+
   function byId(id) {
     return document.getElementById(id);
   }
 
-  function setActiveNav() {
+  function reportError(name, error) {
+    console.error('[EMDP]', name, error);
+  }
+
+  function setActiveNavigation() {
     var page = document.body.getAttribute('data-page');
     if (!page) return;
     document.querySelectorAll('.nav-link').forEach(function (link) {
-      if (link.getAttribute('data-nav') === page) {
-        link.classList.add('active');
-      }
+      var active = link.getAttribute('data-nav') === page;
+      link.classList.toggle('active', active);
+      if (active) link.setAttribute('aria-current', 'page');
     });
   }
 
-  function setupMenuToggle() {
+  function setupNavigation() {
     var toggle = byId('menuToggle');
-    var nav = byId('siteNav');
-    if (!toggle || !nav) return;
+    var navigation = byId('siteNav');
+    if (!toggle || !navigation) return;
+
+    function setOpen(open) {
+      navigation.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.textContent = open ? 'Close' : 'Menu';
+    }
+
     toggle.addEventListener('click', function () {
-      nav.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', nav.classList.contains('open') ? 'true' : 'false');
+      setOpen(!navigation.classList.contains('open'));
+    });
+    navigation.addEventListener('click', function (event) {
+      if (event.target.closest('a')) setOpen(false);
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') setOpen(false);
+    });
+    window.addEventListener('resize', function () {
+      if (window.matchMedia('(min-width: 761px)').matches) setOpen(false);
     });
   }
 
   function setupDeviceMode() {
-    function applyMode() {
-      var compactWidth = window.matchMedia('(max-width: 860px)').matches;
-      var touchDevice = window.matchMedia('(pointer: coarse)').matches && window.matchMedia('(max-width: 1180px)').matches;
-      var isMobileMode = compactWidth || touchDevice;
-      document.body.setAttribute('data-device', isMobileMode ? 'mobile' : 'desktop');
+    var media = window.matchMedia('(max-width: 860px)');
+    function apply() {
+      document.body.setAttribute('data-device', media.matches ? 'mobile' : 'desktop');
     }
-
-    applyMode();
-    window.addEventListener('resize', applyMode);
-    window.addEventListener('orientationchange', applyMode);
+    apply();
+    if (typeof media.addEventListener === 'function') media.addEventListener('change', apply);
   }
-
-  function setupPerformanceMode() {
-    var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    var saveData = !!(connection && connection.saveData);
-    var lowMemory = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 4;
-    var lowCoreCount = typeof navigator.hardwareConcurrency === 'number' && navigator.hardwareConcurrency <= 4;
-    var studyPage = document.body && document.body.classList.contains('study-page');
-    var liteMode = prefersReducedMotion() || saveData || lowMemory || lowCoreCount || studyPage;
-    document.body.setAttribute('data-performance', liteMode ? 'lite' : 'full');
-  }
-
-  function setupNavGlass() {
-    document.querySelectorAll('.site-nav').forEach(function (nav) {
-      var links = Array.from(nav.querySelectorAll('.nav-link'));
-      if (!links.length) return;
-
-      var indicator = document.createElement('span');
-      indicator.className = 'nav-glass-indicator';
-      nav.appendChild(indicator);
-
-      function isMobileViewport() {
-        return window.matchMedia('(max-width: 760px)').matches;
-      }
-
-      function hideIndicator() {
-        indicator.classList.remove('active');
-      }
-
-      function moveIndicator(target, driftX, driftY) {
-        if (!target || isMobileViewport()) {
-          hideIndicator();
-          return;
-        }
-
-        var navRect = nav.getBoundingClientRect();
-        var targetRect = target.getBoundingClientRect();
-        var offsetX = typeof driftX === 'number' ? driftX : 0;
-        var offsetY = typeof driftY === 'number' ? driftY : 0;
-        var left = targetRect.left - navRect.left + offsetX;
-        var top = targetRect.top - navRect.top + offsetY;
-
-        indicator.style.width = targetRect.width + 'px';
-        indicator.style.height = targetRect.height + 'px';
-        indicator.style.transform = 'translate3d(' + left + 'px, ' + top + 'px, 0)';
-        indicator.classList.add('active');
-      }
-
-      function resetToActiveLink() {
-        var activeLink = nav.querySelector('.nav-link.active');
-        if (activeLink) {
-          moveIndicator(activeLink);
-          return;
-        }
-        hideIndicator();
-      }
-
-      links.forEach(function (link) {
-        link.addEventListener('mouseenter', function () {
-          moveIndicator(link);
-        });
-
-        link.addEventListener('mousemove', function (event) {
-          var rect = link.getBoundingClientRect();
-          var driftX = (event.clientX - rect.left - rect.width / 2) * 0.18;
-          var driftY = (event.clientY - rect.top - rect.height / 2) * 0.24;
-          moveIndicator(link, driftX, driftY);
-        });
-
-        link.addEventListener('focus', function () {
-          moveIndicator(link);
-        });
-      });
-
-      nav.addEventListener('mouseleave', resetToActiveLink);
-      nav.addEventListener('focusout', function (event) {
-        if (!nav.contains(event.relatedTarget)) resetToActiveLink();
-      });
-      window.addEventListener('resize', resetToActiveLink);
-
-      resetToActiveLink();
-    });
-  }
-
-  var revealObserver = null;
-  var revealSeed = 0;
 
   function prefersReducedMotion() {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
 
-  function setupPageChoreography() {
-    document.body.setAttribute('data-stage', 'prelude');
-    var sequenceTargets = document.querySelectorAll('main > .container > .hero, main > .container > .page-title, main > .container > .section, main > .container > .contact');
-    sequenceTargets.forEach(function (item, index) {
-      item.style.setProperty('--stage-order', String(index));
-    });
-    window.requestAnimationFrame(function () {
-      window.requestAnimationFrame(function () {
-        document.body.setAttribute('data-stage', 'ready');
-      });
-    });
-  }
-
-  function setupScrollProgress() {
-    var bar = document.querySelector('.scroll-progress');
-    if (!bar) {
-      bar = document.createElement('div');
-      bar.className = 'scroll-progress';
-      bar.setAttribute('aria-hidden', 'true');
-      bar.innerHTML = '<span class="scroll-progress-fill"></span>';
-      document.body.appendChild(bar);
-    }
-
-    var fill = bar.querySelector('.scroll-progress-fill');
-    var ticking = false;
-
-    function paint() {
-      var top = window.pageYOffset || document.documentElement.scrollTop || 0;
-      var max = document.documentElement.scrollHeight - window.innerHeight;
-      var ratio = max > 0 ? Math.min(top / max, 1) : 0;
-      fill.style.transform = 'scaleX(' + ratio.toFixed(4) + ')';
-      ticking = false;
-    }
-
-    function requestPaint() {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(paint);
-    }
-
-    window.addEventListener('scroll', requestPaint, { passive: true });
-    window.addEventListener('resize', requestPaint);
-    window.addEventListener('orientationchange', requestPaint);
-    requestPaint();
-  }
-
-  function revealTargets() {
-    return document.querySelectorAll(
-      '.hero, .section, .contact, .metric-card, .fit-item, .step-card, .team-card, .news-card, .publication-item, .photo-item, .apply-form-side, .application-form'
+  function setupReveal() {
+    var targets = document.querySelectorAll(
+      '.hero, .section, .contact, .ref-hero, .ref-section, .ref-board, .ref-contact, .team-card, .publication-item'
     );
-  }
+    if (!targets.length) return;
 
-  function refreshRevealTargets() {
-    var reduced = prefersReducedMotion();
-
-    revealTargets().forEach(function (target) {
-      if (target.getAttribute('data-reveal-ready') === '1') {
-        if (reduced) target.classList.add('revealed');
-        return;
-      }
-
-      target.setAttribute('data-reveal-ready', '1');
-      target.classList.add('reveal-ready');
-      target.style.setProperty('--reveal-delay', String((revealSeed % 8) * 34) + 'ms');
-      revealSeed += 1;
-
-      if (reduced || !revealObserver) {
-        target.classList.add('revealed');
-      } else {
-        revealObserver.observe(target);
-      }
-    });
-  }
-
-  function setupScrollReveal() {
-    if (document.body && document.body.classList.contains('study-page')) {
-      revealTargets().forEach(function (target) {
+    if (prefersReducedMotion() || !('IntersectionObserver' in window)) {
+      targets.forEach(function (target) {
         target.classList.add('revealed');
       });
       return;
     }
 
-    if (!prefersReducedMotion() && 'IntersectionObserver' in window) {
-      try {
-        revealObserver = new IntersectionObserver(
-          function (entries) {
-            entries.forEach(function (entry) {
-              if (!entry.isIntersecting) return;
-              entry.target.classList.add('revealed');
-              revealObserver.unobserve(entry.target);
-            });
-          },
-          {
-            threshold: 0.16,
-            rootMargin: '0px 0px -8% 0px'
-          }
-        );
-      } catch (error) {
-        revealObserver = null;
-      }
-    }
-
-    refreshRevealTargets();
-  }
-
-  function setupCardTilt() {
-    var disableTilt = prefersReducedMotion() || window.matchMedia('(pointer: coarse)').matches;
-    var cards = document.querySelectorAll(
-      '.metric-card, .fit-item, .step-card, .team-card, .news-card, .publication-item, .photo-item:not(.topic-lead), .apply-form-side'
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -5% 0px' }
     );
 
-    function clearTilt(card) {
-      card.style.setProperty('--tilt-x', '0deg');
-      card.style.setProperty('--tilt-y', '0deg');
-      card.style.setProperty('--tilt-lift', '0px');
-    }
-
-    cards.forEach(function (card) {
-      if (disableTilt) {
-        card.classList.remove('dynamic-tilt');
-        clearTilt(card);
-        return;
-      }
-
-      card.classList.add('dynamic-tilt');
-      if (card.getAttribute('data-tilt-bound') === '1') return;
-
-      card.setAttribute('data-tilt-bound', '1');
-
-      card.addEventListener('pointermove', function (event) {
-        var rect = card.getBoundingClientRect();
-        var x = (event.clientX - rect.left) / rect.width;
-        var y = (event.clientY - rect.top) / rect.height;
-        var rotateY = (x - 0.5) * 6;
-        var rotateX = (0.5 - y) * 5;
-        card.style.setProperty('--tilt-x', rotateX.toFixed(2) + 'deg');
-        card.style.setProperty('--tilt-y', rotateY.toFixed(2) + 'deg');
-        card.style.setProperty('--tilt-lift', '-2px');
-      });
-
-      card.addEventListener('pointerleave', function () {
-        clearTilt(card);
-      });
-
-      card.addEventListener('pointercancel', function () {
-        clearTilt(card);
-      });
+    targets.forEach(function (target, index) {
+      target.classList.add('reveal-ready');
+      target.style.setProperty('--reveal-delay', String(Math.min(index % 5, 4) * 35) + 'ms');
+      observer.observe(target);
     });
   }
 
-  function setupLiquidGlass() {
-    var disableLiquid =
-      prefersReducedMotion() ||
-      window.matchMedia('(pointer: coarse)').matches ||
-      document.body.getAttribute('data-performance') === 'lite';
-    var targets = document.querySelectorAll(
-      '.hero, .card, .contact, .metric-card, .fit-item, .step-card, .team-card, .photo-item, .news-media, .publication-item, .apply-form-side, .application-form'
-    );
-
-    function setDefault(target) {
-      target.style.setProperty('--lx', '50%');
-      target.style.setProperty('--ly', '50%');
-      target.style.setProperty('--la', '0.08');
+  function readEvents(key) {
+    try {
+      var values = JSON.parse(localStorage.getItem(key) || '[]');
+      return Array.isArray(values) ? values : [];
+    } catch (error) {
+      return [];
     }
-
-    targets.forEach(function (target) {
-      target.classList.add('liquid-glass');
-      if (target.getAttribute('data-liquid-overlay') !== '1') {
-        target.setAttribute('data-liquid-overlay', '1');
-        if (window.getComputedStyle(target).position === 'static') {
-          target.style.position = 'relative';
-        }
-        var light = document.createElement('span');
-        light.className = 'liquid-light';
-        light.setAttribute('aria-hidden', 'true');
-        target.insertBefore(light, target.firstChild);
-      }
-      if (disableLiquid) {
-        setDefault(target);
-        return;
-      }
-      if (target.getAttribute('data-liquid-bound') === '1') return;
-      target.setAttribute('data-liquid-bound', '1');
-      setDefault(target);
-
-      target.addEventListener('pointermove', function (event) {
-        var rect = target.getBoundingClientRect();
-        var x = event.clientX - rect.left;
-        var y = event.clientY - rect.top;
-        var intensity = ((x / rect.width + (1 - y / rect.height)) * 0.5).toFixed(3);
-        target.style.setProperty('--lx', x.toFixed(1) + 'px');
-        target.style.setProperty('--ly', y.toFixed(1) + 'px');
-        target.style.setProperty('--la', String(Math.max(0.08, Math.min(0.32, Number(intensity) * 0.38))));
-      });
-
-      target.addEventListener('pointerleave', function () {
-        setDefault(target);
-      });
-
-      target.addEventListener('pointercancel', function () {
-        setDefault(target);
-      });
-    });
   }
 
-  function refreshDynamicEffects() {
-    try {
-      refreshRevealTargets();
-    } catch (error) {}
+  function isRateLimited(key, limit) {
+    var cutoff = Date.now() - 24 * 60 * 60 * 1000;
+    return readEvents(key).filter(function (time) { return time > cutoff; }).length >= limit;
   }
 
-  function runSafely(task) {
+  function recordEvent(key) {
     try {
-      task();
+      localStorage.setItem(key, JSON.stringify(readEvents(key).concat(Date.now())));
     } catch (error) {}
   }
 
   function setFormMessage(target, text, kind) {
     if (!target) return;
     target.textContent = text || '';
-    target.classList.remove('success', 'error');
+    target.classList.remove('success', 'error', 'pending');
     if (kind) target.classList.add(kind);
   }
 
-  function getEvents(key) {
-    try {
-      var raw = window.localStorage.getItem(key);
-      var list = raw ? JSON.parse(raw) : [];
-      return Array.isArray(list) ? list : [];
-    } catch (error) {
-      return [];
-    }
-  }
-
-  function isRateLimited(key, limit, windowMs) {
-    var now = Date.now();
-    var events = getEvents(key).filter(function (time) {
-      return typeof time === 'number' && now - time < windowMs;
-    });
-
-    try {
-      window.localStorage.setItem(key, JSON.stringify(events));
-    } catch (error) {}
-
-    return events.length >= limit;
-  }
-
-  function recordEvent(key) {
-    var events = getEvents(key);
-    events.push(Date.now());
-    try {
-      window.localStorage.setItem(key, JSON.stringify(events));
-    } catch (error) {}
-  }
-
-  function setupInterestForm() {
+  function setupInterestForms() {
     document.querySelectorAll('.interest-form').forEach(function (form) {
-      var submitBtn = form.querySelector('button[type="submit"]');
-      var status = form.querySelector('.form-message');
-      var input = form.querySelector('input[type="email"]');
+      if (form.getAttribute('data-interest-bound') === 'true') return;
+      form.setAttribute('data-interest-bound', 'true');
 
+      var button = form.querySelector('button[type="submit"]');
+      var input = form.querySelector('input[type="email"]');
+      var status = form.querySelector('.form-message');
       if (!status) {
         status = document.createElement('p');
         status.className = 'form-message';
@@ -394,40 +131,29 @@
         form.appendChild(status);
       }
 
-      var hp = form.querySelector('input[name="company_name"]');
-      if (!hp) {
-        hp = document.createElement('input');
-        hp.type = 'text';
-        hp.name = 'company_name';
-        hp.className = 'hp-field';
-        hp.setAttribute('autocomplete', 'off');
-        hp.setAttribute('tabindex', '-1');
-        hp.setAttribute('aria-hidden', 'true');
-        form.appendChild(hp);
-      }
+      var honeypot = document.createElement('input');
+      honeypot.type = 'text';
+      honeypot.name = 'company_name';
+      honeypot.className = 'hp-field';
+      honeypot.tabIndex = -1;
+      honeypot.setAttribute('aria-hidden', 'true');
+      honeypot.setAttribute('autocomplete', 'off');
+      form.appendChild(honeypot);
 
       form.addEventListener('submit', function (event) {
         event.preventDefault();
-
-        if (hp.value.trim()) {
-          setFormMessage(status, 'Submission blocked.', 'error');
+        if (!input || !input.value.trim() || honeypot.value.trim()) return;
+        if (isRateLimited('emdp_interest_submit_v2', 3)) {
+          setFormMessage(status, 'Too many submissions today. Please email the lab directly.', 'error');
           return;
         }
 
-        if (!input || !input.value.trim()) return;
-        if (isRateLimited('emdp_interest_submit', 3, 24 * 60 * 60 * 1000)) {
-          setFormMessage(status, 'Too many submissions. Please try again tomorrow.', 'error');
-          return;
-        }
-
-        if (submitBtn) submitBtn.disabled = true;
-        setFormMessage(status, 'Submitting...', null);
-
+        button.disabled = true;
+        setFormMessage(status, 'Sending...', 'pending');
         var formData = new FormData();
         formData.append('_subject', 'EMDP Lab Interest Form');
         formData.append('email', input.value.trim());
-        formData.append('source_page', document.body.getAttribute('data-page') || window.location.pathname);
-        formData.append('submitted_at', new Date().toISOString());
+        formData.append('source_page', document.body.getAttribute('data-page') || location.pathname);
 
         fetch('https://formsubmit.co/ajax/hodh123@dgist.ac.kr', {
           method: 'POST',
@@ -435,1036 +161,73 @@
           headers: { Accept: 'application/json' }
         })
           .then(function (response) {
-            if (!response.ok) throw new Error('Request failed');
-            return response.json();
-          })
-          .then(function () {
-            recordEvent('emdp_interest_submit');
+            if (!response.ok) throw new Error('Interest form request failed');
+            recordEvent('emdp_interest_submit_v2');
             form.reset();
-            setFormMessage(status, 'Thanks. Your interest has been delivered.', 'success');
+            setFormMessage(status, 'Thanks. Your message has been delivered.', 'success');
           })
           .catch(function () {
-            var subject = encodeURIComponent('Interest in EMDP Lab research');
-            var body = encodeURIComponent(
-              'Hello Prof. Dong Hae Ho,%0D%0A%0D%0AI am interested in joining EMDP Lab.%0D%0AMy email: ' + input.value.trim()
-            );
-            window.location.href = 'mailto:hodh123@dgist.ac.kr?subject=' + subject + '&body=' + body;
+            setFormMessage(status, 'The form is unavailable. Please email hodh123@dgist.ac.kr.', 'error');
           })
           .finally(function () {
-            if (submitBtn) submitBtn.disabled = false;
+            button.disabled = false;
           });
       });
     });
   }
 
-  function setupApplicationForm() {
-    var form = byId('applicationForm');
-    if (!form) return;
-
-    var status = byId('applicationStatus');
-    var submitBtn = byId('applicationSubmit');
-    var startedField = byId('applicationStartedAt');
-    var consentCheck = byId('consentCheck');
-    var cvFile = byId('cvFile');
-    var coverFile = byId('coverFile');
-    var uploadEndpoint = (form.getAttribute('data-upload-endpoint') || '').trim();
-    var hp = form.querySelector('input[name="_honey"]');
-    var startedAt = Date.now();
-
-    if (startedField) startedField.value = String(startedAt);
-
-    function hasExt(file, list) {
-      if (!file || !file.name) return false;
-      var name = file.name.toLowerCase();
-      return list.some(function (ext) {
-        return name.endsWith('.' + ext);
-      });
-    }
-
-    function isConfiguredEndpoint(url) {
-      return (
-        !!url &&
-        /^https?:\/\//i.test(url) &&
-        url.indexOf('REPLACE-WITH-YOUR-UPLOAD-BACKEND') === -1 &&
-        url.indexOf('REPLACE-WITH-YOUR-WEB-APP-ID') === -1
-      );
-    }
-
-    function isAppsScriptEndpoint(url) {
-      return /script\.google\.com\/macros\/s\/.+\/exec/i.test(url);
-    }
-
-    function fileToBase64(file) {
-      return new Promise(function (resolve, reject) {
-        var reader = new FileReader();
-        reader.onload = function () {
-          var result = String(reader.result || '');
-          var commaIndex = result.indexOf(',');
-          resolve(commaIndex >= 0 ? result.slice(commaIndex + 1) : result);
-        };
-        reader.onerror = function () {
-          reject(new Error('File read failed'));
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
-
-      if (!isConfiguredEndpoint(uploadEndpoint)) {
-        setFormMessage(status, 'Upload endpoint is not configured yet. Please contact lab admin.', 'error');
-        return;
-      }
-
-      if (hp && hp.value.trim()) {
-        setFormMessage(status, 'Submission blocked.', 'error');
-        return;
-      }
-
-      if (!consentCheck || !consentCheck.checked) {
-        setFormMessage(status, 'Please confirm the consent checkbox.', 'error');
-        return;
-      }
-
-      if (isRateLimited('emdp_apply_submit', 5, 24 * 60 * 60 * 1000)) {
-        setFormMessage(status, 'Too many submissions from this browser today. Please try again tomorrow or email the lab directly.', 'error');
-        return;
-      }
-
-      var cv = cvFile && cvFile.files ? cvFile.files[0] : null;
-      var cover = coverFile && coverFile.files ? coverFile.files[0] : null;
-
-      if (!cv || !hasExt(cv, ['pdf'])) {
-        setFormMessage(status, 'CV must be a PDF file.', 'error');
-        return;
-      }
-
-      if (!cover || !hasExt(cover, ['pdf', 'doc', 'docx'])) {
-        setFormMessage(status, 'Cover letter must be PDF, DOC, or DOCX.', 'error');
-        return;
-      }
-
-      var maxSizeMb = isAppsScriptEndpoint(uploadEndpoint) ? 7 : 10;
-      var maxSize = maxSizeMb * 1024 * 1024;
-      if (cv.size > maxSize || cover.size > maxSize) {
-        setFormMessage(status, 'Each file must be ' + maxSizeMb + 'MB or smaller.', 'error');
-        return;
-      }
-
-      if (submitBtn && submitBtn.disabled) return;
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Uploading...';
-      }
-
-      setFormMessage(status, 'Uploading files and application data...', null);
-
-      var formData = new FormData(form);
-      formData.set('source_page', window.location.href);
-      formData.set('submitted_at', new Date().toISOString());
-
-      var submitPromise;
-
-      if (isAppsScriptEndpoint(uploadEndpoint)) {
-        var submissionId =
-          new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14) + '-' + Math.random().toString(36).slice(2, 8);
-        submitPromise = Promise.all([fileToBase64(cv), fileToBase64(cover)]).then(function (encodedFiles) {
-          var payload = {
-            submission_id: submissionId,
-            submitted_at: new Date().toISOString(),
-            source_page: window.location.href,
-            applicant_name: String(formData.get('applicant_name') || ''),
-            applicant_email: String(formData.get('applicant_email') || ''),
-            program_track: String(formData.get('program_track') || ''),
-            affiliation: String(formData.get('affiliation') || ''),
-            research_proposal_note: String(formData.get('research_proposal_note') || ''),
-            special_note: String(formData.get('special_note') || ''),
-            files: {
-              cv: {
-                name: cv.name,
-                type: cv.type || 'application/pdf',
-                base64: encodedFiles[0]
-              },
-              cover_letter: {
-                name: cover.name,
-                type: cover.type || 'application/octet-stream',
-                base64: encodedFiles[1]
-              }
-            }
-          };
-
-          return fetch(uploadEndpoint, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-            body: JSON.stringify(payload)
-          }).then(function () {
-            return { queued: true, submission_id: submissionId };
-          });
-        });
-      } else {
-        submitPromise = fetch(uploadEndpoint, {
-          method: 'POST',
-          body: formData
-        }).then(function (response) {
-          return response
-            .json()
-            .catch(function () {
-              return {};
-            })
-            .then(function (payload) {
-              if (!response.ok || payload.success === false) {
-                throw new Error(payload.error || 'Upload failed');
-              }
-              return payload;
-            });
-        });
-      }
-
-      submitPromise
-        .then(function (payload) {
-          recordEvent('emdp_apply_submit');
-          form.reset();
-          startedAt = Date.now();
-          if (startedField) startedField.value = String(startedAt);
-
-          var submissionId = payload && payload.submission_id ? payload.submission_id : '';
-          if (payload && payload.queued) {
-            setFormMessage(
-              status,
-              'Submission request sent. ID: ' +
-                submissionId +
-                '. You should receive confirmation email shortly. If not, check Apps Script Executions.',
-              'success'
-            );
-            return;
-          }
-          if (submissionId) {
-            setFormMessage(status, 'Application uploaded successfully. Submission ID: ' + submissionId, 'success');
-            return;
-          }
-
-          setFormMessage(status, 'Application uploaded successfully. Thank you for applying.', 'success');
-        })
-        .catch(function (error) {
-          var message = error && error.message ? error.message : 'Upload failed. Please try again.';
-          setFormMessage(status, message, 'error');
-        })
-        .finally(function () {
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Submit Application Package';
-          }
-        });
-    });
-  }
-
-  function setupVisitorTracker() {
-    var consentKey = 'emdp_analytics_consent_v1';
-    var statsKey = 'emdp_local_visit_stats_v1';
-    var geoKey = 'emdp_geo_snapshot_v1';
-    var visitorKey = 'emdp_visitor_id_v1';
-    var sessionKey = 'emdp_session_id_v1';
-    var pageSessionKey = 'emdp_pageview_' + window.location.pathname;
-    var endpoint = (document.body.getAttribute('data-analytics-endpoint') || '').trim();
-    var geoEndpoint = (document.body.getAttribute('data-geo-endpoint') || 'https://ipapi.co/json/').trim();
-    var geoCacheMs = 24 * 60 * 60 * 1000;
-
-    function storageGet(key) {
-      try {
-        return window.localStorage.getItem(key);
-      } catch (error) {
-        return null;
-      }
-    }
-
-    function storageSet(key, value) {
-      try {
-        window.localStorage.setItem(key, value);
-      } catch (error) {}
-    }
-
-    function sessionGet(key) {
-      try {
-        return window.sessionStorage.getItem(key);
-      } catch (error) {
-        return null;
-      }
-    }
-
-    function sessionSet(key, value) {
-      try {
-        window.sessionStorage.setItem(key, value);
-      } catch (error) {}
-    }
-
-    function id(prefix) {
-      return prefix + '-' + Math.random().toString(36).slice(2, 10) + '-' + Date.now().toString(36);
-    }
-
-    function consentState() {
-      var value = storageGet(consentKey);
-      return value === 'granted' || value === 'declined' ? value : '';
-    }
-
-    function ensureVisitorId() {
-      var value = storageGet(visitorKey);
-      if (!value) {
-        value = id('visitor');
-        storageSet(visitorKey, value);
-      }
-      return value;
-    }
-
-    function ensureSessionId() {
-      var value = sessionGet(sessionKey);
-      if (!value) {
-        value = id('session');
-        sessionSet(sessionKey, value);
-      }
-      return value;
-    }
-
-    function readStats() {
-      try {
-        var raw = storageGet(statsKey);
-        var parsed = raw ? JSON.parse(raw) : {};
-        return parsed && typeof parsed === 'object' ? parsed : {};
-      } catch (error) {
-        return {};
-      }
-    }
-
-    function writeStats(stats) {
-      try {
-        storageSet(statsKey, JSON.stringify(stats));
-      } catch (error) {}
-    }
-
-    function readGeoSnapshot() {
-      try {
-        var raw = storageGet(geoKey);
-        var parsed = raw ? JSON.parse(raw) : {};
-        return parsed && typeof parsed === 'object' ? parsed : {};
-      } catch (error) {
-        return {};
-      }
-    }
-
-    function writeGeoSnapshot(snapshot) {
-      try {
-        storageSet(geoKey, JSON.stringify(snapshot));
-      } catch (error) {}
-    }
-
-    function normalizeGeo(data) {
-      if (!data || typeof data !== 'object') return null;
-      var country = safeText(data.country_name || data.country || data.countryCode);
-      var region = safeText(data.region || data.region_name || data.regionName);
-      var city = safeText(data.city);
-      var timezone = safeText(data.timezone || data.time_zone);
-      var latitude = Number(data.latitude || data.lat);
-      var longitude = Number(data.longitude || data.lon || data.lng);
-      var geo = {
-        country: country,
-        region: region,
-        city: city,
-        timezone: timezone
-      };
-      if (Number.isFinite(latitude)) geo.latitude = Number(latitude.toFixed(2));
-      if (Number.isFinite(longitude)) geo.longitude = Number(longitude.toFixed(2));
-      geo.location_key = [country, region, city].filter(Boolean).join(' / ') || 'Unknown';
-      return geo.location_key === 'Unknown' ? null : geo;
-    }
-
-    function resolveGeo() {
-      var snapshot = readGeoSnapshot();
-      var cachedAt = Date.parse(snapshot.cached_at || '');
-      if (snapshot.geo && cachedAt && Date.now() - cachedAt < geoCacheMs) {
-        return Promise.resolve(snapshot.geo);
-      }
-      if (!geoEndpoint || !/^https:\/\//i.test(geoEndpoint) || !window.fetch) {
-        return Promise.resolve(null);
-      }
-      return fetch(geoEndpoint, {
-        method: 'GET',
-        cache: 'no-store',
-        credentials: 'omit'
-      })
-        .then(function (response) {
-          if (!response.ok) throw new Error('Geo lookup failed');
-          return response.json();
-        })
-        .then(function (data) {
-          var geo = normalizeGeo(data);
-          if (geo) {
-            writeGeoSnapshot({
-              cached_at: new Date().toISOString(),
-              source: new URL(geoEndpoint).hostname,
-              geo: geo
-            });
-          }
-          return geo;
-        })
-        .catch(function () {
-          return null;
-        });
-    }
-
-    function mergeGeoStats(stats, geo) {
-      if (!geo || !geo.location_key) return stats;
-      stats.geo_last = geo;
-      stats.locations = stats.locations && typeof stats.locations === 'object' ? stats.locations : {};
-      stats.locations[geo.location_key] = Number(stats.locations[geo.location_key] || 0) + 1;
-      return stats;
-    }
-
-    function updateTrackerWidget(state, stats) {
-      var widget = byId('visitorTracker');
-      if (!widget) return;
-      var status = widget.querySelector('[data-tracker-status]');
-      var count = widget.querySelector('[data-tracker-count]');
-      var location = widget.querySelector('[data-tracker-location]');
-      if (status) {
-        status.textContent = state === 'granted' ? 'Analytics on' : state === 'declined' ? 'Analytics off' : 'Consent pending';
-      }
-      if (count) {
-        count.textContent = stats && stats.total ? String(stats.total) : '0';
-      }
-      if (location) {
-        if (state === 'granted' && stats && stats.geo_last) {
-          location.textContent = stats.geo_last.city || stats.geo_last.region || stats.geo_last.country || 'Location saved';
-        } else {
-          location.textContent = state === 'declined' ? 'Location off' : 'Location pending';
-        }
-      }
-    }
-
-    function buildPayload(visitorId, sessionId, stats, geo) {
-      return {
-        event: 'page_view',
-        site: 'emdp-lab',
-        page: window.location.pathname || '/',
-        title: document.title,
-        referrer_host: document.referrer ? safeReferrerHost(document.referrer) : '',
-        visitor_id: visitorId,
-        session_id: sessionId,
-        local_visit_count: stats.total || 0,
-        geo: geo || stats.geo_last || null,
-        sent_at: new Date().toISOString()
-      };
-    }
-
-    function safeReferrerHost(referrer) {
-      try {
-        return new URL(referrer).hostname;
-      } catch (error) {
-        return '';
-      }
-    }
-
-    function sendPayload(payload) {
-      if (!endpoint || !/^https?:\/\//i.test(endpoint)) return;
-      var body = JSON.stringify(payload);
-      if (navigator.sendBeacon) {
-        try {
-          var blob = new Blob([body], { type: 'application/json' });
-          if (navigator.sendBeacon(endpoint, blob)) return;
-        } catch (error) {}
-      }
-      fetch(endpoint, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-        body: body,
-        keepalive: true
-      }).catch(function () {});
-    }
-
-    function recordPageView() {
-      if (consentState() !== 'granted') return;
-      if (sessionGet(pageSessionKey) === '1') {
-        updateTrackerWidget('granted', readStats());
-        return;
-      }
-
-      var now = new Date().toISOString();
-      var path = window.location.pathname || '/';
-      var stats = readStats();
-      stats.total = Number(stats.total || 0) + 1;
-      stats.first_seen = stats.first_seen || now;
-      stats.last_seen = now;
-      stats.pages = stats.pages && typeof stats.pages === 'object' ? stats.pages : {};
-      stats.pages[path] = Number(stats.pages[path] || 0) + 1;
-      writeStats(stats);
-      sessionSet(pageSessionKey, '1');
-
-      updateTrackerWidget('granted', stats);
-      resolveGeo().then(function (geo) {
-        if (geo) {
-          mergeGeoStats(stats, geo);
-          writeStats(stats);
-        }
-        sendPayload(buildPayload(ensureVisitorId(), ensureSessionId(), stats, geo));
-        updateTrackerWidget('granted', stats);
-      });
-    }
-
-    function closeConsent() {
-      var panel = byId('privacyConsent');
-      if (panel) panel.remove();
-    }
-
-    function showConsentPanel() {
-      closeConsent();
-      var panel = document.createElement('section');
-      panel.id = 'privacyConsent';
-      panel.className = 'privacy-consent';
-      panel.setAttribute('role', 'dialog');
-      panel.setAttribute('aria-modal', 'false');
-      panel.setAttribute('aria-labelledby', 'privacyConsentTitle');
-      panel.innerHTML =
-        '<div class="privacy-consent-copy">' +
-        '<p id="privacyConsentTitle" class="privacy-consent-title">Cookies</p>' +
-        '<p>We use a small visitor tracker to understand site traffic and approximate visitor location by IP address. It does not use advertising cookies and only records analytics if you allow it.</p>' +
-        '</div>' +
-        '<div class="privacy-consent-actions">' +
-        '<button type="button" class="privacy-consent-btn primary" data-consent-choice="granted">Allow all cookies</button>' +
-        '<button type="button" class="privacy-consent-btn" data-consent-choice="declined">Allow necessary cookies</button>' +
-        '<button type="button" class="privacy-consent-btn" data-consent-manage>Manage cookies</button>' +
-        '</div>';
-      var header = document.querySelector('.site-header');
-      if (header && header.parentNode) {
-        header.insertAdjacentElement('afterend', panel);
-      } else {
-        document.body.appendChild(panel);
-      }
-
-      function applyChoice(choice) {
-        storageSet(consentKey, choice);
-        closeConsent();
-        if (choice === 'granted') {
-          recordPageView();
-        } else {
-          updateTrackerWidget('declined', readStats());
-        }
-      }
-
-      function bindChoiceButtons() {
-        panel.querySelectorAll('[data-consent-choice]').forEach(function (button) {
-          if (button.getAttribute('data-consent-bound') === '1') return;
-          button.setAttribute('data-consent-bound', '1');
-          button.addEventListener('click', function () {
-            var choice = button.getAttribute('data-consent-choice') === 'granted' ? 'granted' : 'declined';
-            applyChoice(choice);
-          });
-        });
-      }
-
-      var manageButton = panel.querySelector('[data-consent-manage]');
-      if (manageButton) {
-        manageButton.addEventListener('click', function () {
-          var copy = panel.querySelector('.privacy-consent-copy');
-          var actions = panel.querySelector('.privacy-consent-actions');
-          if (!copy || !actions) return;
-          copy.innerHTML =
-            '<p id="privacyConsentTitle" class="privacy-consent-title">Manage cookies</p>' +
-            '<div class="privacy-cookie-options">' +
-            '<label><input type="checkbox" checked disabled> Necessary <span>Always active</span></label>' +
-            '<label><input id="analyticsCookieChoice" type="checkbox"> Analytics <span>Page visits and approximate location</span></label>' +
-            '</div>';
-          actions.innerHTML =
-            '<button type="button" class="privacy-consent-btn primary" data-consent-confirm>Confirm my choice</button>' +
-            '<button type="button" class="privacy-consent-btn" data-consent-choice="declined">Back to necessary only</button>';
-          bindChoiceButtons();
-          var confirm = panel.querySelector('[data-consent-confirm]');
-          if (confirm) {
-            confirm.addEventListener('click', function () {
-              var analytics = byId('analyticsCookieChoice');
-              applyChoice(analytics && analytics.checked ? 'granted' : 'declined');
-            });
-          }
-        });
-      }
-
-      bindChoiceButtons();
-    }
-
-    function renderTrackerWidget() {
-      if (byId('visitorTracker')) return;
-      var footer = document.querySelector('.site-footer .footer-inner') || document.querySelector('.site-footer') || document.body;
-      var widget = document.createElement('div');
-      widget.id = 'visitorTracker';
-      widget.className = 'visitor-tracker';
-      widget.innerHTML =
-        '<span class="visitor-tracker-label">Cookies</span>' +
-        '<span class="visitor-tracker-pill" data-tracker-status>Consent pending</span>' +
-        '<span class="visitor-tracker-count"><strong data-tracker-count>0</strong> local visits</span>' +
-        '<span class="visitor-tracker-location" data-tracker-location>Location pending</span>' +
-        '<button type="button" class="visitor-tracker-settings">Cookie settings</button>';
-      footer.appendChild(widget);
-
-      var settings = widget.querySelector('.visitor-tracker-settings');
-      if (settings) settings.addEventListener('click', showConsentPanel);
-      updateTrackerWidget(consentState(), readStats());
-    }
-
-    renderTrackerWidget();
-
-    if (consentState() === 'granted') {
-      recordPageView();
-    } else if (!consentState()) {
-      showConsentPanel();
-    }
-  }
-
-  function safeText(value) {
-    if (value === null || value === undefined) return '';
-    return String(value).trim();
-  }
-
-  function escapeHtml(value) {
-    return safeText(value)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
-  }
-
-  function skeletonLine(widthClass) {
-    return '<span class="skeleton-line ' + widthClass + '"></span>';
-  }
-
-  var publicationDoiOverrides = {
-    38: '10.1016/j.compositesb.2025.112626',
-    13: '10.31613/ceramist.2020.23.1.04',
-    10: '10.1016/j.nanoen.2020.105262',
-    1: '10.1002/adma.201505739'
-  };
-
-  function publicationSkeletonHtml() {
-    return (
-      '<article class="publication-item publication-item-skeleton">' +
-      '<div class="pub-head">' +
-      skeletonLine('w-18') +
-      skeletonLine('w-18') +
-      '</div>' +
-      skeletonLine('w-88') +
-      skeletonLine('w-72') +
-      skeletonLine('w-64') +
-      skeletonLine('w-56') +
-      '</article>'
-    );
-  }
-
-  function renderPublicationLoading(target, count) {
-    target.innerHTML = new Array(count || 4).fill(0).map(publicationSkeletonHtml).join('');
-    refreshDynamicEffects();
-  }
-
-  function instrumentSkeletonRowHtml() {
-    return (
-      '<tr class="skeleton-row">' +
-      '<td>' + skeletonLine('w-10') + '</td>' +
-      '<td>' + skeletonLine('w-70') + '</td>' +
-      '<td>' + skeletonLine('w-54') + '</td>' +
-      '<td>' + skeletonLine('w-46') + '</td>' +
-      '<td>' + skeletonLine('w-62') + '</td>' +
-      '</tr>'
-    );
-  }
-
-  function renderInstrumentLoading(target, count) {
-    target.innerHTML = new Array(count || 6).fill(0).map(instrumentSkeletonRowHtml).join('');
-  }
-
-  function teamSkeletonCardHtml() {
-    return (
-      '<article class="team-card team-card-skeleton">' +
-      '<div class="team-photo skeleton-block" aria-hidden="true"></div>' +
-      '<div class="team-content">' +
-      skeletonLine('w-30') +
-      skeletonLine('w-56') +
-      skeletonLine('w-80') +
-      skeletonLine('w-68') +
-      '</div>' +
-      '</article>'
-    );
-  }
-
-  function renderTeamLoadingState(targetId, count) {
-    var target = byId(targetId);
-    if (!target) return;
-    target.innerHTML = new Array(count || 3).fill(0).map(teamSkeletonCardHtml).join('');
-    refreshDynamicEffects();
-  }
-
-  function sanitizeDoi(value) {
-    return safeText(value)
-      .replace(/^https?:\/\/(?:dx\.)?doi\.org\//i, '')
-      .replace(/^doi:\s*/i, '')
-      .replace(/[)\],.;]+$/g, '')
-      .trim();
-  }
-
-  function extractDoiFromLink(link) {
-    var value = safeText(link).trim();
-    var normalized = value;
-    var match = null;
-
-    if (!value || !/^https?:\/\//i.test(value)) return '';
-
-    try {
-      normalized = decodeURIComponent(value);
-    } catch (error) {}
-
-    match = normalized.match(/10\.\d{4,9}\/[^?#\s]+/i);
-    if (match) return sanitizeDoi(match[0]);
-
-    match = normalized.match(/nature\.com\/articles\/([^/?#]+)/i);
-    if (match) return sanitizeDoi('10.1038/' + match[1]);
-
-    match = normalized.match(/\/article\/(10\.\d{4,9}\/[^?#\s]+)/i);
-    if (match) return sanitizeDoi(match[1]);
-
-    return '';
-  }
-
-  function isPatentRecord(item) {
-    return /patent/i.test(safeText(item.venue)) || safeText(item.link).toLowerCase() === 'http://patent';
-  }
-
-  function hasUsablePublicationLink(link) {
-    var value = safeText(link).trim();
-    return /^https?:\/\//i.test(value) && value.toLowerCase() !== 'http://patent';
-  }
-
-  function publicationDoiValue(item) {
-    if (item && item.doi) return sanitizeDoi(item.doi);
-    if (item && publicationDoiOverrides[item.number]) return publicationDoiOverrides[item.number];
-    return extractDoiFromLink(item && item.link);
-  }
-
-  function publicationTypeLabel(item) {
-    return isPatentRecord(item) ? 'Patent' : 'Publication';
-  }
-
-  function publicationPagesLabel(item) {
-    return isPatentRecord(item) ? 'Patent record' : 'Article / Pages';
-  }
-
-  function publicationPagesValue(item) {
-    if (isPatentRecord(item)) return safeText(item.venue) || 'Patent filing';
-    return safeText(item.pages) || 'Not listed';
-  }
-
-  function publicationRecordLabel(item, doi) {
-    if (doi) return 'DOI';
-    if (hasUsablePublicationLink(item.link)) return 'Record link';
-    if (isPatentRecord(item)) return 'DOI status';
-    return 'Record';
-  }
-
-  function publicationRecordValue(item, doi) {
-    if (doi) return doi;
-    if (hasUsablePublicationLink(item.link)) {
-      return safeText(item.link).replace(/^https?:\/\//i, '').replace(/\/$/, '');
-    }
-    if (isPatentRecord(item)) return 'No DOI issued';
-    return 'No DOI listed';
-  }
-
-  function publicationPrimaryLink(item, doi) {
-    if (doi) return 'https://doi.org/' + doi;
-    if (hasUsablePublicationLink(item.link)) return safeText(item.link);
-    return '';
-  }
-
-  function groupPublicationsByYear(items) {
-    var groups = [];
-    var yearMap = Object.create(null);
-
-    items.forEach(function (item) {
-      var year = safeText(item.year) || 'Unknown';
-      if (!yearMap[year]) {
-        yearMap[year] = [];
-        groups.push({ year: year, items: yearMap[year] });
-      }
-      yearMap[year].push(item);
-    });
-
-    return groups;
-  }
-
-  function publicationItemHtml(item) {
-    var doi = publicationDoiValue(item);
-    var link = publicationPrimaryLink(item, doi);
-    var actionLabel = doi ? 'Open DOI' : hasUsablePublicationLink(item.link) ? 'Open record' : '';
-    var recordHtml = '';
-
-    if (doi) {
-      recordHtml = '<code class="pub-record-value pub-record-doi">' + escapeHtml(doi) + '</code>';
-    } else if (hasUsablePublicationLink(item.link)) {
-      recordHtml =
-        '<a class="pub-record-link" href="' +
-        escapeHtml(item.link) +
-        '" target="_blank" rel="noopener noreferrer">' +
-        escapeHtml(publicationRecordValue(item, doi)) +
-        '</a>';
-    } else {
-      recordHtml = '<span class="pub-record-value">' + escapeHtml(publicationRecordValue(item, doi)) + '</span>';
-    }
-
-    return (
-      '<article class="publication-item" role="listitem">' +
-      '<div class="pub-head">' +
-      '<span class="pub-no">Record #' + escapeHtml(item.number) + '</span>' +
-      '<div class="pub-chip-row"><span class="pub-type">' + escapeHtml(publicationTypeLabel(item)) + '</span><span class="pub-year">' + escapeHtml(item.year) + '</span></div>' +
-      '</div>' +
-      '<p class="pub-title">' + escapeHtml(item.title) + '</p>' +
-      '<div class="pub-meta-grid">' +
-      '<div class="pub-meta-item pub-venue"><span class="pub-label">Venue</span><span class="pub-meta-value">' + escapeHtml(item.venue) + '</span></div>' +
-      '<div class="pub-meta-item pub-pages"><span class="pub-label">' + escapeHtml(publicationPagesLabel(item)) + '</span><span class="pub-meta-value">' + escapeHtml(publicationPagesValue(item)) + '</span></div>' +
-      '<div class="pub-meta-item pub-authors pub-meta-item-wide"><span class="pub-label">Authors</span><span class="pub-meta-value">' + escapeHtml(item.authors) + '</span></div>' +
-      '<div class="pub-meta-item pub-record pub-meta-item-wide"><span class="pub-label">' + escapeHtml(publicationRecordLabel(item, doi)) + '</span>' + recordHtml + '</div>' +
-      '</div>' +
-      (link
-        ? '<div class="pub-actions"><a class="pub-link" href="' + escapeHtml(link) + '" target="_blank" rel="noopener noreferrer">' + actionLabel + '</a></div>'
-        : '') +
-      '</article>'
-    );
-  }
-
-  function publicationYearGroupHtml(group, index) {
-    var count = group.items.length;
-    var label = count + ' ' + (count === 1 ? 'record' : 'records');
-    return (
-      '<details class="pub-year-group"' +
-      (index === 0 ? ' open' : '') +
-      '>' +
-      '<summary class="pub-year-summary">' +
-      '<div class="pub-year-summary-main"><span class="pub-year-title">' +
-      escapeHtml(group.year) +
-      '</span><span class="pub-year-note">Expand archive</span></div>' +
-      '<div class="pub-year-summary-side"><span class="pub-year-count">' +
-      escapeHtml(label) +
-      '</span><span class="pub-year-caret" aria-hidden="true"></span></div>' +
-      '</summary>' +
-      '<div class="pub-year-items" role="list">' +
-      group.items.map(publicationItemHtml).join('') +
-      '</div>' +
-      '</details>'
-    );
-  }
-
-  function bindPublicationYearGroups(target) {
-    target.querySelectorAll('.pub-year-group').forEach(function (group) {
-      if (group.getAttribute('data-pub-bound') === '1') return;
-      group.setAttribute('data-pub-bound', '1');
-      group.addEventListener('toggle', function () {
-        if (group.open) {
-          target.querySelectorAll('.pub-year-group').forEach(function (other) {
-            if (other !== group) other.open = false;
-          });
-        }
-        refreshDynamicEffects();
-      });
-    });
-  }
-
-  function renderPublicationItems(target, items) {
-    var groups = groupPublicationsByYear(items);
-    target.innerHTML = groups.map(publicationYearGroupHtml).join('');
-    bindPublicationYearGroups(target);
-    refreshDynamicEffects();
-  }
-
-  function renderPublications() {
-    var target = byId('publicationsList');
-    if (!target) return;
-
-    if (Array.isArray(window.PUBLICATIONS_DATA) && window.PUBLICATIONS_DATA.length > 0) {
-      renderPublicationItems(target, window.PUBLICATIONS_DATA);
-      return;
-    }
-
-    renderPublicationLoading(target, 4);
-
-    fetch('data/publications-data.json')
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (items) {
-        renderPublicationItems(target, items);
-      })
-      .catch(function () {
-        target.innerHTML = '<article class="publication-item">Publication data could not be loaded.</article>';
-      });
-  }
-
-  function setupPublicationsTopButton() {
+  function setupPublicationArchive() {
     var list = byId('publicationsList');
     if (!list) return;
 
-    var section = list.closest('.section') || list.parentElement;
-    if (!section || section.getAttribute('data-top-bound') === '1') return;
-    section.setAttribute('data-top-bound', '1');
+    list.querySelectorAll('.pub-year-group').forEach(function (group) {
+      group.addEventListener('toggle', function () {
+        if (!group.open) return;
+        list.querySelectorAll('.pub-year-group').forEach(function (other) {
+          if (other !== group) other.open = false;
+        });
+      });
+    });
 
+    var section = list.closest('.section');
+    if (!section) return;
     var wrap = document.createElement('div');
     wrap.className = 'pub-top-wrap';
     wrap.innerHTML = '<button type="button" class="pub-top-btn" aria-label="Go to top of page">Back to Top</button>';
     section.appendChild(wrap);
-
-    var button = wrap.querySelector('.pub-top-btn');
-    if (!button) return;
-
+    var button = wrap.querySelector('button');
     button.addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
     });
 
-    function refreshVisibility() {
-      var threshold = section.offsetTop + 180;
-      var visible = (window.pageYOffset || document.documentElement.scrollTop || 0) > threshold;
-      button.classList.toggle('visible', visible);
+    function update() {
+      button.classList.toggle('visible', window.scrollY > section.offsetTop + 180);
     }
-
-    window.addEventListener('scroll', refreshVisibility, { passive: true });
-    window.addEventListener('resize', refreshVisibility);
-    refreshVisibility();
+    window.addEventListener('scroll', update, { passive: true });
+    update();
   }
 
-  function renderInstruments() {
-    var target = byId('instrumentsTableBody');
-    if (!target) return;
-
-    renderInstrumentLoading(target, 6);
-
-    fetch('data/instruments-data.json')
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (items) {
-        var rows = items
-          .map(function (item) {
-            return (
-              '<tr>' +
-              '<td>' + safeText(item.number) + '</td>' +
-              '<td>' + safeText(item.name) + '</td>' +
-              '<td>' + safeText(item.manufacturer) + '</td>' +
-              '<td>' + safeText(item.model) + '</td>' +
-              '<td>' + safeText(item.spec) + '</td>' +
-              '</tr>'
-            );
-          })
-          .join('');
-        target.innerHTML = rows;
-      })
-      .catch(function () {
-        target.innerHTML = '<tr><td colspan="5">Instrument list could not be loaded.</td></tr>';
-      });
+  function initialize() {
+    document.documentElement.classList.add('js');
+    [
+      ['active navigation', setActiveNavigation],
+      ['navigation', setupNavigation],
+      ['device mode', setupDeviceMode],
+      ['interest forms', setupInterestForms],
+      ['publication archive', setupPublicationArchive],
+      ['reveal', setupReveal]
+    ].forEach(function (entry) {
+      try {
+        entry[1]();
+      } catch (error) {
+        reportError(entry[0], error);
+      }
+    });
   }
 
-  function teamMemberCardHtml(item) {
-    var photo = escapeHtml(item.photo || '');
-    var alt = escapeHtml(item.alt || item.name || 'Team member');
-    return (
-      '<article class="team-card">' +
-      (photo ? '<img class="team-photo" loading="lazy" decoding="async" src="' + photo + '" alt="' + alt + '">' : '') +
-      '<div class="team-content">' +
-      '<p class="kicker">' + escapeHtml(item.role) + '</p>' +
-      '<h3>' + escapeHtml(item.name) + '</h3>' +
-      '<p><strong>' + escapeHtml(item.education) + '</strong></p>' +
-      '<p>' + escapeHtml(item.description) + '</p>' +
-      '</div>' +
-      '</article>'
-    );
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialize, { once: true });
+  } else {
+    initialize();
   }
-
-  function teamHistoryCardHtml(item, label) {
-    return (
-      '<article class="team-card team-card-intern">' +
-      '<div class="team-content">' +
-      '<p class="kicker">' + escapeHtml(label) + '</p>' +
-      '<h3>' + escapeHtml(item.name) + '</h3>' +
-      '<p><strong>' + escapeHtml(item.period) + '</strong></p>' +
-      '<p>' + escapeHtml(item.topic) + '</p>' +
-      '</div>' +
-      '</article>'
-    );
-  }
-
-  function renderTeamSection(targetId, items, renderer, emptyMessage) {
-    var target = byId(targetId);
-    if (!target) return;
-    if (!Array.isArray(items) || items.length === 0) {
-      target.innerHTML =
-        '<article class="team-card team-card-intern"><div class="team-content"><p>' +
-        escapeHtml(emptyMessage) +
-        '</p></div></article>';
-      refreshDynamicEffects();
-      return;
-    }
-    target.innerHTML = items.map(renderer).join('');
-    refreshDynamicEffects();
-  }
-
-  function renderTeamSections() {
-    var hasTeamPageTargets =
-      byId('teamPhdList') || byId('teamCombinedList') || byId('teamMscList') || byId('internshipList') || byId('alumniList');
-    if (!hasTeamPageTargets) return;
-
-    renderTeamLoadingState('teamPhdList', 1);
-    renderTeamLoadingState('teamCombinedList', 2);
-    renderTeamLoadingState('teamMscList', 1);
-    renderTeamLoadingState('internshipList', 2);
-    renderTeamLoadingState('alumniList', 2);
-
-    fetch('data/team-data.json')
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        renderTeamSection('teamPhdList', data.phd_course, teamMemberCardHtml, 'No PhD members listed yet.');
-        renderTeamSection('teamCombinedList', data.combined_course, teamMemberCardHtml, 'No combined-course members listed yet.');
-        renderTeamSection('teamMscList', data.msc_course, teamMemberCardHtml, 'No MSC members listed yet.');
-        renderTeamSection(
-          'internshipList',
-          data.internship,
-          function (item) {
-            return teamHistoryCardHtml(item, 'Internship');
-          },
-          'No active internship members listed right now.'
-        );
-        renderTeamSection(
-          'alumniList',
-          data.alumni,
-          function (item) {
-            return teamHistoryCardHtml(item, 'Alumni');
-          },
-          'No alumni listed yet.'
-        );
-      })
-      .catch(function () {
-        renderTeamSection('teamPhdList', [], teamMemberCardHtml, 'Team data could not be loaded.');
-        renderTeamSection('teamCombinedList', [], teamMemberCardHtml, 'Team data could not be loaded.');
-        renderTeamSection('teamMscList', [], teamMemberCardHtml, 'Team data could not be loaded.');
-        renderTeamSection('internshipList', [], teamHistoryCardHtml, 'Team data could not be loaded.');
-        renderTeamSection('alumniList', [], teamHistoryCardHtml, 'Team data could not be loaded.');
-      });
-  }
-
-  runSafely(setupPerformanceMode);
-  runSafely(setupDeviceMode);
-  runSafely(setActiveNav);
-  runSafely(setupMenuToggle);
-  runSafely(setupInterestForm);
-  runSafely(setupApplicationForm);
-  runSafely(setupVisitorTracker);
-  runSafely(renderPublications);
-  runSafely(setupPublicationsTopButton);
-  runSafely(renderInstruments);
-  runSafely(renderTeamSections);
-  runSafely(setupScrollReveal);
 })();
