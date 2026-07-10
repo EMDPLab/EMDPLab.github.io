@@ -103,6 +103,7 @@
 .application-form button:hover, .interest-form button:hover { color: var(--ink); background: var(--signal); border-color: var(--signal); }
 .application-form button:disabled, .interest-form button:disabled { opacity: 0.55; cursor: wait; }
 .consent-row { display: flex; align-items: flex-start; gap: 0.7rem; margin: 1rem 0; }
+.application-form .consent-row { font-size: 0.9rem; font-weight: 500; line-height: 1.55; text-transform: none; letter-spacing: normal; }
 .consent-row input { width: 1.2rem; height: 1.2rem; margin-top: 0.1rem; }
 .form-message { min-height: 1.5em; margin-top: 0.8rem; font-size: 0.86rem; }
 .form-message.success { color: var(--success); }

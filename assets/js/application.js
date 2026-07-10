@@ -69,6 +69,11 @@ export async function submitApplication({
       applicant_email: valueOf(formData, 'applicant_email'),
       program_track: valueOf(formData, 'program_track'),
       affiliation: valueOf(formData, 'affiliation'),
+      started_at: valueOf(formData, 'started_at'),
+      honeypot: valueOf(formData, '_honey'),
+      privacy_consent: valueOf(formData, 'privacy_consent'),
+      privacy_consent_version: valueOf(formData, 'privacy_consent_version'),
+      privacy_consent_at: valueOf(formData, 'privacy_consent_at'),
       research_proposal_note: valueOf(formData, 'research_proposal_note'),
       special_note: valueOf(formData, 'special_note'),
       files: {
@@ -191,6 +196,7 @@ export function setupApplicationForm() {
     const formData = new FormData(form);
     formData.set('source_page', window.location.href);
     formData.set('submitted_at', new Date().toISOString());
+    formData.set('privacy_consent_at', new Date().toISOString());
     submitButton.disabled = true;
     submitButton.textContent = 'Sending...';
     setMessage(status, 'Sending your application package...', 'pending');

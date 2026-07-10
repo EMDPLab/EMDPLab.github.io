@@ -8,7 +8,7 @@
   --line: rgba(255, 248, 238, 0.22);
   --line-dark: rgba(23, 19, 16, 0.18);
   --signal: #ff6a2a;
-  --signal-dark: #d94712;
+  --signal-dark: #c43f0d;
   --success: #176b45;
   --error: #a52e2e;
   --container: min(1240px, calc(100vw - 48px));
@@ -41,6 +41,20 @@ p { text-wrap: pretty; }
 strong { font-weight: 800; }
 :focus-visible { outline: 3px solid var(--signal); outline-offset: 4px; }
 .container { width: var(--container); margin-inline: auto; }
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 200;
+  padding: 0.7rem 0.9rem;
+  color: var(--ink);
+  background: var(--signal);
+  font-weight: 800;
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform 160ms ease;
+}
+.skip-link:focus { transform: translateY(0); }
 .hp-field {
   position: fixed !important;
   left: -10000px !important;
@@ -355,6 +369,7 @@ main:not(.ref-home) > .container { display: flow-root; }
 .application-form button:hover, .interest-form button:hover { color: var(--ink); background: var(--signal); border-color: var(--signal); }
 .application-form button:disabled, .interest-form button:disabled { opacity: 0.55; cursor: wait; }
 .consent-row { display: flex; align-items: flex-start; gap: 0.7rem; margin: 1rem 0; }
+.application-form .consent-row { font-size: 0.9rem; font-weight: 500; line-height: 1.55; text-transform: none; letter-spacing: normal; }
 .consent-row input { width: 1.2rem; height: 1.2rem; margin-top: 0.1rem; }
 .form-message { min-height: 1.5em; margin-top: 0.8rem; font-size: 0.86rem; }
 .form-message.success { color: var(--success); }
@@ -406,7 +421,8 @@ main:not(.ref-home) > .container { display: flow-root; }
 .ref-project-caption strong { max-width: 18ch; font-size: clamp(1.7rem, 3vw, 3.2rem); line-height: 0.95; text-transform: uppercase; }
 .ref-project-caption em { color: var(--muted-dark); }
 .ref-project-thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; height: 76px; background: var(--line-dark); border-top: 1px solid var(--line-dark); }
-.ref-project-thumbs span { background: var(--thumb-image) center / cover; filter: saturate(0.72); }
+.ref-project-thumbs span { overflow: hidden; }
+.ref-project-thumbs img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.72); }
 .ref-project-thumbs span:first-child { box-shadow: inset 0 -4px var(--signal); }
 .ref-metrics { display: grid; grid-template-columns: repeat(4, 1fr); border-block: 1px solid var(--line); }
 .ref-metrics article { min-height: 180px; padding: 1.5rem clamp(1rem, 3vw, 2.5rem); border-right: 1px solid var(--line); }

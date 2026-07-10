@@ -13,7 +13,8 @@
 .ref-project-caption strong { max-width: 18ch; font-size: clamp(1.7rem, 3vw, 3.2rem); line-height: 0.95; text-transform: uppercase; }
 .ref-project-caption em { color: var(--muted-dark); }
 .ref-project-thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; height: 76px; background: var(--line-dark); border-top: 1px solid var(--line-dark); }
-.ref-project-thumbs span { background: var(--thumb-image) center / cover; filter: saturate(0.72); }
+.ref-project-thumbs span { overflow: hidden; }
+.ref-project-thumbs img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.72); }
 .ref-project-thumbs span:first-child { box-shadow: inset 0 -4px var(--signal); }
 .ref-metrics { display: grid; grid-template-columns: repeat(4, 1fr); border-block: 1px solid var(--line); }
 .ref-metrics article { min-height: 180px; padding: 1.5rem clamp(1rem, 3vw, 2.5rem); border-right: 1px solid var(--line); }

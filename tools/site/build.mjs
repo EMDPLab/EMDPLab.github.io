@@ -191,6 +191,7 @@ function renderDocument(definition, main) {
 <html lang="en">
 ${renderHead(definition, prefix)}
 <body ${renderBodyAttributes(definition)}>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   ${renderHeader(definition, prefix)}
 
   ${main}
@@ -210,6 +211,7 @@ function renderPublicationsRedirect() {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex">
   <link rel="canonical" href="projects.html">
+  <link rel="icon" href="assets/images/EMDP_Lab_logo.svg" type="image/svg+xml">
   <title>Redirecting to Output | EMDP Lab</title>
 </head>
 <body>

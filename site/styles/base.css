@@ -8,7 +8,7 @@
   --line: rgba(255, 248, 238, 0.22);
   --line-dark: rgba(23, 19, 16, 0.18);
   --signal: #ff6a2a;
-  --signal-dark: #d94712;
+  --signal-dark: #c43f0d;
   --success: #176b45;
   --error: #a52e2e;
   --container: min(1240px, calc(100vw - 48px));
@@ -41,6 +41,20 @@ p { text-wrap: pretty; }
 strong { font-weight: 800; }
 :focus-visible { outline: 3px solid var(--signal); outline-offset: 4px; }
 .container { width: var(--container); margin-inline: auto; }
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 200;
+  padding: 0.7rem 0.9rem;
+  color: var(--ink);
+  background: var(--signal);
+  font-weight: 800;
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform 160ms ease;
+}
+.skip-link:focus { transform: translateY(0); }
 .hp-field {
   position: fixed !important;
   left: -10000px !important;

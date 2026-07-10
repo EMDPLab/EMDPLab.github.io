@@ -1,4 +1,4 @@
-<main>
+<main id="main-content" tabindex="-1">
     <div class="container">
       <section class="hero page-hero apply-hero">
         <div class="hero-content">
@@ -95,6 +95,7 @@
             enctype="multipart/form-data"
           >
             <input type="hidden" name="started_at" id="applicationStartedAt" value="">
+            <input type="hidden" name="privacy_consent_version" value="2026-07-10">
             <input type="text" class="hp-field" name="_honey" autocomplete="off" tabindex="-1" aria-hidden="true">
 
             <div class="form-grid">
@@ -147,8 +148,8 @@
             </div>
 
             <label class="consent-row">
-              <input id="consentCheck" type="checkbox" required>
-              <span>I confirm that the information is accurate and I agree to be contacted by EMDP Lab regarding this application.</span>
+              <input id="consentCheck" name="privacy_consent" type="checkbox" value="agreed" required>
+              <span>I confirm the information is accurate. I agree that my application and contact details may be sent to the listed EMDP Lab email accounts, used to review this application and contact me, and retained only as needed for recruitment. I can request deletion by emailing the lab.</span>
             </label>
 
             <button id="applicationSubmit" type="submit">Submit Application Package</button>

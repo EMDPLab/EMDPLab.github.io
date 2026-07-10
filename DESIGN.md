@@ -27,6 +27,7 @@ Edit source styles and run `npm run build`; never edit the generated stylesheet.
 | `--muted` | `#9d9488` | Secondary text on dark surfaces |
 | `--muted-dark` | `#5f574f` | Secondary text on light surfaces |
 | `--signal` | `#ff6a2a` | Calls to action and focus |
+| `--signal-dark` | `#c43f0d` | Accessible orange text on paper surfaces |
 | `--success` | `#176b45` | Confirmed state |
 | `--error` | `#a52e2e` | Validation and failure state |
 

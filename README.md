@@ -25,3 +25,9 @@ The build has no runtime dependencies and requires Node.js 20 or newer.
 The application form intentionally reports a queued receipt when it submits through
 the Google Apps Script `no-cors` transport. Delivery is not claimed as confirmed
 until a verifiable response transport is introduced.
+
+The Apps Script validates field lengths, consent metadata, file signatures, form
+timing, and mail quota before decoding attachments. Its default server limits are
+three submissions per hour and two per email every six hours. Override them with
+the `MAX_SUBMISSIONS_PER_HOUR`, `MAX_SUBMISSIONS_PER_EMAIL_6H`, and
+`MIN_FORM_SECONDS` Script Properties when deployment needs change.

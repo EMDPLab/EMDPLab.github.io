@@ -1,4 +1,4 @@
-import { access, readFile } from 'node:fs/promises';
+import { access, readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -20,6 +20,21 @@ function localReferences(html) {
 
 function routeTarget(route, reference) {
   return path.posix.normalize(path.posix.join(path.posix.dirname(route), reference));
+}
+
+function styleReferences(content) {
+  return [...content.matchAll(/url\(\s*['"]?([^'")]+)['"]?\s*\)/g)]
+    .map((match) => match[1])
+    .filter((reference) => !/^(?:https?:|data:|#)/i.test(reference));
+}
+
+async function filesBelow(directory) {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files = await Promise.all(entries.map((entry) => {
+    const target = path.join(directory, entry.name);
+    return entry.isDirectory() ? filesBelow(target) : [target];
+  }));
+  return files.flat();
 }
 
 async function exists(target) {
@@ -75,10 +90,13 @@ export async function runSiteChecks({ verifyGenerated = true } = {}) {
   assert(Buffer.byteLength(await readFile(path.join(rootDir, 'assets/js/scripts.js'))) < 12_000, 'Common runtime exceeds the 12 KB budget.');
 
   const missing = [];
+  const referencedImages = new Set();
   for (const [route, html] of pages) {
     assert((html.match(/<h1\b/g) || []).length <= 1, `${route} has more than one h1.`);
-    for (const reference of localReferences(html)) {
+    assert(route === 'publications.html' || /<main\b[^>]*\bid="main-content"/.test(html), `${route} is missing the shared main landmark.`);
+    for (const reference of [...localReferences(html), ...styleReferences(html)]) {
       const target = routeTarget(route, reference);
+      if (target.startsWith('assets/images/')) referencedImages.add(target.normalize('NFC'));
       if (!pages.has(target) && !(await exists(path.join(rootDir, target)))) missing.push(`${route} -> ${reference}`);
     }
     if (verifyGenerated) {
@@ -88,6 +106,23 @@ export async function runSiteChecks({ verifyGenerated = true } = {}) {
   }
 
   assert(missing.length === 0, `Missing local references:\n${missing.join('\n')}`);
+  for (const reference of styleReferences(css)) {
+    const target = routeTarget('assets/css/style.css', reference);
+    if (target.startsWith('assets/images/')) referencedImages.add(target.normalize('NFC'));
+  }
+
+  const imageFiles = await filesBelow(path.join(rootDir, 'assets/images'));
+  const unusedImages = imageFiles
+    .map((file) => path.relative(rootDir, file).split(path.sep).join('/').normalize('NFC'))
+    .filter((file) => !referencedImages.has(file))
+    .sort();
+  assert(unusedImages.length === 0, `Unused image assets:\n${unusedImages.join('\n')}`);
+
+  if (verifyGenerated) {
+    const currentCss = await readFile(path.join(rootDir, 'assets/css/style.css'), 'utf8');
+    assert(currentCss === css, 'assets/css/style.css is not in sync. Run npm run build.');
+  }
+
   for (const definition of pageDefinitions) {
     const source = await readFile(path.join(rootDir, 'site/pages', definition.route), 'utf8');
     assert(!/<(?:head|header|footer)\b/i.test(source), `${definition.route} source contains shared shell markup.`);
@@ -97,11 +132,12 @@ export async function runSiteChecks({ verifyGenerated = true } = {}) {
     routes: pages.size,
     publications: publications.length,
     instruments: instruments.length,
+    images: imageFiles.length,
     cssBytes: Buffer.byteLength(css)
   };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const result = await runSiteChecks();
-  console.log(`Site checks passed: ${result.routes} routes, ${result.publications} publications, ${result.instruments} instruments, ${result.cssBytes} CSS bytes.`);
+  console.log(`Site checks passed: ${result.routes} routes, ${result.publications} publications, ${result.instruments} instruments, ${result.images} referenced images, ${result.cssBytes} CSS bytes.`);
 }
