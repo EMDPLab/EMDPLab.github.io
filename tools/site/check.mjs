@@ -87,10 +87,8 @@ export async function runSiteChecks({ verifyGenerated = true } = {}) {
   validateTeam(team);
   validateInstruments(instruments);
   assert(Buffer.byteLength(css) < 60_000, 'Generated CSS exceeds the 60 KB budget.');
-  const commonRuntimeBytes = await Promise.all(['scripts.js', 'i18n.js'].map((file) =>
-    readFile(path.join(rootDir, 'assets/js', file)).then(Buffer.byteLength)
-  ));
-  assert(commonRuntimeBytes.reduce((sum, bytes) => sum + bytes, 0) < 12_000, 'Common runtime exceeds the 12 KB budget.');
+  const commonRuntimeBytes = await readFile(path.join(rootDir, 'assets/js/scripts.js')).then(Buffer.byteLength);
+  assert(commonRuntimeBytes < 12_000, 'Common runtime exceeds the 12 KB budget.');
 
   const missing = [];
   const referencedImages = new Set();

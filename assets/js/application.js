@@ -17,17 +17,17 @@ export function transportKind(endpoint) {
 }
 
 export function validateApplicationPackage({ consent, honeypot, files, maxFileMb }) {
-  if (honeypot) return { ok: false, message: 'Submission blocked.' };
-  if (!consent) return { ok: false, message: 'Please confirm the consent checkbox.' };
+  if (honeypot) return { ok: false, message: '제출이 차단되었습니다.' };
+  if (!consent) return { ok: false, message: '개인정보 수집 및 이용 동의 항목을 확인해주세요.' };
 
   const cv = files?.cv;
   if (!cv || !CV_EXTENSIONS.includes(extensionOf(cv))) {
-    return { ok: false, message: 'CV must be a PDF file.' };
+    return { ok: false, message: 'CV는 PDF 파일이어야 합니다.' };
   }
 
   const maxBytes = maxFileMb * 1024 * 1024;
   if (cv.size > maxBytes) {
-    return { ok: false, message: `CV must be ${maxFileMb}MB or smaller.` };
+    return { ok: false, message: `CV는 ${maxFileMb}MB 이하여야 합니다.` };
   }
   return { ok: true };
 }
@@ -48,7 +48,7 @@ export async function submitApplication({
   random = Math.random
 }) {
   const kind = transportKind(endpoint);
-  if (kind === 'invalid') throw new Error('Upload endpoint is not configured.');
+  if (kind === 'invalid') throw new Error('업로드 경로가 설정되지 않았습니다.');
 
   if (kind === 'apps-script') {
     const submissionId = createSubmissionId(now, random);
@@ -89,7 +89,7 @@ export async function submitApplication({
   const response = await fetchImpl(endpoint, { method: 'POST', body: formData });
   const payload = await response.json().catch(() => ({}));
   if (!response.ok || payload.success === false) {
-    throw new Error(payload.error || 'Upload failed');
+    throw new Error(payload.error || '업로드에 실패했습니다.');
   }
   return {
     state: 'confirmed',
@@ -106,14 +106,14 @@ function fileToBase64(file) {
       const commaIndex = result.indexOf(',');
       resolve(commaIndex >= 0 ? result.slice(commaIndex + 1) : result);
     };
-    reader.onerror = () => reject(new Error('File read failed'));
+    reader.onerror = () => reject(new Error('파일을 읽지 못했습니다.'));
     reader.readAsDataURL(file);
   });
 }
 
 function setMessage(target, text, kind) {
   if (!target) return;
-  target.textContent = window.EMDP_I18N?.translate(text || '') || text || '';
+  target.textContent = text || '';
   target.classList.remove('success', 'error', 'pending');
   if (kind) target.classList.add(kind);
 }
@@ -154,11 +154,11 @@ export function setupApplicationForm() {
 
     const kind = transportKind(endpoint);
     if (kind === 'invalid') {
-      setMessage(status, 'Upload endpoint is not configured. Please email the lab directly.', 'error');
+      setMessage(status, '업로드 경로가 설정되지 않았습니다. 연구실로 직접 이메일을 보내주세요.', 'error');
       return;
     }
     if (recentSubmissions().length >= 5) {
-      setMessage(status, 'Too many submissions from this browser today. Please email the lab directly.', 'error');
+      setMessage(status, '오늘 이 브라우저에서 제출한 횟수가 너무 많습니다. 연구실로 직접 이메일을 보내주세요.', 'error');
       return;
     }
 
@@ -182,8 +182,8 @@ export function setupApplicationForm() {
     formData.set('submitted_at', new Date().toISOString());
     formData.set('privacy_consent_at', new Date().toISOString());
     submitButton.disabled = true;
-    submitButton.textContent = window.EMDP_I18N?.translate('Sending...') || 'Sending...';
-    setMessage(status, 'Sending your application...', 'pending');
+    submitButton.textContent = '전송 중...';
+    setMessage(status, '지원서 전송 중...', 'pending');
 
     try {
       const result = await submitApplication({
@@ -199,25 +199,22 @@ export function setupApplicationForm() {
       if (result.verified) {
         setMessage(
           status,
-          window.EMDP_I18N?.language() === 'ko'
-            ? `지원서가 접수되었습니다. 제출 ID: ${result.submissionId || '확인됨'}`
-            : `Application received. Submission ID: ${result.submissionId || 'confirmed'}`,
+          `지원서가 접수되었습니다. 제출 ID: ${result.submissionId || '확인됨'}`,
           'success'
         );
       } else {
         setMessage(
           status,
-          window.EMDP_I18N?.language() === 'ko'
-            ? `지원 요청을 전송했습니다. ID: ${result.submissionId}. 확인 이메일이 도착하면 접수가 완료된 것입니다.`
-            : `Application request sent. ID: ${result.submissionId}. Receipt is confirmed only when the confirmation email arrives.`,
+          `지원 요청을 전송했습니다. ID: ${result.submissionId}. 확인 이메일이 도착하면 접수가 완료된 것입니다.`,
           'pending'
         );
       }
     } catch (error) {
-      setMessage(status, error?.message || 'Upload failed. Please email the lab directly.', 'error');
+      console.error('[EMDP] application submission', error);
+      setMessage(status, '지원서를 전송하지 못했습니다. 연구실로 직접 이메일을 보내주세요.', 'error');
     } finally {
       submitButton.disabled = false;
-      submitButton.textContent = window.EMDP_I18N?.translate('Submit Application') || 'Submit Application';
+      submitButton.textContent = '지원서 제출';
     }
   });
 }

@@ -13,6 +13,11 @@ test('application package requires only a PDF CV', () => {
     }),
     { ok: true }
   );
+
+  assert.deepEqual(
+    validateApplicationPackage({ consent: false, honeypot: '', files: {}, maxFileMb: 7 }),
+    { ok: false, message: '개인정보 수집 및 이용 동의 항목을 확인해주세요.' }
+  );
 });
 
 test('Apps Script transport reports queued until a confirmation email verifies receipt', async () => {

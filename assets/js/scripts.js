@@ -25,9 +25,10 @@
     if (!toggle || !navigation) return;
 
     function setOpen(open) {
+      var korean = document.documentElement.lang === 'ko';
       navigation.classList.toggle('open', open);
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      toggle.textContent = open ? 'Close' : 'Menu';
+      toggle.textContent = open ? (korean ? '닫기' : 'Close') : (korean ? '메뉴' : 'Menu');
     }
 
     toggle.addEventListener('click', function () {
@@ -110,7 +111,7 @@
 
   function setFormMessage(target, text, kind) {
     if (!target) return;
-    target.textContent = window.EMDP_I18N?.translate(text || '') || text || '';
+    target.textContent = text || '';
     target.classList.remove('success', 'error', 'pending');
     if (kind) target.classList.add(kind);
   }

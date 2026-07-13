@@ -8,7 +8,7 @@ Static website for the Energy Materials Design and Processing Lab at DGIST.
 - Shared page definitions and shell: `tools/site/build.mjs`
 - Design source: `site/styles/`
 - Team, publication, and instrument content: `data/*.json`
-- Korean translation catalog: `data/i18n-ko.json`
+- Apply-page Korean build catalog: `data/i18n-ko.json`
 - Browser behavior: `assets/js/`
 - Active application backend: `tools/google-apps-script-notify.gs`
 

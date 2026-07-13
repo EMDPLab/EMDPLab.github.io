@@ -15,9 +15,9 @@ test('renderSite produces every public route through one shared shell', async ()
     assert.equal((html.match(/<header class="site-header">/g) || []).length, 1, route);
     assert.equal((html.match(/<footer class="site-footer">/g) || []).length, 1, route);
     assert.match(html, /<meta name="description" content="[^"]+">/, route);
-    assert.match(html, /<html lang="ko">/, route);
-    assert.match(html, /id="languageToggle"/, route);
-    assert.match(html, /assets\/js\/i18n\.js/, route);
+    assert.match(html, new RegExp(`<html lang="${route === 'apply.html' ? 'ko' : 'en'}">`), route);
+    assert.doesNotMatch(html, /id="languageToggle"/, route);
+    assert.doesNotMatch(html, /assets\/js\/i18n\.js/, route);
   }
 });
 
@@ -40,6 +40,15 @@ test('translation catalog covers shared navigation and application essentials', 
   assert.equal(catalog.pages['apply.html']['Submit Application'], '지원서 제출');
 });
 
+test('research hero leads with the lab liquid-metal and low-melting-alloy focus', async () => {
+  const pages = await renderSite();
+  const research = pages.get('research.html');
+
+  assert.match(research, /Liquid Metals &amp; Low-Melting Alloys/);
+  assert.match(research, /primarily studies liquid metals and low-melting-point alloys/);
+  assert.match(research, /assets\/images\/research-hero-liquid-metal-alloys\.webp/);
+});
+
 test('renderSite publishes canonical content without waiting for client-side fetches', async () => {
   const pages = await renderSite();
   const output = pages.get('projects.html');
@@ -51,6 +60,14 @@ test('renderSite publishes canonical content without waiting for client-side fet
   assert.match(team, /Junhyeong Seo/);
   assert.match(facility, /Tabletop digital multimeter/);
   assert.doesNotMatch(output, /publications-data\.js/);
+});
+
+test('English pages keep descriptive team copy in English', async () => {
+  const pages = await renderSite();
+  const team = pages.get('team.html');
+
+  assert.match(team, /2025 Winter Intern and Current Intern · DGIST/);
+  assert.doesNotMatch(team, /\d{4}년 (?:동계|하계) 인턴/);
 });
 
 test('renderStyles emits one compact current design system', async () => {

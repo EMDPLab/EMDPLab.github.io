@@ -8,7 +8,6 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../.
 const sourceDir = path.join(rootDir, 'site/pages');
 const styleDir = path.join(rootDir, 'site/styles');
 const styleSources = ['base.css', 'components.css', 'home.css', 'study.css'];
-const catalogToken = '__EMDP_I18N_CATALOG__';
 
 export const pageDefinitions = [
   {
@@ -27,7 +26,7 @@ export const pageDefinitions = [
     route: 'research.html',
     page: 'research',
     title: 'EMDP Lab | Research',
-    description: 'Research themes at EMDP Lab: harsh-environment materials, liquid-metal composites, and device processing.'
+    description: 'EMDP Lab studies liquid metals and low-melting-point alloys for energy transport, soft electronics, and advanced materials processing.'
   },
   {
     route: 'research-facility.html',
@@ -133,8 +132,6 @@ function renderHead(definition, prefix) {
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="${prefix}assets/css/style.css">
   <link rel="icon" href="${prefix}assets/images/EMDP_Lab_logo.svg" type="image/svg+xml">
-  <script id="i18nCatalog" type="application/json">${catalogToken}</script>
-  <script src="${prefix}assets/js/i18n.js" defer></script>
 ${extraScripts ? `${extraScripts}\n` : ''}${moduleScripts ? `${moduleScripts}\n` : ''}  <script src="${prefix}assets/js/scripts.js" defer></script>
 </head>`;
 }
@@ -160,7 +157,6 @@ function renderHeader(definition, prefix) {
       <nav id="siteNav" class="site-nav" aria-label="Primary">
 ${links}
       </nav>
-      <button id="languageToggle" class="language-toggle" type="button" aria-label="Switch to English" data-language-toggle>EN</button>
       <button id="menuToggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="siteNav">Menu</button>
     </div>
   </header>`;
@@ -246,14 +242,11 @@ export function translateHtml(html, catalog) {
   }).join('');
 }
 
-function serializeCatalog(catalog) {
-  return JSON.stringify(catalog).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026');
-}
-
 function renderDocument(definition, main, catalog) {
   const prefix = prefixFor(definition.route);
-  const english = `<!DOCTYPE html>
-<html lang="ko">
+  const korean = definition.route === 'apply.html';
+  const document = `<!DOCTYPE html>
+<html lang="${korean ? 'ko' : 'en'}">
 ${renderHead(definition, prefix)}
 <body ${renderBodyAttributes(definition)}>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -265,7 +258,7 @@ ${renderHead(definition, prefix)}
 </body>
 </html>
 `;
-  return translateHtml(english, catalog).replace(catalogToken, serializeCatalog(catalog));
+  return korean ? translateHtml(document, catalog) : document;
 }
 
 function renderPublicationsRedirect() {
@@ -299,7 +292,9 @@ export async function renderSite() {
   for (const definition of pageDefinitions) {
     const mainSource = await readFile(path.join(sourceDir, definition.route), 'utf8');
     const main = injectContent(extractMain(mainSource, definition.route), { publications, team, instruments });
-    const catalog = { ...translations.common, ...(translations.pages[definition.route] || {}) };
+    const catalog = definition.route === 'apply.html'
+      ? { ...translations.common, ...(translations.pages[definition.route] || {}) }
+      : {};
     rendered.set(definition.route, renderDocument(definition, main, catalog));
   }
 
