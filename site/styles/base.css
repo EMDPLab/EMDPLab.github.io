@@ -143,11 +143,13 @@ main:not(.ref-home) > .container { display: flow-root; }
 .hero-content { padding: clamp(2rem, 5vw, 5.5rem); align-self: end; }
 .hero-title {
   max-width: 10ch;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: clamp(4.3rem, 9vw, 9rem);
-  font-weight: 600;
-  letter-spacing: -0.055em;
+  font-weight: 800;
+  letter-spacing: -0.045em;
 }
+html:lang(ko) .hero-title,
+html:lang(ko) .ref-hero-copy h1 { letter-spacing: -0.025em; }
 .hero-subtitle { max-width: 62ch; margin-top: 1.25rem; color: #d3c9bd; font-size: clamp(1rem, 1.5vw, 1.22rem); }
 .hero-panel {
   display: flex;

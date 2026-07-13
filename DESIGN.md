@@ -36,7 +36,8 @@ focus rings, and compact labels. Long reading areas remain neutral.
 
 ### Typography
 
-- Display: Fraunces, 500–700. Use for page and section statements.
+- Hero display: Manrope, 800. Use for the primary statement on home and page heroes.
+- Editorial display: Fraunces, 500–700. Use for section statements and publication titles.
 - Interface and body: Manrope, 400–800.
 - Headings use tight line height and balanced wrapping; body copy uses a 1.65 line
   height and should remain near 60–70 characters per line.

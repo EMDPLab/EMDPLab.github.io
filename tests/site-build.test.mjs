@@ -61,3 +61,27 @@ test('renderStyles emits one compact current design system', async () => {
   assert.match(css, /:focus-visible/);
   assert.match(css, /prefers-reduced-motion/);
 });
+
+test('hero headings use the clean sans display treatment', async () => {
+  const css = await renderStyles();
+
+  assert.match(css, /\.hero-title\s*\{[^}]*font-family:\s*var\(--font-sans\)/s);
+  assert.match(css, /\.ref-hero-copy h1\s*\{[^}]*font-family:\s*var\(--font-sans\)/s);
+});
+
+test('published pages omit editorial layout commentary', async () => {
+  const pages = await renderSite();
+  const published = [...pages.values()].join('\n');
+  const commentary = [
+    'Member cards are intentionally simple now',
+    'Each photo uses the same frame size',
+    'These featured cards give the page stronger hierarchy',
+    'This page intentionally avoids a fragmented card layout',
+    'This page is written as a continuous narrative rather than a grid of topic cards',
+    'This page is intentionally written as continuous reading material',
+    'Selected papers are shown first',
+    'The full list remains data-driven'
+  ];
+
+  for (const phrase of commentary) assert.doesNotMatch(published, new RegExp(phrase));
+});

@@ -1,7 +1,7 @@
 .ref-home { overflow: hidden; }
 .ref-hero { min-height: calc(100vh - 76px); display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(520px, 1.1fr); }
 .ref-hero-copy { display: flex; flex-direction: column; justify-content: flex-end; padding: clamp(2rem, 5vw, 5.5rem); border-right: 1px solid var(--line); }
-.ref-hero-copy h1 { max-width: 7ch; margin-top: 1.4rem; font-family: var(--font-serif); font-size: clamp(5rem, 10vw, 10.5rem); font-weight: 600; letter-spacing: -0.065em; }
+.ref-hero-copy h1 { max-width: 7ch; margin-top: 1.4rem; font-family: var(--font-sans); font-size: clamp(5rem, 10vw, 10.5rem); font-weight: 800; letter-spacing: -0.05em; }
 .ref-hero-copy > p:last-child { max-width: 38ch; margin-top: 2rem; color: #d0c6bb; font-size: 1.05rem; }
 .ref-project { position: relative; display: grid; grid-template-rows: minmax(420px, 1fr) auto auto; color: var(--ink); background: var(--paper); text-decoration: none; }
 .ref-project:hover { color: var(--ink); }
