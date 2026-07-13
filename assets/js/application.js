@@ -1,5 +1,4 @@
 const CV_EXTENSIONS = ['pdf'];
-const COVER_EXTENSIONS = ['pdf', 'doc', 'docx'];
 
 function valueOf(formData, key) {
   const value = formData && typeof formData.get === 'function' ? formData.get(key) : '';
@@ -22,17 +21,13 @@ export function validateApplicationPackage({ consent, honeypot, files, maxFileMb
   if (!consent) return { ok: false, message: 'Please confirm the consent checkbox.' };
 
   const cv = files?.cv;
-  const coverLetter = files?.coverLetter;
   if (!cv || !CV_EXTENSIONS.includes(extensionOf(cv))) {
     return { ok: false, message: 'CV must be a PDF file.' };
   }
-  if (!coverLetter || !COVER_EXTENSIONS.includes(extensionOf(coverLetter))) {
-    return { ok: false, message: 'Cover letter must be PDF, DOC, or DOCX.' };
-  }
 
   const maxBytes = maxFileMb * 1024 * 1024;
-  if (cv.size > maxBytes || coverLetter.size > maxBytes) {
-    return { ok: false, message: `Each file must be ${maxFileMb}MB or smaller.` };
+  if (cv.size > maxBytes) {
+    return { ok: false, message: `CV must be ${maxFileMb}MB or smaller.` };
   }
   return { ok: true };
 }
@@ -57,10 +52,7 @@ export async function submitApplication({
 
   if (kind === 'apps-script') {
     const submissionId = createSubmissionId(now, random);
-    const [cvBase64, coverBase64] = await Promise.all([
-      encodeFile(files.cv),
-      encodeFile(files.coverLetter)
-    ]);
+    const cvBase64 = await encodeFile(files.cv);
     const payload = {
       submission_id: submissionId,
       submitted_at: now().toISOString(),
@@ -74,18 +66,11 @@ export async function submitApplication({
       privacy_consent: valueOf(formData, 'privacy_consent'),
       privacy_consent_version: valueOf(formData, 'privacy_consent_version'),
       privacy_consent_at: valueOf(formData, 'privacy_consent_at'),
-      research_proposal_note: valueOf(formData, 'research_proposal_note'),
-      special_note: valueOf(formData, 'special_note'),
       files: {
         cv: {
           name: files.cv.name,
           type: files.cv.type || 'application/pdf',
           base64: cvBase64
-        },
-        cover_letter: {
-          name: files.coverLetter.name,
-          type: files.coverLetter.type || 'application/octet-stream',
-          base64: coverBase64
         }
       }
     };
@@ -127,7 +112,7 @@ function fileToBase64(file) {
 
 function setMessage(target, text, kind) {
   if (!target) return;
-  target.textContent = text || '';
+  target.textContent = window.EMDP_I18N?.translate(text || '') || text || '';
   target.classList.remove('success', 'error', 'pending');
   if (kind) target.classList.add(kind);
 }
@@ -159,7 +144,6 @@ export function setupApplicationForm() {
   const startedField = document.getElementById('applicationStartedAt');
   const consent = document.getElementById('consentCheck');
   const cvInput = document.getElementById('cvFile');
-  const coverInput = document.getElementById('coverFile');
   const honeypot = form.querySelector('input[name="_honey"]');
 
   if (startedField) startedField.value = String(Date.now());
@@ -178,8 +162,7 @@ export function setupApplicationForm() {
     }
 
     const files = {
-      cv: cvInput?.files?.[0],
-      coverLetter: coverInput?.files?.[0]
+      cv: cvInput?.files?.[0]
     };
     const maxFileMb = kind === 'apps-script' ? 7 : 10;
     const validation = validateApplicationPackage({
@@ -198,8 +181,8 @@ export function setupApplicationForm() {
     formData.set('submitted_at', new Date().toISOString());
     formData.set('privacy_consent_at', new Date().toISOString());
     submitButton.disabled = true;
-    submitButton.textContent = 'Sending...';
-    setMessage(status, 'Sending your application package...', 'pending');
+    submitButton.textContent = window.EMDP_I18N?.translate('Sending...') || 'Sending...';
+    setMessage(status, 'Sending your CV...', 'pending');
 
     try {
       const result = await submitApplication({
@@ -213,11 +196,19 @@ export function setupApplicationForm() {
       if (startedField) startedField.value = String(Date.now());
 
       if (result.verified) {
-        setMessage(status, `Application received. Submission ID: ${result.submissionId || 'confirmed'}`, 'success');
+        setMessage(
+          status,
+          window.EMDP_I18N?.language() === 'ko'
+            ? `지원서가 접수되었습니다. 제출 ID: ${result.submissionId || '확인됨'}`
+            : `Application received. Submission ID: ${result.submissionId || 'confirmed'}`,
+          'success'
+        );
       } else {
         setMessage(
           status,
-          `Application request sent. ID: ${result.submissionId}. Receipt is confirmed only when the confirmation email arrives.`,
+          window.EMDP_I18N?.language() === 'ko'
+            ? `지원 요청을 전송했습니다. ID: ${result.submissionId}. 확인 이메일이 도착하면 접수가 완료된 것입니다.`
+            : `Application request sent. ID: ${result.submissionId}. Receipt is confirmed only when the confirmation email arrives.`,
           'pending'
         );
       }
@@ -225,7 +216,7 @@ export function setupApplicationForm() {
       setMessage(status, error?.message || 'Upload failed. Please email the lab directly.', 'error');
     } finally {
       submitButton.disabled = false;
-      submitButton.textContent = 'Submit Application Package';
+      submitButton.textContent = window.EMDP_I18N?.translate('Submit CV') || 'Submit CV';
     }
   });
 }

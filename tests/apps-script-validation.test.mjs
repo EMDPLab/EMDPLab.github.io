@@ -18,11 +18,8 @@ function validPayload() {
     privacy_consent_version: '2026-07-10',
     privacy_consent_at: '2026-07-10T12:00:00.000Z',
     started_at: String(Date.now() - 10_000),
-    research_proposal_note: 'Liquid-metal composite processing.',
-    special_note: '',
     files: {
-      cv: { name: 'cv.pdf', base64: 'dGVzdA==' },
-      cover_letter: { name: 'cover.pdf', base64: 'dGVzdA==' }
+      cv: { name: 'cv.pdf', base64: 'dGVzdA==' }
     }
   };
 }

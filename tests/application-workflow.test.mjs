@@ -1,7 +1,19 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { submitApplication } from '../assets/js/application.js';
+import { submitApplication, validateApplicationPackage } from '../assets/js/application.js';
+
+test('application package requires only a PDF CV', () => {
+  assert.deepEqual(
+    validateApplicationPackage({
+      consent: true,
+      honeypot: '',
+      files: { cv: { name: 'cv.pdf', size: 1024 } },
+      maxFileMb: 7
+    }),
+    { ok: true }
+  );
+});
 
 test('Apps Script transport reports queued until a confirmation email verifies receipt', async () => {
   const calls = [];
@@ -14,8 +26,7 @@ test('Apps Script transport reports queued until a confirmation email verifies r
       ['privacy_consent_at', '2026-07-10T00:00:00.000Z']
     ]),
     files: {
-      cv: { name: 'cv.pdf', type: 'application/pdf' },
-      coverLetter: { name: 'cover.pdf', type: 'application/pdf' }
+      cv: { name: 'cv.pdf', type: 'application/pdf' }
     },
     encodeFile: async () => 'encoded',
     fetchImpl: async (...args) => {
@@ -32,6 +43,8 @@ test('Apps Script transport reports queued until a confirmation email verifies r
   assert.equal(payload.privacy_consent, 'agreed');
   assert.equal(payload.privacy_consent_version, '2026-07-10');
   assert.equal(payload.privacy_consent_at, '2026-07-10T00:00:00.000Z');
+  assert.deepEqual(Object.keys(payload.files), ['cv']);
+  assert.equal('research_proposal_note' in payload, false);
   assert.deepEqual(result, {
     state: 'queued',
     verified: false,

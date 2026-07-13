@@ -73,7 +73,7 @@ function publicationItem(record) {
 
   return `<article class="publication-item" role="listitem">
   <div class="pub-head">
-    <span class="pub-no">Record #${escapeHtml(record.number)}</span>
+    <span class="pub-no"><span>Record</span> #${escapeHtml(record.number)}</span>
     <div class="pub-chip-row"><span class="pub-type">${patent ? 'Patent' : 'Publication'}</span><span class="pub-year">${escapeHtml(record.year)}</span></div>
   </div>
   <p class="pub-title">${escapeHtml(record.title)}</p>
@@ -98,7 +98,7 @@ export function renderPublications(records) {
   return [...groups].map(([year, items], index) => `<details class="pub-year-group"${index === 0 ? ' open' : ''}>
   <summary class="pub-year-summary">
     <div class="pub-year-summary-main"><span class="pub-year-title">${escapeHtml(year)}</span><span class="pub-year-note">Expand archive</span></div>
-    <div class="pub-year-summary-side"><span class="pub-year-count">${items.length} ${items.length === 1 ? 'record' : 'records'}</span><span class="pub-year-caret" aria-hidden="true"></span></div>
+    <div class="pub-year-summary-side"><span class="pub-year-count">${items.length} <span>records</span></span><span class="pub-year-caret" aria-hidden="true"></span></div>
   </summary>
   <div class="pub-year-items" role="list">
     ${items.map(publicationItem).join('\n    ')}

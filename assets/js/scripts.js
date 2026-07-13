@@ -110,7 +110,7 @@
 
   function setFormMessage(target, text, kind) {
     if (!target) return;
-    target.textContent = text || '';
+    target.textContent = window.EMDP_I18N?.translate(text || '') || text || '';
     target.classList.remove('success', 'error', 'pending');
     if (kind) target.classList.add(kind);
   }

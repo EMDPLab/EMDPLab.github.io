@@ -4,8 +4,8 @@
         <div class="hero-content">
           <p class="kicker">Recruiting Cycle 2026</p>
           <h1 class="hero-title">Apply</h1>
-          <p class="hero-subtitle">Use this page to send your application package with clear context about your background, motivation, and research direction.</p>
-          <p class="hero-subtitle">Prepare a CV, cover letter, and a short research proposal note explaining what you want to study in EMDP Lab and why.</p>
+          <p class="hero-subtitle">Send your CV and basic contact information. That is enough for the first review.</p>
+          <p class="hero-subtitle">Motivation, research interests, and possible project directions will be discussed directly during the interview.</p>
           <div class="chip-row">
             <span class="chip">Internship</span>
             <span class="chip">Undergraduate Research</span>
@@ -16,9 +16,9 @@
         <aside class="hero-panel">
           <p class="panel-label">What to expect</p>
           <ul class="meta-list">
-            <li>Initial document review for technical fit and readiness.</li>
-            <li>Follow-up discussion to refine project direction.</li>
-            <li>Selection based on fit, motivation, and project alignment.</li>
+            <li>Initial CV review for technical fit and readiness.</li>
+            <li>Interview about motivation, experience, and research interests.</li>
+            <li>Project direction is discussed together after the initial review.</li>
           </ul>
         </aside>
       </section>
@@ -26,19 +26,19 @@
       <section class="section">
         <div class="feature-grid">
           <article class="feature-card">
-            <p class="kicker">Application package</p>
-            <h3>Send only what matters</h3>
-            <p>A concise package works best: CV, cover letter, and a research idea note that shows how you think about technical work.</p>
+            <p class="kicker">Application material</p>
+            <h3>One CV is enough</h3>
+            <p>Submit one current CV in PDF format for the initial review.</p>
           </article>
           <article class="feature-card">
             <p class="kicker">Selection process</p>
-            <h3>Assess fit, not just documents</h3>
-            <p>Interviews are used to test how you reason about technical questions and whether your interests align with active lab themes.</p>
+            <h3>Discuss fit directly</h3>
+            <p>The interview is where the lab asks about your experience, motivation, and interest in active research themes.</p>
           </article>
           <article class="feature-card">
             <p class="kicker">After submission</p>
-            <h3>Use the page status area</h3>
-            <p>The form keeps status messaging directly on the page so applicants are not left guessing whether the request went through.</p>
+            <h3>Receive a follow-up</h3>
+            <p>If the CV review suggests a potential fit, the lab will contact you to arrange an interview.</p>
           </article>
         </div>
       </section>
@@ -51,18 +51,18 @@
         <div class="apply-steps">
           <article class="step-card">
             <p class="step-no">01</p>
-            <h3>Document review</h3>
-            <p>The lab reviews your background, technical preparation, and the clarity of your motivation for joining.</p>
+            <h3>CV review</h3>
+            <p>The lab reviews your academic background, project experience, and technical preparation.</p>
           </article>
           <article class="step-card">
             <p class="step-no">02</p>
-            <h3>Discussion and refinement</h3>
-            <p>Interview sessions are used to sharpen your proposed direction and test whether the research fit is real.</p>
+            <h3>Interview</h3>
+            <p>The lab asks directly about motivation, previous work, and the way you approach technical questions.</p>
           </article>
           <article class="step-card">
             <p class="step-no">03</p>
-            <h3>Topic alignment</h3>
-            <p>If the fit is strong, onboarding focuses on defining a concrete research starting point and near-term milestone.</p>
+            <h3>Research direction</h3>
+            <p>If the fit is strong, the lab and applicant define a realistic starting topic together.</p>
           </article>
         </div>
       </section>
@@ -70,8 +70,8 @@
       <section class="section card apply-form-card">
         <div class="apply-form-head">
           <p class="kicker">Submission form</p>
-          <h2 class="section-title">Submit your application package</h2>
-          <p class="page-intro">Submit your materials with enough context for the lab to assess fit quickly and respond with a meaningful next step.</p>
+          <h2 class="section-title">Submit your CV</h2>
+          <p class="page-intro">Complete the short form below and attach one current CV in PDF format.</p>
         </div>
 
         <div class="apply-form-layout">
@@ -80,9 +80,9 @@
             <ul class="meta-list apply-checklist">
               <li>Use an email address you actively check for follow-up.</li>
               <li>CV must be a PDF file and remain under 7MB.</li>
-              <li>Cover letter can be PDF, DOC, or DOCX and should remain under 7MB.</li>
-              <li>Use the proposal note to explain a concrete direction, not only general interest.</li>
-              <li>If the upload route fails, send your package directly by email.</li>
+              <li>One current CV is all that is needed for the initial review.</li>
+              <li>Research interests and motivation will be discussed during the interview.</li>
+              <li>If the upload route fails, send your CV directly by email.</li>
             </ul>
           </aside>
 
@@ -130,21 +130,6 @@
                 <input id="cvFile" name="cv_pdf" type="file" accept=".pdf,application/pdf" required>
               </div>
 
-              <div class="form-row full-span">
-                <label for="coverFile">Cover Letter (PDF/DOC/DOCX, max 7MB)</label>
-                <input id="coverFile" name="cover_letter" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
-              </div>
-
-              <div class="form-row full-span">
-                <label for="proposalNote">Research Idea / Proposal Draft</label>
-                <textarea id="proposalNote" name="research_proposal_note" rows="6" required maxlength="4000" placeholder="Describe what you want to work on in EMDP Lab, and why."></textarea>
-              </div>
-
-              <div class="form-row full-span">
-                <label for="specialNote">Additional Note (optional)</label>
-                <textarea id="specialNote" name="special_note" rows="4" maxlength="2000" placeholder="Portfolio links, schedule constraints, or extra context."></textarea>
-              </div>
-
             </div>
 
             <label class="consent-row">
@@ -152,7 +137,7 @@
               <span>I confirm the information is accurate. I agree that my application and contact details may be sent to the listed EMDP Lab email accounts, used to review this application and contact me, and retained only as needed for recruitment. I can request deletion by emailing the lab.</span>
             </label>
 
-            <button id="applicationSubmit" type="submit">Submit Application Package</button>
+            <button id="applicationSubmit" type="submit">Submit CV</button>
             <p id="applicationStatus" class="form-message" role="status" aria-live="polite"></p>
           </form>
         </div>
@@ -169,10 +154,10 @@
               /
               <a href="mailto:hodh123@gmail.com">hodh123@gmail.com</a>
             </p>
-            <p>If the upload path is unavailable, send your package directly by email with the subject line <strong>EMDP Lab Application</strong>.</p>
+            <p>If the upload path is unavailable, send your CV directly by email with the subject line <strong>EMDP Lab Application</strong>.</p>
           </div>
           <div>
-            <p class="page-intro">The form remains on this page for convenience, but the design now makes the email fallback clear so applicants are not blocked by tooling.</p>
+            <p class="page-intro">Only a CV is needed for the first review. The lab will ask about motivation and research ideas during the interview.</p>
           </div>
         </div>
       </section>

@@ -8,6 +8,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../.
 const sourceDir = path.join(rootDir, 'site/pages');
 const styleDir = path.join(rootDir, 'site/styles');
 const styleSources = ['base.css', 'components.css', 'home.css', 'study.css'];
+const catalogToken = '__EMDP_I18N_CATALOG__';
 
 export const pageDefinitions = [
   {
@@ -50,7 +51,7 @@ export const pageDefinitions = [
     route: 'apply.html',
     page: 'apply',
     title: 'EMDP Lab | Apply',
-    description: 'Apply to EMDP Lab with a CV, cover letter, and research proposal note.',
+    description: 'Apply to EMDP Lab with a current CV. Research interests and motivation are discussed during the interview.',
     moduleScripts: ['assets/js/application.js']
   },
   {
@@ -132,6 +133,8 @@ function renderHead(definition, prefix) {
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="${prefix}assets/css/style.css">
   <link rel="icon" href="${prefix}assets/images/EMDP_Lab_logo.svg" type="image/svg+xml">
+  <script id="i18nCatalog" type="application/json">${catalogToken}</script>
+  <script src="${prefix}assets/js/i18n.js" defer></script>
 ${extraScripts ? `${extraScripts}\n` : ''}${moduleScripts ? `${moduleScripts}\n` : ''}  <script src="${prefix}assets/js/scripts.js" defer></script>
 </head>`;
 }
@@ -154,10 +157,11 @@ function renderHeader(definition, prefix) {
           <span class="brand-meta">Energy Materials Design &amp; Processing Lab</span>
         </span>
       </a>
-      <button id="menuToggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="siteNav">Menu</button>
       <nav id="siteNav" class="site-nav" aria-label="Primary">
 ${links}
       </nav>
+      <button id="languageToggle" class="language-toggle" type="button" aria-label="Switch to English" data-language-toggle>EN</button>
+      <button id="menuToggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="siteNav">Menu</button>
     </div>
   </header>`;
 }
@@ -185,10 +189,71 @@ function renderBodyAttributes(definition) {
     .join(' ');
 }
 
-function renderDocument(definition, main) {
+function decodeHtmlText(value) {
+  return value
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&copy;/g, '©')
+    .replace(/&nbsp;/g, '\u00a0');
+}
+
+function escapeHtmlText(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function escapeAttribute(value) {
+  return escapeHtmlText(value).replace(/"/g, '&quot;');
+}
+
+function translatedValue(value, catalog) {
+  return catalog[decodeHtmlText(value)] || '';
+}
+
+export function translateHtml(html, catalog) {
+  const excluded = new Set(['script', 'style', 'code']);
+  const stack = [];
+
+  return html.split(/(<[^>]+>)/g).map((part) => {
+    if (!part) return part;
+    if (part.startsWith('<')) {
+      const closing = part.match(/^<\s*\/\s*([a-z0-9-]+)/i);
+      if (closing) {
+        if (excluded.has(closing[1].toLowerCase())) stack.pop();
+        return part;
+      }
+
+      const opening = part.match(/^<\s*([a-z0-9-]+)/i);
+      const tagName = opening?.[1]?.toLowerCase();
+      const translatedTag = part.replace(/\b(alt|aria-label|placeholder|title|content)="([^"]*)"/g, (match, name, value) => {
+        const translated = translatedValue(value, catalog);
+        return translated ? `${name}="${escapeAttribute(translated)}"` : match;
+      });
+      if (tagName && excluded.has(tagName) && !/\/\s*>$/.test(part)) stack.push(tagName);
+      return translatedTag;
+    }
+
+    if (stack.length) return part;
+    const leading = part.match(/^\s*/)?.[0] || '';
+    const trailing = part.match(/\s*$/)?.[0] || '';
+    const value = part.trim();
+    if (!value) return part;
+    const translated = translatedValue(value, catalog);
+    return translated ? `${leading}${escapeHtmlText(translated)}${trailing}` : part;
+  }).join('');
+}
+
+function serializeCatalog(catalog) {
+  return JSON.stringify(catalog).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026');
+}
+
+function renderDocument(definition, main, catalog) {
   const prefix = prefixFor(definition.route);
-  return `<!DOCTYPE html>
-<html lang="en">
+  const english = `<!DOCTYPE html>
+<html lang="ko">
 ${renderHead(definition, prefix)}
 <body ${renderBodyAttributes(definition)}>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -200,6 +265,7 @@ ${renderHead(definition, prefix)}
 </body>
 </html>
 `;
+  return translateHtml(english, catalog).replace(catalogToken, serializeCatalog(catalog));
 }
 
 function renderPublicationsRedirect() {
@@ -223,16 +289,18 @@ function renderPublicationsRedirect() {
 
 export async function renderSite() {
   const rendered = new Map();
-  const [publications, team, instruments] = await Promise.all([
+  const [publications, team, instruments, translations] = await Promise.all([
     readFile(path.join(rootDir, 'data/publications-data.json'), 'utf8').then(JSON.parse),
     readFile(path.join(rootDir, 'data/team-data.json'), 'utf8').then(JSON.parse),
-    readFile(path.join(rootDir, 'data/instruments-data.json'), 'utf8').then(JSON.parse)
+    readFile(path.join(rootDir, 'data/instruments-data.json'), 'utf8').then(JSON.parse),
+    readFile(path.join(rootDir, 'data/i18n-ko.json'), 'utf8').then(JSON.parse)
   ]);
 
   for (const definition of pageDefinitions) {
     const mainSource = await readFile(path.join(sourceDir, definition.route), 'utf8');
     const main = injectContent(extractMain(mainSource, definition.route), { publications, team, instruments });
-    rendered.set(definition.route, renderDocument(definition, main));
+    const catalog = { ...translations.common, ...(translations.pages[definition.route] || {}) };
+    rendered.set(definition.route, renderDocument(definition, main, catalog));
   }
 
   rendered.set('publications.html', renderPublicationsRedirect());

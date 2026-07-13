@@ -23,7 +23,6 @@ function doPost(e) {
 
     var maxFileBytes = Number(getProp_('MAX_FILE_MB') || 7) * 1024 * 1024;
     var cv = buildAttachment_(payload.files.cv, ['pdf'], maxFileBytes, 'CV');
-    var cover = buildAttachment_(payload.files.cover_letter, ['pdf', 'doc', 'docx'], maxFileBytes, 'Cover letter');
     consumeSubmissionLimits_(payload);
 
     var submissionId = safeString_(payload.submission_id) || buildSubmissionId_();
@@ -40,14 +39,12 @@ function doPost(e) {
       'Track: ' + safeString_(payload.program_track) + '\n' +
       'Affiliation: ' + safeString_(payload.affiliation) + '\n' +
       'Source page: ' + safeString_(payload.source_page) + '\n\n' +
-      'Privacy consent: ' + safeString_(payload.privacy_consent_version) + ' at ' + safeString_(payload.privacy_consent_at) + '\n\n' +
-      'Research proposal note:\n' + safeString_(payload.research_proposal_note) + '\n\n' +
-      'Special note:\n' + safeString_(payload.special_note);
+      'Privacy consent: ' + safeString_(payload.privacy_consent_version) + ' at ' + safeString_(payload.privacy_consent_at);
 
     safeSendEmail_(notifyTo, subject, body, {
       cc: notifyCc,
       replyTo: safeString_(payload.applicant_email),
-      attachments: [cv.blob, cover.blob],
+      attachments: [cv.blob],
       name: 'EMDP Lab Apply Bot'
     });
 
@@ -142,8 +139,6 @@ function validatePayload_(p) {
   }
 
   requireText_(p.affiliation, 'Affiliation', 120);
-  requireText_(p.research_proposal_note, 'Research proposal note', 4000);
-  optionalText_(p.special_note, 'Special note', 2000);
   optionalText_(p.source_page, 'Source page', 500);
   if (safeString_(p.privacy_consent) !== 'agreed') throw new Error('Missing privacy consent');
   if (safeString_(p.privacy_consent_version) !== PRIVACY_CONSENT_VERSION_) {
@@ -156,10 +151,8 @@ function validatePayload_(p) {
   if (submissionId && !/^[a-z0-9-]{8,80}$/i.test(submissionId)) {
     throw new Error('Invalid submission ID');
   }
-  if (!p.files || !p.files.cv || !p.files.cover_letter) throw new Error('Missing files');
-  if (!safeString_(p.files.cv.base64) || !safeString_(p.files.cover_letter.base64)) {
-    throw new Error('Missing file bytes');
-  }
+  if (!p.files || !p.files.cv) throw new Error('Missing CV');
+  if (!safeString_(p.files.cv.base64)) throw new Error('Missing CV bytes');
 }
 
 function validateSubmissionPreconditions_(payload) {
