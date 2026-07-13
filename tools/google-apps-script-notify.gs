@@ -38,6 +38,7 @@ function doPost(e) {
       'Email: ' + safeString_(payload.applicant_email) + '\n' +
       'Track: ' + safeString_(payload.program_track) + '\n' +
       'Affiliation: ' + safeString_(payload.affiliation) + '\n' +
+      'Motivation and introduction:\n' + safeString_(payload.motivation_intro) + '\n\n' +
       'Source page: ' + safeString_(payload.source_page) + '\n\n' +
       'Privacy consent: ' + safeString_(payload.privacy_consent_version) + ' at ' + safeString_(payload.privacy_consent_at);
 
@@ -139,6 +140,7 @@ function validatePayload_(p) {
   }
 
   requireText_(p.affiliation, 'Affiliation', 120);
+  requireText_(p.motivation_intro, 'Motivation and introduction', 1200);
   optionalText_(p.source_page, 'Source page', 500);
   if (safeString_(p.privacy_consent) !== 'agreed') throw new Error('Missing privacy consent');
   if (safeString_(p.privacy_consent_version) !== PRIVACY_CONSENT_VERSION_) {

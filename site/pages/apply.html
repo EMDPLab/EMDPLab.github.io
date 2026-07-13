@@ -4,8 +4,8 @@
         <div class="hero-content">
           <p class="kicker">Recruiting Cycle 2026</p>
           <h1 class="hero-title">Apply</h1>
-          <p class="hero-subtitle">Send your CV and basic contact information. That is enough for the first review.</p>
-          <p class="hero-subtitle">Motivation, research interests, and possible project directions will be discussed directly during the interview.</p>
+          <p class="hero-subtitle">Send your CV, basic contact information, and a brief motivation and introduction.</p>
+          <p class="hero-subtitle">Detailed research interests and possible project directions will be discussed directly during the interview.</p>
           <div class="chip-row">
             <span class="chip">Internship</span>
             <span class="chip">Undergraduate Research</span>
@@ -27,8 +27,8 @@
         <div class="feature-grid">
           <article class="feature-card">
             <p class="kicker">Application material</p>
-            <h3>One CV is enough</h3>
-            <p>Submit one current CV in PDF format for the initial review.</p>
+            <h3>Keep it concise</h3>
+            <p>Submit one current CV and briefly introduce yourself and your motivation for applying.</p>
           </article>
           <article class="feature-card">
             <p class="kicker">Selection process</p>
@@ -71,7 +71,7 @@
         <div class="apply-form-head">
           <p class="kicker">Submission form</p>
           <h2 class="section-title">Submit your CV</h2>
-          <p class="page-intro">Complete the short form below and attach one current CV in PDF format.</p>
+          <p class="page-intro">Complete the short form, introduce yourself briefly, and attach one current CV in PDF format.</p>
         </div>
 
         <div class="apply-form-layout">
@@ -80,8 +80,8 @@
             <ul class="meta-list apply-checklist">
               <li>Use an email address you actively check for follow-up.</li>
               <li>CV must be a PDF file and remain under 7MB.</li>
-              <li>One current CV is all that is needed for the initial review.</li>
-              <li>Research interests and motivation will be discussed during the interview.</li>
+              <li>Write a concise motivation and introduction of no more than 1,200 characters.</li>
+              <li>Detailed research ideas will be discussed during the interview.</li>
               <li>If the upload route fails, send your CV directly by email.</li>
             </ul>
           </aside>
@@ -126,6 +126,11 @@
               </div>
 
               <div class="form-row full-span">
+                <label for="motivationIntro">Motivation &amp; Brief Introduction</label>
+                <textarea id="motivationIntro" name="motivation_intro" maxlength="1200" required rows="6" placeholder="Briefly introduce yourself and explain why you want to join EMDP Lab."></textarea>
+              </div>
+
+              <div class="form-row full-span">
                 <label for="cvFile">CV (PDF only, max 7MB)</label>
                 <input id="cvFile" name="cv_pdf" type="file" accept=".pdf,application/pdf" required>
               </div>
@@ -137,7 +142,7 @@
               <span>I confirm the information is accurate. I agree that my application and contact details may be sent to the listed EMDP Lab email accounts, used to review this application and contact me, and retained only as needed for recruitment. I can request deletion by emailing the lab.</span>
             </label>
 
-            <button id="applicationSubmit" type="submit">Submit CV</button>
+            <button id="applicationSubmit" type="submit">Submit Application</button>
             <p id="applicationStatus" class="form-message" role="status" aria-live="polite"></p>
           </form>
         </div>
@@ -157,7 +162,7 @@
             <p>If the upload path is unavailable, send your CV directly by email with the subject line <strong>EMDP Lab Application</strong>.</p>
           </div>
           <div>
-            <p class="page-intro">Only a CV is needed for the first review. The lab will ask about motivation and research ideas during the interview.</p>
+            <p class="page-intro">Send a current CV and a brief motivation and introduction. Detailed research ideas will be discussed during the interview.</p>
           </div>
         </div>
       </section>

@@ -21,6 +21,7 @@ test('Apps Script transport reports queued until a confirmation email verifies r
     endpoint: 'https://script.google.com/macros/s/example/exec',
     formData: new Map([
       ['applicant_name', 'Test Applicant'],
+      ['motivation_intro', 'I want to contribute to liquid-metal device research.'],
       ['privacy_consent', 'agreed'],
       ['privacy_consent_version', '2026-07-10'],
       ['privacy_consent_at', '2026-07-10T00:00:00.000Z']
@@ -43,6 +44,7 @@ test('Apps Script transport reports queued until a confirmation email verifies r
   assert.equal(payload.privacy_consent, 'agreed');
   assert.equal(payload.privacy_consent_version, '2026-07-10');
   assert.equal(payload.privacy_consent_at, '2026-07-10T00:00:00.000Z');
+  assert.equal(payload.motivation_intro, 'I want to contribute to liquid-metal device research.');
   assert.deepEqual(Object.keys(payload.files), ['cv']);
   assert.equal('research_proposal_note' in payload, false);
   assert.deepEqual(result, {

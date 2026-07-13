@@ -51,7 +51,7 @@ export const pageDefinitions = [
     route: 'apply.html',
     page: 'apply',
     title: 'EMDP Lab | Apply',
-    description: 'Apply to EMDP Lab with a current CV. Research interests and motivation are discussed during the interview.',
+    description: 'Apply to EMDP Lab with a current CV and a brief motivation and introduction.',
     moduleScripts: ['assets/js/application.js']
   },
   {

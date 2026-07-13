@@ -61,6 +61,7 @@ export async function submitApplication({
       applicant_email: valueOf(formData, 'applicant_email'),
       program_track: valueOf(formData, 'program_track'),
       affiliation: valueOf(formData, 'affiliation'),
+      motivation_intro: valueOf(formData, 'motivation_intro'),
       started_at: valueOf(formData, 'started_at'),
       honeypot: valueOf(formData, '_honey'),
       privacy_consent: valueOf(formData, 'privacy_consent'),
@@ -182,7 +183,7 @@ export function setupApplicationForm() {
     formData.set('privacy_consent_at', new Date().toISOString());
     submitButton.disabled = true;
     submitButton.textContent = window.EMDP_I18N?.translate('Sending...') || 'Sending...';
-    setMessage(status, 'Sending your CV...', 'pending');
+    setMessage(status, 'Sending your application...', 'pending');
 
     try {
       const result = await submitApplication({
@@ -216,7 +217,7 @@ export function setupApplicationForm() {
       setMessage(status, error?.message || 'Upload failed. Please email the lab directly.', 'error');
     } finally {
       submitButton.disabled = false;
-      submitButton.textContent = window.EMDP_I18N?.translate('Submit CV') || 'Submit CV';
+      submitButton.textContent = window.EMDP_I18N?.translate('Submit Application') || 'Submit Application';
     }
   });
 }

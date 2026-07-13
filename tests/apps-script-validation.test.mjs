@@ -14,6 +14,7 @@ function validPayload() {
     applicant_email: 'jane@example.edu',
     program_track: 'PhD',
     affiliation: 'Example University',
+    motivation_intro: 'I am interested in resilient liquid-metal devices.',
     privacy_consent: 'agreed',
     privacy_consent_version: '2026-07-10',
     privacy_consent_at: '2026-07-10T12:00:00.000Z',
@@ -42,6 +43,14 @@ test('Apps Script validates public application fields at the server boundary', (
   const missingConsent = validPayload();
   missingConsent.privacy_consent = '';
   assert.throws(() => context.validatePayload_(missingConsent), /consent/i);
+
+  const missingIntroduction = validPayload();
+  missingIntroduction.motivation_intro = '';
+  assert.throws(() => context.validatePayload_(missingIntroduction), /motivation/i);
+
+  const oversizedIntroduction = validPayload();
+  oversizedIntroduction.motivation_intro = 'x'.repeat(1201);
+  assert.throws(() => context.validatePayload_(oversizedIntroduction), /motivation/i);
 });
 
 test('Apps Script normalizes untrusted values used in email headers', () => {

@@ -27,8 +27,9 @@ The application form intentionally reports a queued receipt when it submits thro
 the Google Apps Script `no-cors` transport. Delivery is not claimed as confirmed
 until a verifiable response transport is introduced.
 
-The Apps Script validates field lengths, consent metadata, the CV signature, form
-timing, and mail quota before decoding attachments. Its default server limits are
-three submissions per hour and two per email every six hours. Override them with
+The Apps Script validates contact and motivation field lengths, consent metadata,
+the CV signature, form timing, and mail quota before decoding attachments. Its
+default server limits are three submissions per hour and two per email every six
+hours. Override them with
 the `MAX_SUBMISSIONS_PER_HOUR`, `MAX_SUBMISSIONS_PER_EMAIL_6H`, and
 `MIN_FORM_SECONDS` Script Properties when deployment needs change.

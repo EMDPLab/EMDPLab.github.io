@@ -21,11 +21,12 @@ test('renderSite produces every public route through one shared shell', async ()
   }
 });
 
-test('application form accepts a CV without cover letter or proposal fields', async () => {
+test('application form accepts a CV with one short motivation and introduction', async () => {
   const pages = await renderSite();
   const apply = pages.get('apply.html');
 
   assert.match(apply, /name="cv_pdf"/);
+  assert.match(apply, /name="motivation_intro"[^>]*maxlength="1200"[^>]*required/);
   assert.doesNotMatch(apply, /name="cover_letter"/);
   assert.doesNotMatch(apply, /name="research_proposal_note"/);
   assert.doesNotMatch(apply, /name="special_note"/);
@@ -36,7 +37,7 @@ test('translation catalog covers shared navigation and application essentials', 
 
   assert.equal(catalog.common.Home, '홈');
   assert.equal(catalog.common.Apply, '지원');
-  assert.equal(catalog.pages['apply.html']['Submit CV'], 'CV 제출');
+  assert.equal(catalog.pages['apply.html']['Submit Application'], '지원서 제출');
 });
 
 test('renderSite publishes canonical content without waiting for client-side fetches', async () => {
