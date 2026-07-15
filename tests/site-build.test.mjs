@@ -55,7 +55,7 @@ test('renderSite publishes canonical content without waiting for client-side fet
   const team = pages.get('team.html');
   const facility = pages.get('research-facility.html');
 
-  assert.equal((output.match(/class="publication-item"/g) || []).length, 39);
+  assert.equal((output.match(/class="publication-item"/g) || []).length, 42);
   assert.match(team, /Negasi Teklay Weldesemat/);
   assert.match(team, /Junhyeong Seo/);
   assert.match(facility, /Tabletop digital multimeter/);

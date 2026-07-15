@@ -1,5 +1,32 @@
 [
   {
+    "number": 42,
+    "title": "Conformal printing of electrically conductive viscous liquid metal on 3D structures",
+    "year": "2025",
+    "authors": "Hur, Ohnyoung; Zu, Wuzhou; Ho, Dong Hae; Grennan, Hugh P; Vyas, Manas; Kubalak, Joseph R; Williams, Christopher B; Bartlett, Michael D;",
+    "venue": "Applied Materials Today",
+    "pages": "102938",
+    "link": "https://doi.org/10.1016/j.apmt.2025.102938"
+  },
+  {
+    "number": 41,
+    "title": "Liquid metal-vitrimer composites",
+    "year": "2025",
+    "authors": "Bartlett, Michael D; Worch, Josh; Ho, Dong Hae; Jiang, Meng;",
+    "venue": "US Patent App. 19/082,634",
+    "pages": "",
+    "link": "https://patents.justia.com/patent/20250299847"
+  },
+  {
+    "number": 40,
+    "title": "MXene‐reinforced spiral yarns for multimodal triboelectric nanogenerators and wearable interactive interfaces",
+    "year": "2025",
+    "authors": "Cho, Soo Young; Xiong, Yao; Jiao, Haishuang; Ho, Dong Hae; Yang, Jiahong; Liu, Chao; Kim, Seonkwon; Wei, Liang; Wang, Zhong Lin; Sun, Qijun; Cho, Jeong Ho;",
+    "venue": "Advanced Functional Materials",
+    "pages": "e11492",
+    "link": "https://advanced.onlinelibrary.wiley.com/doi/10.1002/adfm.202511492"
+  },
+  {
     "number": 39,
     "title": "Liquid Metal‐Vitrimer Conductive Composite for Recyclable and Resilient Electronics",
     "year": "2025",
@@ -29,10 +56,10 @@
   {
     "number": 36,
     "title": "Vanishing Soft Electronics: Degradation Mechanisms of Transient Materials",
-    "year": "2024",
+    "year": "2025",
     "authors": "Dong Hae Ho, Jeong Ho Cho",
     "venue": "Korean Journal of Chemical Engineering",
-    "pages": "1-13",
+    "pages": "2069-2081",
     "link": "https://link.springer.com/article/10.1007/s11814-024-00320-0"
   },
   {
@@ -41,7 +68,7 @@
     "year": "2024",
     "authors": "Ho, Dong Hae; Hu, Chenhao; Li, Ling; Bartlett, Michael D.",
     "venue": "Nature Electronics",
-    "pages": "",
+    "pages": "1015-1024",
     "link": "https://www.nature.com/articles/s41928-024-01268-z"
   },
   {
@@ -74,10 +101,10 @@
   {
     "number": 31,
     "title": "Liquid metal‐elastomer composites for water‐resilient soft electronics",
-    "year": "2023",
+    "year": "2024",
     "authors": "Barron III, Edward J; Williams, Ella T; Wilcox, Brittan T; Ho, Dong Hae; Bartlett, Michael D;",
     "venue": "Journal of Polymer Science",
-    "pages": "",
+    "pages": "3818-3829",
     "link": "https://onlinelibrary.wiley.com/doi/abs/10.1002/pol.20230616"
   },
   {
@@ -101,7 +128,7 @@
   {
     "number": 28,
     "title": "Electrically conductive liquid metal composite adhesives for reversible bonding of soft electronics",
-    "year": "2023",
+    "year": "2024",
     "authors": "Haque, ABM Tahidul; Ho, Dong Hae; Hwang, Dohgyu; Tutika, Ravi; Lee, Chanhong; Bartlett, Michael D;",
     "venue": "Advanced Functional Materials",
     "pages": "2304101",
