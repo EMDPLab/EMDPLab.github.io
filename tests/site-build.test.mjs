@@ -52,11 +52,20 @@ test('research hero leads with the lab liquid-metal and low-melting-alloy focus'
 test('news publishes the DGIST AI Build Week Grand Prize milestone', async () => {
   const pages = await renderSite();
   const news = pages.get('news.html');
+  const home = pages.get('index.html');
 
   assert.match(news, /EMDP team wins the Grand Prize at DGIST AI Build Week/);
   assert.match(news, /서준형\/박인자\/이지현 학생 EMDP 팀이 1등/);
   assert.match(news, /Negasi and Jihyun Yu's team also took on the challenge/);
   assert.match(news, /아쉽게 수상하지 못한 Negasi, 유지현 학생팀도 다음에 한번더 도전해 봅시다!/);
+  assert.match(news, /Students attend the Advanced Materials Academy in Seoul/);
+  assert.match(news, /한국고분자학회가 주최하는 첨단소재 아카데미/);
+  assert.equal((news.match(/assets\/images\/news-advanced-materials-academy-[^"]+\.webp/g) || []).length, 3);
+  assert.doesNotMatch(home, /Advanced Materials Academy/);
+  assert.match(news, /Celebrating Teachers' Day together/);
+  assert.match(news, /스승의 날을 맞아 연구실 구성원들이 함께 감사의 마음/);
+  assert.equal((news.match(/assets\/images\/news-teachers-day-[^"]+\.webp/g) || []).length, 2);
+  assert.doesNotMatch(home, /Teachers' Day/);
   assert.equal((news.match(/assets\/images\/news-ai-build-week-[^"]+\.webp/g) || []).length, 3);
   assert.equal((news.match(/assets\/images\/해커톤[^"]+\.jpeg/g) || []).length, 2);
 });
