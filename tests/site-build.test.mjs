@@ -49,6 +49,16 @@ test('research hero leads with the lab liquid-metal and low-melting-alloy focus'
   assert.match(research, /assets\/images\/research-hero-liquid-metal-alloys\.webp/);
 });
 
+test('news publishes the DGIST AI Build Week Grand Prize milestone', async () => {
+  const pages = await renderSite();
+  const news = pages.get('news.html');
+
+  assert.match(news, /EMDP team wins the Grand Prize at DGIST AI Build Week/);
+  assert.match(news, /서준형\/박인자\/이지현 학생 EMDP 팀이 1등/);
+  assert.equal((news.match(/assets\/images\/news-ai-build-week-[^"]+\.webp/g) || []).length, 3);
+  assert.equal((news.match(/assets\/images\/해커톤[^"]+\.jpeg/g) || []).length, 2);
+});
+
 test('renderSite publishes canonical content without waiting for client-side fetches', async () => {
   const pages = await renderSite();
   const output = pages.get('projects.html');
