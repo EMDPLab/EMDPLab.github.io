@@ -77,6 +77,7 @@
 .news-media .photo-item { height: 100%; }
 .news-media-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; }
 .news-media-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(2, minmax(220px, 1fr)); gap: 1px; min-height: 440px; background: var(--line-dark); }
+.news-media-hackathon { grid-template-columns: repeat(3, 1fr); }
 .news-media-grid .photo-item, .news-photo-link { min-width: 0; min-height: 0; height: 100%; }
 .news-media-grid .news-award-photo, .news-media-grid .news-academy-lead { grid-column: 1 / -1; }
 .news-photo-link { display: block; }
@@ -180,6 +181,8 @@
   .facility-gallery { grid-template-columns: 1fr 1fr; }
   .news-item { grid-template-columns: 1fr; }
   .news-media-mixed { grid-template-columns: 1fr; }
+  .news-media-hackathon { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, minmax(220px, 1fr)); }
+  .news-media-hackathon .news-hackathon-selfie { grid-column: 1 / -1; }
   .news-stamp { border-right: 0; border-bottom: 1px solid var(--line-dark); }
   .pub-year-summary, .pub-year-summary-main, .pub-year-summary-side { align-items: flex-start; }
   .pub-year-summary { flex-direction: column; }

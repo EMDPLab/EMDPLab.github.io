@@ -66,7 +66,7 @@ test('news publishes the DGIST AI Build Week Grand Prize milestone', async () =>
   assert.match(news, /스승의 날을 맞아 연구실 구성원들이 함께 감사의 마음/);
   assert.equal((news.match(/assets\/images\/news-teachers-day-[^"]+\.webp/g) || []).length, 2);
   assert.doesNotMatch(home, /Teachers' Day/);
-  assert.equal((news.match(/assets\/images\/news-ai-build-week-[^"]+\.webp/g) || []).length, 3);
+  assert.equal((news.match(/assets\/images\/news-ai-build-week-[^"]+\.webp/g) || []).length, 4);
   assert.equal((news.match(/assets\/images\/해커톤[^"]+\.jpeg/g) || []).length, 2);
 });
 
