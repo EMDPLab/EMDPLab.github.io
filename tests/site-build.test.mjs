@@ -55,8 +55,19 @@ test('news publishes the DGIST AI Build Week Grand Prize milestone', async () =>
 
   assert.match(news, /EMDP team wins the Grand Prize at DGIST AI Build Week/);
   assert.match(news, /서준형\/박인자\/이지현 학생 EMDP 팀이 1등/);
+  assert.match(news, /Negasi and Jihyun Yu's team also took on the challenge/);
+  assert.match(news, /아쉽게 수상하지 못한 Negasi, 유지현 학생팀도 다음에 한번더 도전해 봅시다!/);
   assert.equal((news.match(/assets\/images\/news-ai-build-week-[^"]+\.webp/g) || []).length, 3);
   assert.equal((news.match(/assets\/images\/해커톤[^"]+\.jpeg/g) || []).length, 2);
+});
+
+test('home highlights the AI Build Week award over the featured image', async () => {
+  const pages = await renderSite();
+  const home = pages.get('index.html');
+
+  assert.match(home, /class="ref-home-news" href="news\.html"/);
+  assert.match(home, /EMDP Team · Grand Prize \(1st Place\)/);
+  assert.match(home, /news-ai-build-week-award\.webp/);
 });
 
 test('renderSite publishes canonical content without waiting for client-side fetches', async () => {

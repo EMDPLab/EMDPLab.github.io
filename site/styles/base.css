@@ -88,7 +88,7 @@ strong { font-weight: 800; }
   text-decoration: none;
 }
 .brand:hover { color: inherit; }
-.brand-logo { width: 48px; height: 48px; object-fit: contain; filter: grayscale(1) brightness(2.2); }
+.brand-logo { width: 48px; height: 48px; object-fit: contain; }
 .brand-wordmark { display: block; font-weight: 800; letter-spacing: 0.04em; }
 .brand-meta { display: block; margin-top: 0.1rem; color: var(--muted); font-size: 0.65rem; letter-spacing: 0.04em; }
 .site-nav { justify-self: end; display: flex; align-items: center; gap: 0.15rem; }
