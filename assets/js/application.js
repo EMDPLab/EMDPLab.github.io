@@ -111,11 +111,30 @@ function fileToBase64(file) {
   });
 }
 
-function setMessage(target, text, kind) {
+function setMessage(target, message, kind) {
   if (!target) return;
-  target.textContent = text || '';
+  const content = typeof message === 'string' ? { detail: message } : message || {};
+  const title = String(content.title || '').trim();
+  const detail = String(content.detail || '').trim();
+
+  target.replaceChildren();
   target.classList.remove('success', 'error', 'pending');
   if (kind) target.classList.add(kind);
+  target.hidden = !title && !detail;
+
+  if (title) {
+    const titleNode = document.createElement('strong');
+    titleNode.className = 'form-message-title';
+    titleNode.textContent = title;
+    target.append(titleNode);
+  }
+
+  if (detail) {
+    const detailNode = document.createElement('span');
+    detailNode.className = 'form-message-detail';
+    detailNode.textContent = detail;
+    target.append(detailNode);
+  }
 }
 
 function recentSubmissions() {
@@ -154,11 +173,19 @@ export function setupApplicationForm() {
 
     const kind = transportKind(endpoint);
     if (kind === 'invalid') {
-      setMessage(status, '업로드 경로가 설정되지 않았습니다. 연구실로 직접 이메일을 보내주세요.', 'error');
+      setMessage(
+        status,
+        { title: '제출 경로를 사용할 수 없습니다.', detail: '연구실 이메일로 직접 보내주세요.' },
+        'error'
+      );
       return;
     }
     if (recentSubmissions().length >= 5) {
-      setMessage(status, '오늘 이 브라우저에서 제출한 횟수가 너무 많습니다. 연구실로 직접 이메일을 보내주세요.', 'error');
+      setMessage(
+        status,
+        { title: '제출 횟수 제한에 도달했습니다.', detail: '연구실 이메일로 직접 보내주세요.' },
+        'error'
+      );
       return;
     }
 
@@ -173,7 +200,7 @@ export function setupApplicationForm() {
       maxFileMb
     });
     if (!validation.ok) {
-      setMessage(status, validation.message, 'error');
+      setMessage(status, { title: '입력 내용을 확인해주세요.', detail: validation.message }, 'error');
       return;
     }
 
@@ -183,7 +210,7 @@ export function setupApplicationForm() {
     formData.set('privacy_consent_at', new Date().toISOString());
     submitButton.disabled = true;
     submitButton.textContent = '전송 중...';
-    setMessage(status, '지원서 전송 중...', 'pending');
+    setMessage(status, { title: '지원서를 전송하고 있습니다.', detail: '잠시만 기다려주세요.' }, 'pending');
 
     try {
       const result = await submitApplication({
@@ -199,19 +226,29 @@ export function setupApplicationForm() {
       if (result.verified) {
         setMessage(
           status,
-          `지원서가 접수되었습니다. 제출 ID: ${result.submissionId || '확인됨'}`,
+          {
+            title: '지원서가 접수되었습니다.',
+            detail: `제출 ID: ${result.submissionId || '확인됨'}`
+          },
           'success'
         );
       } else {
         setMessage(
           status,
-          `지원 요청을 전송했습니다. ID: ${result.submissionId}. 확인 이메일이 도착하면 접수가 완료된 것입니다.`,
+          {
+            title: '지원 요청을 전송했습니다.',
+            detail: `확인 이메일이 도착하면 접수가 완료된 것입니다. 제출 ID: ${result.submissionId}`
+          },
           'pending'
         );
       }
     } catch (error) {
       console.error('[EMDP] application submission', error);
-      setMessage(status, '지원서를 전송하지 못했습니다. 연구실로 직접 이메일을 보내주세요.', 'error');
+      setMessage(
+        status,
+        { title: '지원서 전송에 실패했습니다.', detail: '잠시 후 다시 시도하거나 연구실 이메일로 직접 보내주세요.' },
+        'error'
+      );
     } finally {
       submitButton.disabled = false;
       submitButton.textContent = '지원서 제출';
