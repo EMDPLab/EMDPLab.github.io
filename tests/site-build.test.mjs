@@ -15,6 +15,7 @@ test('renderSite produces every public route through one shared shell', async ()
     assert.equal((html.match(/<header class="site-header">/g) || []).length, 1, route);
     assert.equal((html.match(/<footer class="site-footer">/g) || []).length, 1, route);
     assert.match(html, /<meta name="description" content="[^"]+">/, route);
+    assert.match(html, /<meta name="theme-color" content="#f7fbff">/, route);
     assert.match(html, new RegExp(`<html lang="${route === 'apply.html' ? 'ko' : 'en'}">`), route);
     assert.doesNotMatch(html, /id="languageToggle"/, route);
     assert.doesNotMatch(html, /assets\/js\/i18n\.js/, route);
@@ -49,7 +50,7 @@ test('research hero leads with the lab liquid-metal and low-melting-alloy focus'
   assert.match(research, /assets\/images\/research-hero-liquid-metal-alloys\.webp/);
 });
 
-test('research themes keep the requested media assignments and light treatment', async () => {
+test('research themes keep the requested media assignments in the shared light theme', async () => {
   const pages = await renderSite();
   const research = pages.get('research.html');
   const css = await renderStyles();
@@ -61,8 +62,10 @@ test('research themes keep the requested media assignments and light treatment',
   assert.match(themeOne, /assets\/images\/research-liquid-metal-composite\.webp/);
   assert.match(themeThree, /Thermal Interface Materials|thermal interface material/i);
   assert.match(themeThree, /assets\/images\/research-liquid-metal-tim-concept\.webp/);
-  assert.match(css, /body\[data-page="research"\]/);
-  assert.match(research, /<meta name="theme-color" content="#f7fbff">/);
+  assert.equal((themeThree.match(/research-liquid-metal-tim-concept\.webp/g) || []).length, 1);
+  assert.match(css, /body\s*\{[\s\S]*?background:\s*var\(--surface\)/);
+  assert.match(css, /\.site-header\s*\{[\s\S]*?background:\s*rgba\(255, 255, 255, 0\.94\)/);
+  assert.doesNotMatch(css, /body\[data-page="research"\]/);
 });
 
 test('news publishes the DGIST AI Build Week Grand Prize milestone', async () => {

@@ -26,8 +26,7 @@ export const pageDefinitions = [
     route: 'research.html',
     page: 'research',
     title: 'EMDP Lab | Research',
-    description: 'EMDP Lab studies liquid metals and low-melting-point alloys for energy transport, soft electronics, and advanced materials processing.',
-    themeColor: '#f7fbff'
+    description: 'EMDP Lab studies liquid metals and low-melting-point alloys for energy transport, soft electronics, and advanced materials processing.'
   },
   {
     route: 'research-facility.html',
@@ -126,7 +125,7 @@ function renderHead(definition, prefix) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="${definition.description}">
-  <meta name="theme-color" content="${definition.themeColor || '#171310'}">
+  <meta name="theme-color" content="#f7fbff">
   <title>${definition.title}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

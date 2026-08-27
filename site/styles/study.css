@@ -1,6 +1,6 @@
-.study-subnav-shell { position: sticky; top: 76px; z-index: 40; margin-top: 1px; background: rgba(23, 19, 16, 0.94); border: 1px solid var(--line); backdrop-filter: blur(14px); }
+.study-subnav-shell { position: sticky; top: 76px; z-index: 40; margin-top: 1px; background: rgba(255, 255, 255, 0.94); border: 1px solid var(--line-dark); backdrop-filter: blur(14px); }
 .study-subnav { display: flex; overflow-x: auto; }
-.study-subnav-link { flex: 1 0 auto; padding: 0.9rem 1rem; color: var(--paper); border-right: 1px solid var(--line); font-size: 0.72rem; font-weight: 800; text-align: center; text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; }
+.study-subnav-link { flex: 1 0 auto; padding: 0.9rem 1rem; color: var(--ink); border-right: 1px solid var(--line-dark); font-size: 0.72rem; font-weight: 800; text-align: center; text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; }
 .study-subnav-link:hover, .study-subnav-link.is-active { color: var(--ink); background: var(--signal); }
 .study-hero-panel { background: var(--paper); }
 .study-hero-note { margin-top: 1rem; color: var(--muted-dark); }
