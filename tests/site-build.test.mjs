@@ -49,6 +49,22 @@ test('research hero leads with the lab liquid-metal and low-melting-alloy focus'
   assert.match(research, /assets\/images\/research-hero-liquid-metal-alloys\.webp/);
 });
 
+test('research themes keep the requested media assignments and light treatment', async () => {
+  const pages = await renderSite();
+  const research = pages.get('research.html');
+  const css = await renderStyles();
+  const topicSections = [...research.matchAll(/<section class="section card research-topic">[\s\S]*?<\/section>/g)].map((match) => match[0]);
+  const themeOne = topicSections.find((section) => /<p class="kicker">Theme 01<\/p>/.test(section)) || '';
+  const themeThree = topicSections.find((section) => /<p class="kicker">Theme 03<\/p>/.test(section)) || '';
+
+  assert.match(themeOne, /assets\/images\/research-soft-via\.png/);
+  assert.match(themeOne, /assets\/images\/research-liquid-metal-composite\.webp/);
+  assert.match(themeThree, /Thermal Interface Materials|thermal interface material/i);
+  assert.match(themeThree, /assets\/images\/research-liquid-metal-tim-concept\.webp/);
+  assert.match(css, /body\[data-page="research"\]/);
+  assert.match(research, /<meta name="theme-color" content="#f7fbff">/);
+});
+
 test('news publishes the DGIST AI Build Week Grand Prize milestone', async () => {
   const pages = await renderSite();
   const news = pages.get('news.html');
