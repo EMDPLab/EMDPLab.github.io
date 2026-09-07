@@ -216,3 +216,12 @@
 [id] { scroll-margin-top: 100px; }
 #open-lab-2026-08-28 .news-media { align-self: start; min-height: 0; }
 #open-lab-2026-08-28 .news-media img { height: auto; aspect-ratio: 4 / 3; }
+.apply-hero { min-height: auto; }
+.apply-hero .hero-content { min-height: auto; padding: clamp(1.5rem, 4vw, 3.5rem); }
+.apply-hero .hero-title { max-width: 14ch; font-size: clamp(2.6rem, 5vw, 4.6rem); line-height: 1.15; }
+.apply-hero .hero-panel { min-height: auto; padding: clamp(1.5rem, 3vw, 3rem); }
+.apply-form-head .section-title { font-family: var(--font-sans); font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.2; }
+@media (max-width: 960px) {
+  .apply-form-layout .application-form { grid-row: 1; }
+  .apply-form-layout .apply-form-side { grid-row: 2; }
+}

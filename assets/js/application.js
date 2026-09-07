@@ -251,7 +251,7 @@ export function setupApplicationForm() {
       );
     } finally {
       submitButton.disabled = false;
-      submitButton.textContent = '지원서 제출';
+      submitButton.textContent = '지원서 보내기';
     }
   });
 }

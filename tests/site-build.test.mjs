@@ -38,7 +38,7 @@ test('translation catalog covers shared navigation and application essentials', 
 
   assert.equal(catalog.common.Home, '홈');
   assert.equal(catalog.common.Apply, '지원');
-  assert.equal(catalog.pages['apply.html']['Submit Application'], '지원서 제출');
+  assert.equal(catalog.pages['apply.html']['Submit Application'], '지원서 보내기');
 });
 
 test('research hero leads with the lab liquid-metal and low-melting-alloy focus', async () => {
