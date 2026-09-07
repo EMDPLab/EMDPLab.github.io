@@ -116,7 +116,7 @@ function memberCard(member) {
     <p class="kicker">${escapeHtml(member.role)}</p>
     <h3>${escapeHtml(member.name)}</h3>
     <p><strong>${escapeHtml(member.education)}</strong></p>
-    <p>${escapeHtml(member.description)}</p>
+    ${member.description ? `<p>${escapeHtml(member.description)}</p>` : ''}
   </div>
 </article>`;
 }
@@ -127,7 +127,7 @@ function historyCard(member, label) {
     <p class="kicker">${label}</p>
     <h3>${escapeHtml(member.name)}</h3>
     <p><strong>${escapeHtml(member.period)}</strong></p>
-    <p>${escapeHtml(member.topic)}</p>
+    ${member.topic ? `<p>${escapeHtml(member.topic)}</p>` : ''}
   </div>
 </article>`;
 }

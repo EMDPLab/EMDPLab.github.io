@@ -14,7 +14,7 @@
       "name": "Jihyun Yu",
       "role": "Integrated PhD Program",
       "education": "Kangwon National Univ. BS",
-      "description": "Project W.I.P.",
+      "description": "Researching liquid-metal-based composites.",
       "photo": "assets/images/team-jihyun-yu.jpeg",
       "alt": "Jihyun Yu"
     },
@@ -22,7 +22,7 @@
       "name": "In Ja Park",
       "role": "Integrated PhD Program",
       "education": "Kangwon National Univ. BS",
-      "description": "Project W.I.P.",
+      "description": "Researching 3D liquid-metal interconnects.",
       "photo": "assets/images/team-in-ja-park.jpeg",
       "alt": "In Ja Park"
     }
@@ -32,9 +32,15 @@
       "name": "Junhyeong Seo",
       "role": "Master's Program",
       "education": "Kumoh National Institute of Technology. BS",
-      "description": "Project W.I.P.",
+      "description": "Researching thermal interface materials.",
       "photo": "assets/images/team-junhyeong-seo.jpeg",
       "alt": "Junhyeong Seo"
+    },
+    {
+      "name": "Juwon Lee (이주원)",
+      "role": "Master's Program",
+      "education": "Kyungpook National University graduate",
+      "description": ""
     }
   ],
   "internship": [
@@ -45,6 +51,11 @@
     }
   ],
   "alumni": [
+    {
+      "name": "Jihyun Lee (이지현)",
+      "period": "2026 Summer Intern",
+      "topic": ""
+    },
     {
       "name": "장호원",
       "period": "2025 Summer Intern",
