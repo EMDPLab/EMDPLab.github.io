@@ -153,7 +153,13 @@ export function renderInstruments(records) {
 }
 
 export function injectContent(main, { publications, team, instruments }) {
-  let result = main;
+  const stats = {
+    researchers: team.phd_course.length + team.combined_course.length + team.msc_course.length,
+    publications: publications.length,
+    instruments: instruments.length
+  };
+  let result = main.replace(/(<span data-stat="(researchers|publications|instruments)">)[^<]*(<\/span>)/g,
+    (_, open, key, close) => `${open}${stats[key]}${close}`);
   result = result.replace(/(<div id="publicationsList"[^>]*>)[\s\S]*?(<\/div>)/, `$1\n${renderPublications(publications)}\n$2`);
   result = result.replace(/(<tbody id="instrumentsTableBody"[^>]*>)[\s\S]*?(<\/tbody>)/, `$1\n${renderInstruments(instruments)}\n$2`);
 

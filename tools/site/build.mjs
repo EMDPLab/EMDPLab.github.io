@@ -3,11 +3,22 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { injectContent } from './content.mjs';
+import { analyticsOptions } from './analytics.mjs';
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const sourceDir = path.join(rootDir, 'site/pages');
 const styleDir = path.join(rootDir, 'site/styles');
 const styleSources = ['base.css', 'components.css', 'home.css', 'study.css'];
+
+const securityOrigins = Object.freeze({
+  fonts: 'https://fonts.googleapis.com',
+  fontAssets: 'https://fonts.gstatic.com',
+  appsScript: 'https://script.google.com',
+  appsScriptRedirect: 'https://script.googleusercontent.com',
+  formSubmit: 'https://formsubmit.co',
+  cloudflareScript: 'https://static.cloudflareinsights.com',
+  cloudflareConnect: 'https://cloudflareinsights.com'
+});
 
 export const pageDefinitions = [
   {
@@ -113,7 +124,37 @@ function extractMain(html, route) {
   return match[0];
 }
 
-function renderHead(definition, prefix) {
+export function contentSecurityPolicy({ cloudflareWebAnalytics = false } = {}) {
+  const scriptSources = ["'self'"];
+  const connectSources = [
+    "'self'",
+    securityOrigins.appsScript,
+    securityOrigins.appsScriptRedirect,
+    securityOrigins.formSubmit
+  ];
+
+  if (cloudflareWebAnalytics) {
+    scriptSources.push(securityOrigins.cloudflareScript);
+    connectSources.push(securityOrigins.cloudflareConnect);
+  }
+
+  return [
+    "default-src 'self'",
+    "base-uri 'self'",
+    "object-src 'none'",
+    `script-src ${scriptSources.join(' ')}`,
+    `style-src 'self' 'unsafe-inline' ${securityOrigins.fonts}`,
+    `font-src 'self' ${securityOrigins.fontAssets}`,
+    "img-src 'self'",
+    `connect-src ${connectSources.join(' ')}`,
+    `form-action 'self' ${securityOrigins.appsScript} ${securityOrigins.formSubmit}`,
+    "frame-src 'none'",
+    "media-src 'self'",
+    "worker-src 'none'"
+  ].join('; ');
+}
+
+function renderHead(definition, prefix, options = {}) {
   const extraScripts = (definition.scripts || [])
     .map((src) => `  <script src="${prefix}${src}" defer></script>`)
     .join('\n');
@@ -123,6 +164,8 @@ function renderHead(definition, prefix) {
 
   return `<head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="${escapeAttribute(contentSecurityPolicy(options))}">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="${definition.description}">
   <meta name="theme-color" content="#f7fbff">
@@ -162,13 +205,22 @@ ${links}
   </header>`;
 }
 
-function renderFooter(prefix) {
+function renderFooter(prefix, options = {}) {
   return `<footer class="site-footer">
     <div class="container footer-inner">
       <div>
         <img class="footer-logo" src="${prefix}assets/images/dgist-logo.svg" alt="DGIST logo" width="116" height="36" loading="lazy">
         <p class="footer-meta">Energy Materials Design and Processing Lab, Department of Energy Science and Engineering</p>
       </div>
+      <nav class="footer-links" aria-label="Explore EMDP Lab">
+        <a href="${prefix}research.html">Research</a>
+        <a href="${prefix}projects.html">Publications</a>
+        <a href="${prefix}team.html">Team</a>
+        <a href="${prefix}news.html">Lab life</a>
+        <a href="${prefix}apply.html">Apply</a>
+        <a href="mailto:hodh123@dgist.ac.kr">Contact</a>
+      </nav>
+      ${options.cloudflareWebAnalytics ? '<p class="analytics-notice">This site uses Cloudflare Web Analytics for aggregate visitor and performance statistics. <a href="https://www.cloudflare.com/privacypolicy/">Privacy information</a></p>' : ''}
       <p>&copy; ${new Date().getUTCFullYear()} Energy Materials Design and Processing Lab, DGIST</p>
     </div>
   </footer>`;
@@ -242,30 +294,33 @@ export function translateHtml(html, catalog) {
   }).join('');
 }
 
-function renderDocument(definition, main, catalog) {
+function renderDocument(definition, main, catalog, options = {}) {
   const prefix = prefixFor(definition.route);
   const korean = definition.route === 'apply.html';
   const document = `<!DOCTYPE html>
 <html lang="${korean ? 'ko' : 'en'}">
-${renderHead(definition, prefix)}
+${renderHead(definition, prefix, options)}
 <body ${renderBodyAttributes(definition)}>
   <a class="skip-link" href="#main-content">Skip to main content</a>
   ${renderHeader(definition, prefix)}
 
   ${main}
 
-  ${renderFooter(prefix)}
+  ${renderFooter(prefix, options)}
+  ${options.analyticsMarkup || ''}
 </body>
 </html>
 `;
-  return korean ? translateHtml(document, catalog) : document;
+  return (korean ? translateHtml(document, catalog) : document).replace(/^[ \t]+$/gm, '');
 }
 
-function renderPublicationsRedirect() {
+function renderPublicationsRedirect(options = {}) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="${escapeAttribute(contentSecurityPolicy(options))}">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta http-equiv="refresh" content="0; url=projects.html">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex">
@@ -280,14 +335,17 @@ function renderPublicationsRedirect() {
 `;
 }
 
-export async function renderSite() {
+export async function renderSite(options = {}) {
   const rendered = new Map();
-  const [publications, team, instruments, translations] = await Promise.all([
+  const [publications, team, instruments, translations, analytics] = await Promise.all([
     readFile(path.join(rootDir, 'data/publications-data.json'), 'utf8').then(JSON.parse),
     readFile(path.join(rootDir, 'data/team-data.json'), 'utf8').then(JSON.parse),
     readFile(path.join(rootDir, 'data/instruments-data.json'), 'utf8').then(JSON.parse),
-    readFile(path.join(rootDir, 'data/i18n-ko.json'), 'utf8').then(JSON.parse)
+    readFile(path.join(rootDir, 'data/i18n-ko.json'), 'utf8').then(JSON.parse),
+    readFile(path.join(rootDir, 'data/analytics.json'), 'utf8').then(JSON.parse)
   ]);
+
+  const pageOptions = { ...options, ...analyticsOptions(options.analytics || analytics) };
 
   for (const definition of pageDefinitions) {
     const mainSource = await readFile(path.join(sourceDir, definition.route), 'utf8');
@@ -295,7 +353,7 @@ export async function renderSite() {
     const catalog = definition.route === 'apply.html'
       ? { ...translations.common, ...(translations.pages[definition.route] || {}) }
       : {};
-    rendered.set(definition.route, renderDocument(definition, main, catalog));
+    rendered.set(definition.route, renderDocument(definition, main, catalog, pageOptions));
   }
 
   rendered.set('publications.html', renderPublicationsRedirect());
@@ -316,8 +374,8 @@ export async function extractPageSources() {
   }
 }
 
-export async function writeSite() {
-  const pages = await renderSite();
+export async function writeSite(options = {}) {
+  const pages = await renderSite(options);
   for (const [route, html] of pages) {
     const destination = path.join(rootDir, route);
     await mkdir(path.dirname(destination), { recursive: true });

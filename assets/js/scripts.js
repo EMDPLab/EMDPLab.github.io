@@ -116,6 +116,10 @@
     if (kind) target.classList.add(kind);
   }
 
+  function interestResponseAccepted(payload) {
+    return Boolean(payload && (payload.success === true || payload.success === 'true'));
+  }
+
   function setupInterestForms() {
     document.querySelectorAll('.interest-form').forEach(function (form) {
       if (form.getAttribute('data-interest-bound') === 'true') return;
@@ -163,9 +167,13 @@
         })
           .then(function (response) {
             if (!response.ok) throw new Error('Interest form request failed');
+            return response.json();
+          })
+          .then(function (payload) {
+            if (!interestResponseAccepted(payload)) throw new Error('Interest form was not accepted');
             recordEvent('emdp_interest_submit_v2');
             form.reset();
-            setFormMessage(status, 'Thanks. Your message has been delivered.', 'success');
+            setFormMessage(status, 'Thanks. Your request was accepted. If you do not hear back, please email the lab directly.', 'success');
           })
           .catch(function () {
             setFormMessage(status, 'The form is unavailable. Please email hodh123@dgist.ac.kr.', 'error');

@@ -33,3 +33,13 @@ default server limits are three submissions per hour and two per email every six
 hours. Override them with
 the `MAX_SUBMISSIONS_PER_HOUR`, `MAX_SUBMISSIONS_PER_EMAIL_6H`, and
 `MIN_FORM_SECONDS` Script Properties when deployment needs change.
+
+Generated pages also carry a restrictive meta Content Security Policy and a
+`strict-origin-when-cross-origin` referrer policy. The policy permits only the local site assets,
+Google Fonts, the two configured form transports, and the Apps Script redirect
+host. Cloudflare Web Analytics origins are added only when the build is rendered
+with a valid public beacon token in `data/analytics.json`; the default build does not load them. Because
+branch-based GitHub Pages cannot set response headers from this repository, header
+controls such as HSTS, `X-Content-Type-Options`, and CSP `frame-ancestors` remain hosting-level settings.
+
+See [analytics setup](docs/analytics-setup.md) for activation and measurement limits.

@@ -209,3 +209,10 @@
   .pub-year-summary { flex-direction: column; }
   .footer-inner { align-items: flex-start; flex-direction: column; }
 }
+
+.footer-links { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; align-items: center; }
+.footer-links a { padding-block: .5rem; font-size: .85rem; font-weight: 700; }
+.analytics-notice { font-size: .75rem; }
+[id] { scroll-margin-top: 100px; }
+#open-lab-2026-08-28 .news-media { align-self: start; min-height: 0; }
+#open-lab-2026-08-28 .news-media img { height: auto; aspect-ratio: 4 / 3; }

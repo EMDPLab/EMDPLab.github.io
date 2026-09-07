@@ -89,13 +89,15 @@ test('news publishes the DGIST AI Build Week Grand Prize milestone', async () =>
   assert.equal((news.match(/assets\/images\/해커톤[^"]+\.jpeg/g) || []).length, 2);
 });
 
-test('home highlights the AI Build Week award over the featured image', async () => {
+test('latest Open Lab news links to its dated photo entry', async () => {
   const pages = await renderSite();
   const home = pages.get('index.html');
-
-  assert.match(home, /class="ref-home-news" href="news\.html"/);
-  assert.match(home, /EMDP Team · Grand Prize \(1st Place\)/);
-  assert.match(home, /news-ai-build-week-award\.webp/);
+  const news = pages.get('news.html');
+  assert.match(home, /href="news\.html#open-lab-2026-08-28"/);
+  assert.match(news, /id="open-lab-2026-08-28"/);
+  assert.match(news, /datetime="2026-08-28"/);
+  assert.ok(news.indexOf('id="open-lab-2026-08-28"') < news.indexOf('DGIST AI Build Week'));
+  assert.match(home, /news-open-lab-2026-08-28\.webp/);
 });
 
 test('renderSite publishes canonical content without waiting for client-side fetches', async () => {

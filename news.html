@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://formsubmit.co; form-action 'self' https://script.google.com https://formsubmit.co; frame-src 'none'; media-src 'self'; worker-src 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="News, recruiting events, awards, and group activities from EMDP Lab at DGIST.">
   <meta name="theme-color" content="#f7fbff">
@@ -44,25 +46,39 @@
         <div class="hero-content">
           <p class="kicker">Lab Timeline</p>
           <h1 class="hero-title">News</h1>
-          <p class="hero-subtitle">Each update below marks a milestone in the lab's development, from funding and internships to new student onboarding.</p>
-          <p class="hero-subtitle">For a growing research group, these events are useful signals of momentum, mentorship capacity, and project activity.</p>
+          <p class="hero-subtitle">Open Lab visits, student milestones, and everyday moments from EMDP Lab.</p>
+          <div class="cta-strip"><a class="cta-link" href="#open-lab-2026-08-28">Latest: August Open Lab</a><a class="cta-link alt" href="team.html">Meet the team</a></div>
         </div>
         <aside class="hero-panel">
-          <p class="panel-label">Why this matters</p>
-          <ul class="meta-list">
-            <li>Prospective students can see whether the lab is growing.</li>
-            <li>Funding and onboarding updates show real operating momentum.</li>
-            <li>A simple timeline makes new updates easier to add later.</li>
-          </ul>
+          <p class="panel-label">Get to know the lab</p>
+          <p>Take a look at our recent activities, then explore the people and research behind them.</p>
         </aside>
       </section>
 
       <section class="section card">
         <div class="section-heading">
           <p class="kicker">Recent milestones</p>
-          <h2 class="section-title">Timeline of lab momentum</h2>
+          <h2 class="section-title">Life at EMDP</h2>
         </div>
         <div class="timeline">
+          <article class="news-item" id="open-lab-2026-08-28">
+            <div class="news-stamp">
+              <p class="news-index">10</p>
+              <p class="news-date"><time datetime="2026-08-28">August 28, 2026</time></p>
+            </div>
+            <figure class="photo-item news-media">
+              <a class="news-photo-link" href="assets/images/news-open-lab-2026-08-28.webp" aria-label="View the Open Lab event photo">
+                <img src="assets/images/news-open-lab-2026-08-28.webp" alt="Visitors listening to a lab introduction during the EMDP Lab Open Lab event on August 28, 2026" loading="lazy" decoding="async" width="1600" height="1200">
+              </a>
+            </figure>
+            <div class="news-copy">
+              <h2>Open Lab at EMDP</h2>
+              <p>EMDP Lab welcomed visitors for an Open Lab event on August 28, 2026.</p>
+              <p lang="ko">2026년 8월 28일, EMDP Lab에서 방문객들과 함께하는 Open Lab 행사를 진행했습니다.</p>
+              <a class="ref-link" href="team.html">Meet the people in our lab</a>
+            </div>
+          </article>
+
           <article class="news-item">
             <div class="news-stamp">
               <p class="news-index">09</p>
@@ -243,31 +259,11 @@
         </div>
       </section>
 
-      <section class="section">
-        <div class="feature-grid">
-          <article class="feature-card">
-            <p class="kicker">Team growth</p>
-            <h3>New members are arriving</h3>
-            <p>Onboarding activity indicates the lab has active mentorship capacity and a research environment that is still being built in real time.</p>
-          </article>
-          <article class="feature-card">
-            <p class="kicker">Funded work</p>
-            <h3>Projects have institutional support</h3>
-            <p>Funding matters because it stabilizes equipment access, project continuity, and the pace at which students can make progress.</p>
-          </article>
-          <article class="feature-card">
-            <p class="kicker">Hands-on entry</p>
-            <h3>Internships are a real gateway</h3>
-            <p>The internship record suggests that new researchers can start contributing quickly when the lab structure is direct and practical.</p>
-          </article>
-        </div>
-      </section>
-
       <section class="section card join-panel">
         <div class="section-heading">
           <p class="kicker">Join at the right moment</p>
-          <h2 class="section-title">The lab is still early enough to build with it</h2>
-          <p class="page-intro">The current phase is a good one for students who want direct contact with the PI and the chance to shape the lab's technical culture as it grows.</p>
+          <h2 class="section-title">Interested in joining us?</h2>
+          <p class="page-intro">Explore current research topics and the application process for internships and graduate study.</p>
         </div>
         <div class="cta-strip">
           <a class="cta-link" href="apply.html">Apply to Join</a>
@@ -302,8 +298,18 @@
         <img class="footer-logo" src="assets/images/dgist-logo.svg" alt="DGIST logo" width="116" height="36" loading="lazy">
         <p class="footer-meta">Energy Materials Design and Processing Lab, Department of Energy Science and Engineering</p>
       </div>
+      <nav class="footer-links" aria-label="Explore EMDP Lab">
+        <a href="research.html">Research</a>
+        <a href="projects.html">Publications</a>
+        <a href="team.html">Team</a>
+        <a href="news.html">Lab life</a>
+        <a href="apply.html">Apply</a>
+        <a href="mailto:hodh123@dgist.ac.kr">Contact</a>
+      </nav>
+
       <p>&copy; 2026 Energy Materials Design and Processing Lab, DGIST</p>
     </div>
   </footer>
+
 </body>
 </html>
