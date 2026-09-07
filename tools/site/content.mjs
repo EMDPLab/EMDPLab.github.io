@@ -137,7 +137,7 @@ export function renderTeamSections(data) {
     ['teamPhdList', data.phd_course.map(memberCard).join('\n')],
     ['teamCombinedList', data.combined_course.map(memberCard).join('\n')],
     ['teamMscList', data.msc_course.map(memberCard).join('\n')],
-    ['internshipList', data.internship.map((item) => historyCard(item, 'Internship')).join('\n')],
+    ['internshipList', data.internship.map((item) => historyCard(item, 'Internship')).join('\n') || '<p class="page-intro">No current interns listed.</p>'],
     ['alumniList', data.alumni.map((item) => historyCard(item, 'Alumni')).join('\n')]
   ]);
 }

@@ -117,7 +117,8 @@ test('English pages keep descriptive team copy in English', async () => {
   const pages = await renderSite();
   const team = pages.get('team.html');
 
-  assert.match(team, /2025 Winter Intern and Current Intern · DGIST/);
+  assert.match(team, /2025 Winter Intern · DGIST/);
+  assert.doesNotMatch(team, /Current Intern/);
   assert.doesNotMatch(team, /\d{4}년 (?:동계|하계) 인턴/);
 });
 

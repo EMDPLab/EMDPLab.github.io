@@ -43,14 +43,13 @@
       "description": ""
     }
   ],
-  "internship": [
+  "internship": [],
+  "alumni": [
     {
       "name": "금정우",
-      "period": "2025 Winter Intern and Current Intern · DGIST",
+      "period": "2025 Winter Intern · DGIST",
       "topic": "Elastocaloric effect"
-    }
-  ],
-  "alumni": [
+    },
     {
       "name": "Jihyun Lee (이지현)",
       "period": "2026 Summer Intern",
