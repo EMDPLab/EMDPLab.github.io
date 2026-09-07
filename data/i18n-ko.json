@@ -61,7 +61,9 @@
     "DGIST logo": "DGIST 로고",
     "Publications": "논문",
     "Lab life": "연구실 소식",
-    "Explore EMDP Lab": "EMDP Lab 둘러보기"
+    "Explore EMDP Lab": "EMDP Lab 둘러보기",
+    "This site uses Google Analytics and cookies to understand visits and site usage.": "이 사이트는 방문 통계와 이용 현황 분석을 위해 Google Analytics와 쿠키를 사용합니다.",
+    "Privacy information": "개인정보 안내"
   },
   "pages": {
     "index.html": {

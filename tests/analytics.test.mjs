@@ -15,3 +15,16 @@ test('analytics is off by default and enabled only with a valid public beacon to
   }
   await assert.rejects(renderSite({ analytics: { cloudflareToken: '\"><script>' } }), /beacon token/);
 });
+
+test('Google Analytics uses the supplied ID without enabling inline scripts or Cloudflare', async () => {
+  const pages = await renderSite({ analytics: { googleAnalyticsId: 'G-57J23C7J94' } });
+  for (const [route, html] of pages) {
+    if (route === 'publications.html') continue;
+    assert.equal((html.match(/gtag\/js\?id=G-57J23C7J94/g) || []).length, 1);
+    assert.match(html, /data-measurement-id="G-57J23C7J94"/);
+    assert.doesNotMatch(html, /cloudflareinsights/);
+    assert.doesNotMatch(html, /script-src[^;]*unsafe-inline/);
+    assert.match(html, /https:\/\/\*\.google-analytics.com/);
+  }
+  await assert.rejects(renderSite({ analytics: { googleAnalyticsId: '"><script>' } }), /measurement ID/);
+});

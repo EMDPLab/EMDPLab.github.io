@@ -124,7 +124,7 @@ function extractMain(html, route) {
   return match[0];
 }
 
-export function contentSecurityPolicy({ cloudflareWebAnalytics = false } = {}) {
+export function contentSecurityPolicy({ cloudflareWebAnalytics = false, googleAnalytics = false } = {}) {
   const scriptSources = ["'self'"];
   const connectSources = [
     "'self'",
@@ -138,6 +138,11 @@ export function contentSecurityPolicy({ cloudflareWebAnalytics = false } = {}) {
     connectSources.push(securityOrigins.cloudflareConnect);
   }
 
+  if (googleAnalytics) {
+    scriptSources.push('https://www.googletagmanager.com');
+    connectSources.push('https://*.google-analytics.com', 'https://*.analytics.google.com', 'https://*.googletagmanager.com');
+  }
+
   return [
     "default-src 'self'",
     "base-uri 'self'",
@@ -145,7 +150,7 @@ export function contentSecurityPolicy({ cloudflareWebAnalytics = false } = {}) {
     `script-src ${scriptSources.join(' ')}`,
     `style-src 'self' 'unsafe-inline' ${securityOrigins.fonts}`,
     `font-src 'self' ${securityOrigins.fontAssets}`,
-    "img-src 'self'",
+    googleAnalytics ? "img-src 'self' https://*.google-analytics.com https://*.googletagmanager.com" : "img-src 'self'",
     `connect-src ${connectSources.join(' ')}`,
     `form-action 'self' ${securityOrigins.appsScript} ${securityOrigins.formSubmit}`,
     "frame-src 'none'",
@@ -220,6 +225,7 @@ function renderFooter(prefix, options = {}) {
         <a href="${prefix}apply.html">Apply</a>
         <a href="mailto:hodh123@dgist.ac.kr">Contact</a>
       </nav>
+      ${options.googleAnalytics ? '<p class="analytics-notice">This site uses Google Analytics and cookies to understand visits and site usage. <a href="https://policies.google.com/privacy">Privacy information</a></p>' : ''}
       ${options.cloudflareWebAnalytics ? '<p class="analytics-notice">This site uses Cloudflare Web Analytics for aggregate visitor and performance statistics. <a href="https://www.cloudflare.com/privacypolicy/">Privacy information</a></p>' : ''}
       <p>&copy; ${new Date().getUTCFullYear()} Energy Materials Design and Processing Lab, DGIST</p>
     </div>
@@ -307,7 +313,7 @@ ${renderHead(definition, prefix, options)}
   ${main}
 
   ${renderFooter(prefix, options)}
-  ${options.analyticsMarkup || ''}
+  ${(options.analyticsMarkup || '').replace('src="/assets/', `src="${prefix}assets/`)}
 </body>
 </html>
 `;
