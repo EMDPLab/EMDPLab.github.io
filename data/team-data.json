@@ -40,7 +40,9 @@
       "name": "Juwon Lee (이주원)",
       "role": "Master's Program",
       "education": "Kyungpook National University graduate",
-      "description": ""
+      "description": "",
+      "photo": "assets/images/team-juwon-lee.webp",
+      "alt": "Juwon Lee"
     }
   ],
   "internship": [],
