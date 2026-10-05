@@ -89,15 +89,20 @@ test('news publishes the DGIST AI Build Week Grand Prize milestone', async () =>
   assert.equal((news.match(/assets\/images\/해커톤[^"]+\.jpeg/g) || []).length, 2);
 });
 
-test('latest Open Lab news links to its dated photo entry', async () => {
+test('latest news teaser links to the first timeline entry and its photo', async () => {
   const pages = await renderSite();
   const home = pages.get('index.html');
   const news = pages.get('news.html');
-  assert.match(home, /href="news\.html#open-lab-2026-08-28"/);
+  const teaser = home.match(/<a class="ref-home-news"[^>]*href="news\.html#([^"]+)"[^>]*>([\s\S]*?)<\/a>/);
+  const latest = news.match(/<article class="news-item" id="([^"]+)">([\s\S]*?)<\/article>/);
+  assert.ok(teaser && latest, 'Home teaser and latest news entry exist');
+  assert.equal(teaser[1], latest[1]);
+  const photo = teaser[2].match(/<img src="([^"]+)"/);
+  assert.ok(photo, 'Home teaser has a photo');
+  assert.ok(latest[2].includes(`src="${photo[1]}"`), 'Teaser photo belongs to the latest entry');
   assert.match(news, /id="open-lab-2026-08-28"/);
   assert.match(news, /datetime="2026-08-28"/);
   assert.ok(news.indexOf('id="open-lab-2026-08-28"') < news.indexOf('DGIST AI Build Week'));
-  assert.match(home, /news-open-lab-2026-08-28\.webp/);
 });
 
 test('renderSite publishes canonical content without waiting for client-side fetches', async () => {

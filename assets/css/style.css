@@ -485,6 +485,8 @@ html:lang(ko) .ref-hero-copy h1 { letter-spacing: -0.025em; }
 .footer-links a { padding-block: .5rem; font-size: .85rem; font-weight: 700; }
 .analytics-notice { font-size: .75rem; }
 [id] { scroll-margin-top: 100px; }
+#iupac-psk50-2026 .news-media-pair { align-self: center; }
+#iupac-psk50-2026 .news-media-pair img { height: auto; }
 #open-lab-2026-08-28 .news-media { align-self: start; min-height: 0; }
 #open-lab-2026-08-28 .news-media img { height: auto; aspect-ratio: 4 / 3; }
 .apply-hero { min-height: auto; }
