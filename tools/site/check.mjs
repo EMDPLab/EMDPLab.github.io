@@ -59,7 +59,7 @@ function validatePublications(records) {
 }
 
 function validateTeam(data) {
-  for (const section of ['phd_course', 'combined_course', 'msc_course', 'internship', 'alumni']) {
+  for (const section of ['postdoctoral_researchers', 'phd_course', 'combined_course', 'msc_course', 'internship', 'alumni']) {
     assert(Array.isArray(data[section]), `Team data is missing ${section}.`);
   }
 }

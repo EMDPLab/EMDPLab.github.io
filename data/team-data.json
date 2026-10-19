@@ -1,4 +1,13 @@
 {
+  "postdoctoral_researchers": [
+    {
+      "name": "Jeongae Kim (김정애)",
+      "role": "Postdoctoral Researcher",
+      "description": "Her research will focus on molecular dynamics (MD), computational simulations, and machine learning (ML).",
+      "photo": "assets/images/team-jeongae-kim.jpeg",
+      "alt": "Jeongae Kim"
+    }
+  ],
   "phd_course": [
     {
       "name": "Negasi Teklay Weldesemat",

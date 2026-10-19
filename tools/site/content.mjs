@@ -115,7 +115,7 @@ function memberCard(member) {
   <div class="team-content">
     <p class="kicker">${escapeHtml(member.role)}</p>
     <h3>${escapeHtml(member.name)}</h3>
-    <p><strong>${escapeHtml(member.education)}</strong></p>
+    ${member.education ? `<p><strong>${escapeHtml(member.education)}</strong></p>` : ''}
     ${member.description ? `<p>${escapeHtml(member.description)}</p>` : ''}
   </div>
 </article>`;
@@ -134,6 +134,7 @@ function historyCard(member, label) {
 
 export function renderTeamSections(data) {
   return new Map([
+    ['teamPostdocList', data.postdoctoral_researchers.map(memberCard).join('\n')],
     ['teamPhdList', data.phd_course.map(memberCard).join('\n')],
     ['teamCombinedList', data.combined_course.map(memberCard).join('\n')],
     ['teamMscList', data.msc_course.map(memberCard).join('\n')],

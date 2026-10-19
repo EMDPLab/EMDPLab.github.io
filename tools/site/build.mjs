@@ -31,7 +31,7 @@ export const pageDefinitions = [
     route: 'team.html',
     page: 'team',
     title: 'EMDP Lab | Team',
-    description: 'Meet the principal investigator, students, interns, and alumni of EMDP Lab at DGIST.'
+    description: 'Meet the principal investigator, postdoctoral researchers, students, interns, and alumni of EMDP Lab at DGIST.'
   },
   {
     route: 'research.html',
