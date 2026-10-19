@@ -29,7 +29,6 @@ Member card object:
 {
   "name": "Member Name",
   "role": "Program Role",
-  "education": "School and degree",
   "description": "Current project summary",
   "photo": "assets/images/file-name.jpg",
   "alt": "Image alt text"
@@ -48,7 +47,7 @@ Internship/Alumni object:
 
 ## Editing Rule
 
-The `education` field on member cards is optional.
+Use English names only. Member cards omit previous universities and degrees. Photos and research descriptions can be omitted when unavailable.
 
 When updating team members, edit only `data/team-data.json`.
 Do not hardcode member cards in generated root HTML. Run `npm run build` after changing data.

@@ -115,7 +115,6 @@ function memberCard(member) {
   <div class="team-content">
     <p class="kicker">${escapeHtml(member.role)}</p>
     <h3>${escapeHtml(member.name)}</h3>
-    ${member.education ? `<p><strong>${escapeHtml(member.education)}</strong></p>` : ''}
     ${member.description ? `<p>${escapeHtml(member.description)}</p>` : ''}
   </div>
 </article>`;

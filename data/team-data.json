@@ -1,7 +1,7 @@
 {
   "postdoctoral_researchers": [
     {
-      "name": "Jeongae Kim (김정애)",
+      "name": "Jeongae Kim",
       "role": "Postdoctoral Researcher",
       "description": "Her research will focus on molecular dynamics (MD), computational simulations, and machine learning (ML).",
       "photo": "assets/images/team-jeongae-kim.jpeg",
@@ -12,7 +12,6 @@
     {
       "name": "Negasi Teklay Weldesemat",
       "role": "PhD Candidate",
-      "education": "Myongji Univ. MSc",
       "description": "Working on deep learning-based materials exploration and GaOx-based electronics fabrication techniques.",
       "photo": "assets/images/team-negasi.png",
       "alt": "Negasi Teklay Weldesemat"
@@ -22,7 +21,6 @@
     {
       "name": "Jihyun Yu",
       "role": "Integrated PhD Program",
-      "education": "Kangwon National Univ. BS",
       "description": "Researching liquid-metal-based composites.",
       "photo": "assets/images/team-jihyun-yu.jpeg",
       "alt": "Jihyun Yu"
@@ -30,7 +28,6 @@
     {
       "name": "In Ja Park",
       "role": "Integrated PhD Program",
-      "education": "Kangwon National Univ. BS",
       "description": "Researching 3D liquid-metal interconnects.",
       "photo": "assets/images/team-in-ja-park.jpeg",
       "alt": "In Ja Park"
@@ -40,39 +37,43 @@
     {
       "name": "Junhyeong Seo",
       "role": "Master's Program",
-      "education": "Kumoh National Institute of Technology. BS",
       "description": "Researching thermal interface materials.",
       "photo": "assets/images/team-junhyeong-seo.jpeg",
       "alt": "Junhyeong Seo"
     },
     {
-      "name": "Juwon Lee (이주원)",
+      "name": "Juwon Lee",
       "role": "Master's Program",
-      "education": "Kyungpook National University graduate",
       "description": "",
       "photo": "assets/images/team-juwon-lee.webp",
       "alt": "Juwon Lee"
     }
   ],
-  "internship": [],
+  "internship": [
+    {
+      "name": "Nayeon Joo",
+      "period": "2026–Present",
+      "topic": ""
+    }
+  ],
   "alumni": [
     {
-      "name": "금정우",
+      "name": "Jeongwoo Geum",
       "period": "2025 Winter Intern · DGIST",
       "topic": "Elastocaloric effect"
     },
     {
-      "name": "Jihyun Lee (이지현)",
+      "name": "Jihyun Lee",
       "period": "2026 Summer Intern",
       "topic": ""
     },
     {
-      "name": "장호원",
+      "name": "Howon Jang",
       "period": "2025 Summer Intern",
       "topic": "GaOx semiconductor fabrication"
     },
     {
-      "name": "김민승",
+      "name": "Minseung Kim",
       "period": "2024 Winter Intern / 2025 Summer Intern",
       "topic": "Elastocaloric effect"
     }
